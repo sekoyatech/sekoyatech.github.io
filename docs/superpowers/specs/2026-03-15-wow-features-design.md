@@ -1,7 +1,7 @@
 # Sekoya Website — Wow Effect Features Design Spec
 
 **Date:** 2026-03-15
-**Status:** Draft
+**Status:** Reviewed
 **Goal:** Transform sekoya.tech from a static brochure into a living, cinematic digital experience that creates immediate "wow" impact on visitors.
 
 ---
@@ -22,7 +22,7 @@ The current site is a clean, professional Astro 6 static site with Tailwind v4. 
 ### Design Principles
 
 1. **Progressive enhancement** — site works perfectly without JS; animations layer on top
-2. **Performance budget** — total added JS < 60KB gzipped (GSAP ~45KB + utilities ~15KB)
+2. **Performance budget** — total added JS < 40KB gzipped (GSAP ~28KB + splitting ~3KB + custom scripts ~5KB)
 3. **Reduced motion respect** — all animations disabled when `prefers-reduced-motion: reduce`
 4. **Mobile-first degradation** — complex effects (cursor, particles) disabled on mobile/touch
 5. **Astro compatibility** — all scripts reinitialize on `astro:after-swap` for View Transitions
@@ -70,9 +70,19 @@ A `<canvas>` element positioned behind hero content. Four gradient blobs (2 emer
 - Pauses when not visible (Intersection Observer)
 - Falls back to current static CSS gradient on canvas unsupported / reduced motion
 
+### Canvas Theme Adaptation
+
+Canvas 2D uses hardcoded color values (not CSS custom properties). To support light/dark themes:
+- Read colors from a config object that maps to theme
+- Detect theme from `document.documentElement.classList.contains('light')`
+- Listen for theme changes via MutationObserver on `<html>` class attribute
+- On theme change: update color config, canvas re-renders with new palette
+- Dark theme: emerald/indigo blobs on dark background (vibrant, high contrast)
+- Light theme: softer, more transparent blobs (lower opacity, pastel tints)
+
 ### Key Decisions
 
-- **GSAP SplitText vs splitting.js**: Use GSAP SplitText because we're already loading GSAP for ScrollTrigger. One library, consistent API.
+- **GSAP SplitText vs splitting.js**: Use the open-source `splitting` library (~3KB). GSAP SplitText requires a paid GSAP Club membership for production use. `splitting` provides word/char splitting with CSS variable indices — sufficient for our staggered reveal. GSAP core animates the split elements.
 - **Canvas vs CSS gradient animation**: Canvas for smoother multi-blob animation; CSS `@keyframes` on background-position causes repaints and feels mechanical.
 - **Word-level vs character-level split**: Word-level for headline (cleaner, faster), character-level reserved for special emphasis words only.
 
@@ -82,7 +92,7 @@ When `prefers-reduced-motion: reduce`: all elements render immediately (no `.her
 
 ---
 
-## Feature 2: Scroll-Driven Reveal System — Lenis + GSAP ScrollTrigger
+## Feature 2: Scroll-Driven Reveal System — GSAP ScrollTrigger
 
 ### What It Does
 
@@ -91,13 +101,11 @@ Every content section animates into view as the user scrolls:
 - Section headings slide in from left
 - Stats counters animate from 0 to target value
 - Sections have subtle parallax depth between them
-- Smooth, buttery scroll behavior via Lenis
 
 ### Architecture
 
 **New files:**
 - `src/scripts/scroll-reveal.ts` — GSAP ScrollTrigger initialization, reusable reveal system
-- `src/scripts/smooth-scroll.ts` — Lenis initialization with Astro View Transitions compatibility
 - `src/scripts/counter.ts` — Animated number counter using GSAP
 
 **Modified files:**
@@ -150,25 +158,29 @@ ScrollTrigger.defaults({
 });
 ```
 
-### Lenis + Astro View Transitions
+### Astro View Transitions Compatibility
 
-Known issue: Lenis conflicts with Astro's `<ClientRouter>` because page transitions destroy and recreate the scroll container. Solution:
-
-1. Initialize Lenis on page load
-2. On `astro:before-swap`: destroy Lenis instance
-3. On `astro:after-swap`: create new Lenis instance, re-register all ScrollTriggers
+ScrollTrigger instances must be destroyed and recreated on page transitions:
 
 ```ts
 document.addEventListener('astro:before-swap', () => {
-  lenis?.destroy();
   ScrollTrigger.getAll().forEach(t => t.kill());
 });
 
 document.addEventListener('astro:after-swap', () => {
-  initLenis();
   initScrollReveal();
 });
 ```
+
+### Smooth Scroll — Deferred Enhancement
+
+Lenis smooth scroll is intentionally deferred to a follow-up iteration. Reasons:
+1. CSS `scroll-behavior: smooth` already exists in `global.css` and conflicts with Lenis
+2. Lenis conflicts with Astro's `<ClientRouter>` scroll restoration
+3. Lenis conflicts with the mobile menu's `overflow: hidden` body style
+4. All GSAP ScrollTrigger features work perfectly with native scroll
+
+If smooth scroll is desired later, it should be added as a dedicated refinement with its own testing cycle.
 
 ### Counter Animation
 
@@ -229,6 +241,7 @@ interface Particle {
 - Mouse attraction radius: 200px
 - Mouse force: gentle pull (0.02 multiplier), not snap-to
 - Particles wrap around edges (exit right, enter left)
+- Connection check is O(n^2) per frame — with 80 particles that's ~3,160 distance checks at 30fps, manageable. If particle count ever increases, use grid-based spatial partitioning.
 
 ### Performance
 
@@ -273,9 +286,9 @@ interface Particle {
 
 ```html
 <!-- Added to BaseLayout.astro body -->
-<div id="cursor" class="pointer-events-none fixed top-0 left-0 z-[9999] mix-blend-difference" aria-hidden="true">
+<div id="cursor" class="pointer-events-none fixed top-0 left-0 z-[9999]" aria-hidden="true">
   <div id="cursor-dot" class="w-2 h-2 bg-primary rounded-full"></div>
-  <div id="cursor-ring" class="w-8 h-8 border border-primary rounded-full"></div>
+  <div id="cursor-ring" class="w-8 h-8 border border-primary/60 rounded-full"></div>
 </div>
 ```
 
@@ -293,8 +306,10 @@ When touch device detected: no cursor elements rendered, no `cursor: none` on bo
 
 - Uses `requestAnimationFrame` for cursor position updates
 - `transform: translate3d()` for GPU-accelerated positioning
-- `will-change: transform` on cursor elements
+- `will-change: transform` on cursor elements only (just 2 elements — acceptable GPU memory cost)
+- For the reveal system: do NOT add `will-change` to revealed elements; GSAP manages compositor layers internally
 - Mouse position tracked via `mousemove` with no throttling (needs to be smooth)
+- Initialize cursor and magnetic effects via `requestIdleCallback` (purely decorative, should not compete with critical rendering)
 
 ---
 
@@ -306,7 +321,7 @@ When navigating between pages, shared elements morph smoothly:
 - **Service card → Service detail**: Card transforms into the hero section of the detail page
 - **Blog card → Blog post**: Card title morphs into the post title
 - **Portfolio card → Portfolio detail**: Card expands into detail hero
-- **Shared elements**: Header, footer persist across transitions (no re-render flash)
+- **Shared elements**: Header and footer transition smoothly (Astro handles these via default view-transition; `transition:persist` is avoided as it can cause stale event listeners and theme-toggle breakage)
 
 ### Architecture
 
@@ -318,19 +333,28 @@ When navigating between pages, shared elements morph smoothly:
 - `src/pages/blog/[slug].astro` — Add matching `transition:name` to post title
 - `src/layouts/PageLayout.astro` — Add `transition:name` to hero section container
 - `src/layouts/BlogLayout.astro` — Add `transition:name` to article header
-- `src/components/layout/Header.astro` — Add `transition:persist` to keep header stable
-- `src/components/layout/Footer.astro` — Add `transition:persist` to keep footer stable
 - `src/styles/global.css` — Custom `::view-transition-*` CSS for timing and easing
 
 ### Transition Configuration
 
+Card components need a new `slug` prop to generate deterministic transition names (not parsed from href):
+
 ```astro
-<!-- ServiceCard.astro -->
-<a href={href} class="group block" transition:name={`service-${href.split('/').filter(Boolean).pop()}`}>
+<!-- ServiceCard.astro — add slug prop -->
+interface Props {
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+  slug: string;  // NEW: for transition:name
+}
+<a href={href} class="group block" transition:name={`service-${slug}`}>
 
 <!-- [slug].astro hero -->
 <h1 transition:name={`service-title-${entry.id}`}>
 ```
+
+Similarly, `BlogCard` gets a `slug` prop, and `ProjectCard` gets a `slug` prop.
 
 ### Custom Transition CSS
 
@@ -342,13 +366,9 @@ When navigating between pages, shared elements morph smoothly:
 ::view-transition-new(root) {
   animation: fade-in 0.3s ease-out;
 }
-
-/* Named transitions get morphing instead of fade */
-::view-transition-group(service-*) {
-  animation-duration: 0.4s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
 ```
+
+Note: CSS `::view-transition-group()` does not support wildcards. Each named transition element gets its own styling inherited from the group defaults. The browser handles morphing automatically for matching `transition:name` pairs — no per-name CSS needed.
 
 ### Browser Support
 
@@ -362,14 +382,14 @@ View Transitions API: Chrome 111+, Edge 111+, Opera 97+, Safari 18+ (March 2025)
 
 | Package | Size (gzipped) | Purpose |
 |---|---|---|
-| `gsap` | ~30KB | Core animation engine |
-| `@gsap/scrolltrigger` | ~12KB | Scroll-driven animations |
-| `@gsap/splittext` | ~5KB | Text splitting for hero |
-| `lenis` | ~5KB | Smooth scroll |
+| `gsap` | ~28KB | Core animation engine (free for public sites) |
+| `splitting` | ~3KB | Text splitting for hero word reveal |
 
-**Total added weight: ~52KB gzipped**
+**Total added weight: ~31KB gzipped**
 
-Note: GSAP is free for public websites. The `@gsap/splittext` plugin requires the free GSAP club membership for public use, or we can use the open-source `splitting` library (~3KB) as an alternative.
+GSAP includes ScrollTrigger as a built-in plugin (registered via `gsap.registerPlugin(ScrollTrigger)`) — no separate package needed. The `splitting` library is MIT-licensed and handles word/character splitting with CSS variable indices.
+
+**Post-implementation verification:** Run `npx vite-bundle-visualizer` to confirm actual bundle sizes match estimates.
 
 ### No New Packages Needed
 
@@ -412,16 +432,13 @@ document.addEventListener('astro:before-swap', cleanup);
 ```
 src/
   scripts/
-    hero-animation.ts        # Feature 1: GSAP hero timeline
-    mesh-gradient.ts          # Feature 1: Canvas mesh gradient (merged with particles)
-    particles.ts              # Feature 3: Particle network system
-    hero-canvas.ts            # Feature 1+3: Combined canvas renderer
-    scroll-reveal.ts          # Feature 2: ScrollTrigger reveal system
-    smooth-scroll.ts          # Feature 2: Lenis initialization
-    counter.ts                # Feature 2: Number counter animation
-    custom-cursor.ts          # Feature 4: Custom cursor
-    magnetic.ts               # Feature 4: Magnetic buttons
+    hero-canvas.ts            # Feature 1+3: Combined canvas (mesh gradient + particles)
+    hero-animation.ts         # Feature 1: GSAP hero timeline (text split, element reveals)
+    scroll-reveal.ts          # Feature 2: ScrollTrigger reveal system + counter
+    custom-cursor.ts          # Feature 4: Custom cursor + magnetic buttons
 ```
+
+Design decision: fewer files with cohesive responsibilities rather than many tiny files. The counter logic is simple enough to live inside `scroll-reveal.ts`. Magnetic button logic (~60 lines) is co-located with custom cursor since both respond to mouse events.
 
 ---
 
@@ -429,11 +446,13 @@ src/
 
 The features should be built in this order due to dependencies:
 
-1. **Feature 5: Page Morph Transitions** — No new deps, just `transition:name` attributes. Quick win, immediate impact.
-2. **Feature 2: Scroll Reveal System** — Install GSAP + Lenis, build the core animation infrastructure that all other features depend on.
-3. **Feature 1: Cinematic Hero** — Uses GSAP (installed in step 2), add SplitText + canvas.
+1. **Feature 2: Scroll Reveal System** — Install GSAP, build the core animation infrastructure and `astro:before-swap` / `astro:after-swap` lifecycle that all other features depend on. Includes counter animations.
+2. **Feature 5: Page Morph Transitions** — Add `transition:name` attributes and `slug` props. Benefits from the lifecycle infrastructure established in step 1.
+3. **Feature 1: Cinematic Hero** — Uses GSAP (installed in step 1), add `splitting` library + canvas mesh gradient.
 4. **Feature 3: Particle Network** — Extends the hero canvas from Feature 1.
 5. **Feature 4: Custom Cursor + Magnetic** — Independent vanilla JS, can be done last.
+
+Each step includes verification: `npm run build`, `npm run check`, manual browser testing.
 
 ---
 
