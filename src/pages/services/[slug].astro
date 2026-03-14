@@ -67,6 +67,7 @@ const faqs = serviceFaqs[entry.id] || [];
   description={entry.data.description}
   heroTitle={entry.data.title}
   heroDescription={entry.data.description}
+  heroTransitionName={`service-title-${entry.id}`}
   breadcrumbs={[
     { name: 'Home', href: '/' },
     { name: t('services.title'), href: '/services/' },

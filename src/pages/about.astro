@@ -44,7 +44,7 @@ const milestones = [
   ]}
 >
   <!-- Company Story -->
-  <section class="mb-16 md:mb-24">
+  <section class="mb-16 md:mb-24" data-reveal>
     <div class="max-w-3xl">
       <h2 class="text-2xl md:text-3xl font-bold text-text mb-6">Our Story</h2>
       <p class="text-lg text-text-muted leading-relaxed mb-6">
@@ -58,7 +58,7 @@ const milestones = [
 
   <!-- Mission and Vision -->
   <section class="mb-16 md:mb-24">
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid md:grid-cols-2 gap-8" data-reveal-stagger>
       <div class="bg-surface border border-border rounded-xl p-8">
         <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
           <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -88,10 +88,10 @@ const milestones = [
   <!-- Stats Grid -->
   <section class="mb-16 md:mb-24">
     <h2 class="text-2xl md:text-3xl font-bold text-text mb-8 text-center">Sekoya by the Numbers</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6" data-reveal-stagger>
       {stats.map((stat) => (
         <div class="bg-surface border border-border rounded-xl p-6 text-center">
-          <div class="text-3xl md:text-4xl font-extrabold text-primary mb-2">{stat.value}</div>
+          <div class="text-3xl md:text-4xl font-extrabold text-primary mb-2" data-counter={stat.value}>{stat.value}</div>
           <div class="text-sm text-text-muted font-medium">{stat.label}</div>
         </div>
       ))}
@@ -105,7 +105,7 @@ const milestones = [
       <!-- Timeline line -->
       <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" aria-hidden="true"></div>
 
-      <div class="space-y-12">
+      <div class="space-y-12" data-reveal-stagger>
         {milestones.map((milestone, index) => (
           <div class:list={['relative flex items-start gap-8', index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse']}>
             <!-- Dot -->
@@ -124,7 +124,7 @@ const milestones = [
   </section>
 
   <!-- Team Preview -->
-  <section class="text-center">
+  <section class="text-center" data-reveal>
     <h2 class="text-2xl md:text-3xl font-bold text-text mb-4">Meet Our Team</h2>
     <p class="text-lg text-text-muted max-w-2xl mx-auto mb-8">
       Behind every project is a team of dedicated professionals passionate about technology and committed to your success.

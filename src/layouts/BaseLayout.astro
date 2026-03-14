@@ -99,8 +99,18 @@ const ogImage = getOgImageUrl(image, SITE.url);
     <link rel="alternate" type="application/rss+xml" title={`${SITE.name} Blog`} href="/rss.xml" />
 
     <slot name="head" />
+
+    <script>
+      import '../scripts/scroll-reveal';
+      import '../scripts/custom-cursor';
+    </script>
   </head>
   <body class="min-h-screen bg-bg text-text font-sans antialiased">
+    <!-- Custom cursor (hidden by default, shown by JS on non-touch devices) -->
+    <div id="cursor" class="pointer-events-none fixed top-0 left-0 z-[9999] hidden" aria-hidden="true">
+      <div id="cursor-dot" class="w-2 h-2 bg-primary rounded-full" style="will-change: transform;"></div>
+      <div id="cursor-ring" class="w-8 h-8 border border-primary/60 rounded-full" style="will-change: transform;"></div>
+    </div>
     <a href="#main" class="skip-nav">{t('common.skip_nav')}</a>
     <Header />
     <main id="main" data-pagefind-body>

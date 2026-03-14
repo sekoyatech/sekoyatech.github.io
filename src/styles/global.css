@@ -100,6 +100,29 @@ body {
   color: white;
 }
 
+/* Animation initial states */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-hidden {
+  opacity: 0;
+}
+
+/* Custom cursor */
+.custom-cursor-active {
+  cursor: none;
+}
+
+.custom-cursor-active a,
+.custom-cursor-active button,
+.custom-cursor-active input,
+.custom-cursor-active textarea,
+.custom-cursor-active select {
+  cursor: none;
+}
+
 /* Skip navigation */
 .skip-nav {
   position: absolute;
@@ -219,4 +242,23 @@ body {
   border: none;
   border-top: 1px solid var(--color-border);
   margin: 2rem 0;
+}
+
+/* View Transition animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+::view-transition-old(root) {
+  animation: fade-out 0.25s ease-in;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.25s ease-out;
 }

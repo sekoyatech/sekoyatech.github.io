@@ -8,19 +8,20 @@ interface Props {
   description: string;
   icon: string;
   href: string;
+  slug?: string;
 }
 
-const { title, description, icon, href } = Astro.props;
+const { title, description, icon, href, slug } = Astro.props;
 const t = useTranslations();
 ---
 
-<a href={href} class="group block">
+<a href={href} class="group block" transition:name={slug ? `service-${slug}` : undefined}>
   <Card class="h-full group-hover:border-primary/30">
     <div class="flex flex-col h-full">
       <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
         <Icon name={`heroicons:${icon}`} class="w-6 h-6 text-primary" />
       </div>
-      <h3 class="text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors">{title}</h3>
+      <h3 class="text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors" transition:name={slug ? `service-title-${slug}` : undefined}>{title}</h3>
       <p class="text-sm text-text-muted flex-1 leading-relaxed">{description}</p>
       <span class="mt-4 text-sm font-medium text-primary inline-flex items-center gap-1">
         {t('services.learn_more')}

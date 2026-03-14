@@ -18,7 +18,7 @@ const projects = portfolioData.sort((a, b) => {
   heroTitle={t('portfolio.title')}
   heroDescription={t('portfolio.subtitle')}
 >
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-reveal-stagger>
     {projects.map((project) => (
       <ProjectCard
         title={project.title}
@@ -27,6 +27,7 @@ const projects = portfolioData.sort((a, b) => {
         year={project.year}
         href={`/portfolio/${project.slug}/`}
         featured={project.featured}
+        slug={project.slug}
       />
     ))}
   </div>
