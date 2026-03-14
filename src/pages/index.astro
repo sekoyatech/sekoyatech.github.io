@@ -7,9 +7,13 @@ import TestimonialsSlider from '../components/home/TestimonialsSlider.astro';
 import BlogPreview from '../components/home/BlogPreview.astro';
 import CTA from '../components/home/CTA.astro';
 import { SITE } from '../lib/constants';
+import { professionalServiceJsonLd } from '../lib/seo';
 ---
 
 <BaseLayout title="Home" description={SITE.description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={professionalServiceJsonLd()} />
+  </Fragment>
   <Hero />
   <ServicesPreview />
   <AboutPreview />

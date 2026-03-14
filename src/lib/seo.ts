@@ -136,3 +136,72 @@ export function personJsonLd(person: {
     url: person.url,
   });
 }
+
+export function professionalServiceJsonLd() {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${SITE.url}/#organization`,
+    name: SITE.fullName,
+    alternateName: SITE.name,
+    url: SITE.url,
+    logo: `${SITE.url}/favicon.svg`,
+    email: SITE.email,
+    telephone: SITE.phone,
+    foundingDate: `${SITE.foundedYear}`,
+    description: SITE.description,
+    areaServed: {
+      '@type': 'GeoShape',
+      name: 'Worldwide',
+    },
+    knowsAbout: [
+      'Software Development',
+      'Mobile App Development',
+      'Web Development',
+      'Internet of Things (IoT)',
+      'Machine Learning',
+      'Artificial Intelligence',
+      'DevOps',
+      'Cloud Computing',
+      'Flutter',
+      'React',
+      'Node.js',
+      'Python',
+      'AWS',
+      'Azure',
+      'Google Cloud',
+      'Docker',
+      'Kubernetes',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Software Development Services',
+      itemListElement: [
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Mobile & Web Application Development' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom App Development' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Software Consultancy' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Project Management' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'IoT Solutions' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Machine Learning' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Artificial Intelligence' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'DevOps & Cloud Services' } },
+      ],
+    },
+    sameAs: [SOCIAL.linkedin, SOCIAL.github, SOCIAL.facebook, SOCIAL.instagram],
+  });
+}
+
+export function faqPageJsonLd(faqs: { question: string; answer: string }[]) {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  });
+}

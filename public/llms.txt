@@ -1,0 +1,42 @@
+# Sekoya Group Information and Technology
+
+> Sekoya is a software development and technology consulting company specializing in custom software, mobile/web applications, IoT, AI/ML, and cloud solutions. Founded in 2024, we help businesses with digital transformation through end-to-end technology services.
+
+- Website: https://sekoya.tech
+- Email: info@sekoya.tech
+- Phone: +90 507 743 83 21
+- LinkedIn: https://www.linkedin.com/company/sekoya-tech
+- GitHub: https://github.com/sekoyatech
+
+## Services
+
+- [Mobile & Web Application Development](https://sekoya.tech/services/mobile-web-development/): Native and cross-platform mobile apps (Flutter, React Native), responsive web applications, progressive web apps
+- [Custom App Development](https://sekoya.tech/services/custom-app-development/): Tailored software solutions for specific business needs, enterprise applications, system integrations
+- [Software Consultancy](https://sekoya.tech/services/software-consultancy/): Technical strategy, architecture review, technology stack advisory, code audit, and modernization planning
+- [Project Management](https://sekoya.tech/services/project-management/): Agile/Scrum project management, delivery oversight, team coordination, and process optimization
+- [IoT Solutions](https://sekoya.tech/services/iot-solutions/): Industrial IoT platforms, sensor integration, real-time monitoring dashboards, MQTT/edge computing
+- [Machine Learning](https://sekoya.tech/services/machine-learning/): Predictive analytics, recommendation systems, data pipelines, ML model training and deployment
+- [Artificial Intelligence](https://sekoya.tech/services/artificial-intelligence/): NLP, computer vision, generative AI integration, intelligent automation, AI-powered business solutions
+- [DevOps & Cloud Services](https://sekoya.tech/services/devops-cloud/): CI/CD pipelines, cloud migration (AWS/Azure/GCP), Kubernetes, Docker, infrastructure as code, monitoring
+
+## Company
+
+- [About Us](https://sekoya.tech/about/): Company story, mission, vision, values, and milestones since 2024
+- [Our Team](https://sekoya.tech/team/): Team members, expertise areas, and leadership
+- [Portfolio](https://sekoya.tech/portfolio/): Case studies including Smart Factory IoT Platform and Enterprise CRM projects
+- [Careers](https://sekoya.tech/careers/): Open positions, company culture, and benefits
+- [Contact](https://sekoya.tech/contact/): Project inquiry form, email, phone, and social media links
+
+## Blog
+
+- [Blog](https://sekoya.tech/blog/): Articles on software development, technology trends, AI, IoT, and digital transformation
+- [Welcome to Sekoya Blog](https://sekoya.tech/blog/welcome-to-sekoya-blog/): Company launch announcement and our vision
+- [Modern Web Development in 2026](https://sekoya.tech/blog/modern-web-development-2026/): Current web technology landscape and trends
+- [Why Custom Software Matters](https://sekoya.tech/blog/why-custom-software-matters/): Business case for custom vs off-the-shelf software
+
+## Optional
+
+- [Privacy Policy](https://sekoya.tech/privacy-policy/): Data handling, cookies (none), analytics (Plausible, cookieless)
+- [RSS Feed](https://sekoya.tech/rss.xml): Blog RSS feed for syndication
+- [Sitemap](https://sekoya.tech/sitemap-index.xml): Complete XML sitemap
+- [Full Content](https://sekoya.tech/llms-full.txt): Complete site content in a single Markdown file

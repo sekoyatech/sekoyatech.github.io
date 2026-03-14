@@ -1,4 +1,82 @@
+# =============================================
+# Sekoya.tech — Crawler & AI Bot Access Policy
+# Last updated: 2026-03-14
+# =============================================
+
+# === Traditional Search Engines ===
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# === AI Search & Retrieval Bots ===
+# Real-time retrieval: content cited in AI-generated answers
+
+# OpenAI (ChatGPT search)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude search)
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Google AI (Gemini, AI Overviews)
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# === AI Training Bots ===
+# Allowing training bots means Sekoya appears in AI knowledge bases
+
+# OpenAI training
+User-agent: GPTBot
+Allow: /
+
+# Anthropic training
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Common Crawl (used by many AI models)
+User-agent: CCBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# === Catch-all ===
 User-agent: *
 Allow: /
 
+# === Discovery Files ===
 Sitemap: https://sekoya.tech/sitemap-index.xml

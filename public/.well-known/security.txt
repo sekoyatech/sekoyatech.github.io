@@ -1,0 +1,6 @@
+# Sekoya Group Information and Technology
+# https://securitytxt.org/
+
+Contact: mailto:info@sekoya.tech
+Preferred-Languages: en, tr
+Canonical: https://sekoya.tech/.well-known/security.txt

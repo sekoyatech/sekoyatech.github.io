@@ -37,7 +37,7 @@ export const FOOTER_NAV = {
   services: [
     { label: 'services.mobile_web', href: '/services/mobile-web-development/' },
     { label: 'services.custom_app', href: '/services/custom-app-development/' },
-    { label: 'services.ai_ml', href: '/services/ai-machine-learning/' },
+    { label: 'services.ai', href: '/services/artificial-intelligence/' },
     { label: 'services.devops', href: '/services/devops-cloud/' },
   ],
   resources: [

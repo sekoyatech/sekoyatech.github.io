@@ -1,0 +1,16 @@
+/* TEAM */
+Company: Sekoya Group Information and Technology
+Founder: Cevheri Bozoglan
+Contact: info@sekoya.tech
+Site: https://sekoya.tech
+Location: Turkey
+
+/* SITE */
+Built with: Astro 6, Tailwind CSS v4, MDX
+Language: English
+Standards: HTML5, CSS3, WCAG 2.1 AA
+Fonts: Inter, JetBrains Mono (self-hosted via Fontsource)
+Analytics: Plausible (privacy-first, cookieless)
+Search: Pagefind (static)
+Deployment: GitHub Pages
+Last updated: 2026-03-14
