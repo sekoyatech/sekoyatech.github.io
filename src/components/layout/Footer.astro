@@ -1,6 +1,7 @@
 ---
 import { SITE, SOCIAL, FOOTER_NAV } from '../../lib/constants';
 import { useTranslations } from '../../i18n/utils';
+import pkg from '../../../package.json';
 
 const t = useTranslations();
 const currentYear = new Date().getFullYear();
@@ -89,7 +90,10 @@ const currentYear = new Date().getFullYear();
     <!-- Bottom Bar -->
     <div class="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-text-muted">
       <p>&copy; {currentYear} {SITE.fullName}. {t('footer.copyright')}</p>
-      <a href="/privacy-policy/" class="hover:text-primary transition-colors">{t('footer.privacy')}</a>
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-text-muted/50">v{pkg.version}</span>
+        <a href="/privacy-policy/" class="hover:text-primary transition-colors">{t('footer.privacy')}</a>
+      </div>
     </div>
   </div>
 </footer>
