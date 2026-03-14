@@ -117,3 +117,106 @@ body {
 .skip-nav:focus {
   top: 0;
 }
+
+/* MDX Content Typography */
+.mdx-content {
+  line-height: 1.75;
+  color: var(--color-text-muted);
+}
+
+.mdx-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.mdx-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.mdx-content p {
+  margin-bottom: 1.25rem;
+}
+
+.mdx-content a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.mdx-content a:hover {
+  text-decoration: underline;
+}
+
+.mdx-content strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.mdx-content ul,
+.mdx-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.mdx-content ul {
+  list-style-type: disc;
+}
+
+.mdx-content ol {
+  list-style-type: decimal;
+}
+
+.mdx-content li {
+  margin-bottom: 0.5rem;
+}
+
+.mdx-content blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.mdx-content code {
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.mdx-content pre {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.mdx-content pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-text);
+}
+
+.mdx-content img {
+  border-radius: var(--radius-lg);
+  margin: 1.5rem 0;
+}
+
+.mdx-content hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
