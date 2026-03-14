@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE, SOCIAL } from '../lib/constants';
+import teamData from '../data/team.json';
 
 export const GET: APIRoute = async () => {
   const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -8,7 +9,7 @@ export const GET: APIRoute = async () => {
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   const portfolioItems = (await getCollection('portfolio'));
-  const teamMembers = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+  const teamMembers = teamData.sort((a, b) => a.order - b.order);
   const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
 
   const lines: string[] = [];
@@ -70,11 +71,11 @@ export const GET: APIRoute = async () => {
   lines.push('## Team');
   lines.push('');
   for (const member of teamMembers) {
-    lines.push(`### ${member.data.name} — ${member.data.role}`);
+    lines.push(`### ${member.name} — ${member.role}`);
     lines.push('');
-    lines.push(member.data.bio);
-    if (member.data.linkedin) lines.push(`- LinkedIn: ${member.data.linkedin}`);
-    if (member.data.github) lines.push(`- GitHub: ${member.data.github}`);
+    lines.push(member.bio);
+    if (member.linkedin) lines.push(`- LinkedIn: ${member.linkedin}`);
+    if (member.github) lines.push(`- GitHub: ${member.github}`);
     lines.push('');
   }
 

@@ -1,11 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import TeamMember from '../components/team/TeamMember.astro';
 import { useTranslations } from '../i18n/utils';
+import teamData from '../data/team.json';
 
 const t = useTranslations();
-const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const team = teamData.sort((a, b) => a.order - b.order);
 ---
 
 <PageLayout
@@ -21,13 +21,13 @@ const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.
   <div class="flex flex-col gap-8 md:gap-12">
     {team.map((member, index) => (
       <TeamMember
-        name={member.data.name}
-        role={member.data.role}
-        bio={member.data.bio}
-        photo={member.data.photo}
-        linkedin={member.data.linkedin}
-        github={member.data.github}
-        skills={member.data.skills}
+        name={member.name}
+        role={member.role}
+        bio={member.bio}
+        photo={member.photo}
+        linkedin={member.linkedin}
+        github={member.github}
+        skills={member.skills}
         index={index}
       />
     ))}

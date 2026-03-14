@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Abdullah Kaya",
+    "role": "Founder, CEO",
+    "bio": "Experienced software professional with deep expertise in enterprise integration, database management, and cloud-native architectures. Leads Sekoya's strategic vision and technology partnerships.",
+    "photo": "https://github.com/kaya-abdullah.png",
+    "linkedin": "https://www.linkedin.com/in/kaya-abdullah/",
+    "github": "https://github.com/kaya-abdullah",
+    "skills": ["Java", "Python", "TypeScript", "PL/SQL", "Spring Boot", "PostgreSQL", "MongoDB"],
+    "order": 1
+  },
+  {
+    "name": "Yusuf Gündoğdu",
+    "role": "Founder, Tech Lead",
+    "bio": "Cross-platform mobile and web developer specializing in Flutter and Dart. Drives Sekoya's technical architecture and engineering practices across all client projects.",
+    "photo": "https://github.com/yusuf-gundogdu.png",
+    "linkedin": "https://www.linkedin.com/in/yusufgundogdu/",
+    "github": "https://github.com/yusuf-gundogdu",
+    "skills": ["Flutter", "Dart", "SQL Server", "PostgreSQL", "MongoDB", "iOS", "Android"],
+    "order": 2
+  },
+  {
+    "name": "Süleyman Sürücü",
+    "role": "Software Engineer",
+    "bio": "Flutter specialist with 5+ years of experience building high-performance cross-platform applications. Passionate about clean architecture, state management, and open-source development.",
+    "photo": "https://github.com/suleymansurucu.png",
+    "linkedin": "https://www.linkedin.com/in/suleymansurucu/",
+    "github": "https://github.com/suleymansurucu",
+    "skills": ["Flutter", "Dart", "Firebase", "BLoC", "Riverpod", "CI/CD", "Swift"],
+    "order": 3
+  },
+  {
+    "name": "Mehmet Uçmaz",
+    "role": "Software Engineer",
+    "bio": "Flutter developer focused on building cross-platform mobile applications with clean architecture patterns. Experienced in both mobile and backend microservice development.",
+    "photo": "https://github.com/ucmazmehmet.png",
+    "linkedin": "https://www.linkedin.com/in/ucmazmehmet/",
+    "github": "https://github.com/ucmazmehmet",
+    "skills": ["Flutter", "Dart", "BLoC", "Spring Boot", "Java", "Angular"],
+    "order": 4
+  },
+  {
+    "name": "Baha Serdaroğlu",
+    "role": "Intern",
+    "bio": "Aspiring software engineer with a strong interest in AI, data science, and bioinformatics. Actively developing skills across Python, Java, and modern development workflows.",
+    "photo": "https://github.com/developerbaha.png",
+    "linkedin": "https://www.linkedin.com/in/baha-serdaroglu/",
+    "github": "https://github.com/developerbaha",
+    "skills": ["Python", "Java", "AI/ML", "Docker", "FastAPI", "Data Science"],
+    "order": 5
+  },
+  {
+    "name": "İhsan Ertürk",
+    "role": "Intern",
+    "bio": "Mobile and web developer building skills in Flutter and cross-platform development. Exploring backend technologies with Python FastAPI and modern state management patterns.",
+    "photo": "https://github.com/ihsanerturkk.png",
+    "linkedin": "https://www.linkedin.com/in/ihsan-ert%C3%BCrk-282b89307/",
+    "github": "https://github.com/ihsanerturkk",
+    "skills": ["Flutter", "Dart", "Python", "FastAPI", "BLoC", "MongoDB"],
+    "order": 6
+  }
+]
