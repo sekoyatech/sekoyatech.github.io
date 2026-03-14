@@ -2,45 +2,43 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import Badge from '../../components/ui/Badge.astro';
 import Button from '../../components/ui/Button.astro';
-import { getCollection, render } from 'astro:content';
 import { useTranslations } from '../../i18n/utils';
+import portfolioData from '../../data/portfolio.json';
 
 const t = useTranslations();
 
-export async function getStaticPaths() {
-  const projects = await getCollection('portfolio');
-  return projects.map((project) => ({
-    params: { slug: project.id },
+export function getStaticPaths() {
+  return portfolioData.map((project) => ({
+    params: { slug: project.slug },
     props: { project },
   }));
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
 
 const breadcrumbs = [
   { name: 'Home', href: '/' },
   { name: t('portfolio.title'), href: '/portfolio/' },
-  { name: project.data.title, href: Astro.url.pathname },
+  { name: project.title, href: Astro.url.pathname },
 ];
 ---
 
 <PageLayout
-  title={project.data.title}
-  description={project.data.description}
-  heroTitle={project.data.title}
-  heroDescription={project.data.description}
+  title={project.title}
+  description={project.description}
+  heroTitle={project.title}
+  heroDescription={project.description}
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl">
     <!-- Project metadata -->
     <div class="flex flex-wrap items-center gap-4 mb-8">
-      <span class="text-sm text-text-muted">Year: <strong class="text-text">{project.data.year}</strong></span>
-      {project.data.client && (
-        <span class="text-sm text-text-muted">Client: <strong class="text-text">{project.data.client}</strong></span>
+      <span class="text-sm text-text-muted">Year: <strong class="text-text">{project.year}</strong></span>
+      {project.client && (
+        <span class="text-sm text-text-muted">Client: <strong class="text-text">{project.client}</strong></span>
       )}
-      {project.data.url && (
-        <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:underline">
+      {project.url && (
+        <a href={project.url} target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:underline">
           Visit Live Site &rarr;
         </a>
       )}
@@ -48,23 +46,39 @@ const breadcrumbs = [
 
     <!-- Tech stack badges -->
     <div class="flex flex-wrap gap-2 mb-12">
-      {project.data.techStack.map((tech) => (
+      {project.techStack.map((tech) => (
         <Badge variant="primary">{tech}</Badge>
       ))}
     </div>
 
-    <!-- MDX content -->
-    <div class="prose prose-invert prose-emerald max-w-none
-      prose-headings:text-text prose-headings:font-bold
-      prose-p:text-text-muted prose-p:leading-relaxed
-      prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-      prose-strong:text-text
-      prose-code:text-primary prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-      prose-pre:bg-surface prose-pre:border prose-pre:border-border
-      prose-img:rounded-lg
-      prose-blockquote:border-primary prose-blockquote:text-text-muted
-      prose-li:text-text-muted">
-      <Content />
+    <!-- Content sections -->
+    <div class="mdx-content">
+      {project.challenge && (
+        <>
+          <h2>The Challenge</h2>
+          <p>{project.challenge}</p>
+        </>
+      )}
+
+      {project.approach && project.approach.length > 0 && (
+        <>
+          <h2>Our Approach</h2>
+          {project.approach.map((section) => (
+            <p><strong>{section.label}:</strong> {section.text}</p>
+          ))}
+        </>
+      )}
+
+      {project.results && project.results.length > 0 && (
+        <>
+          <h2>Results</h2>
+          <ul>
+            {project.results.map((result) => (
+              <li>{result}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
 
     <!-- CTA section -->

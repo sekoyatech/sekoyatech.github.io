@@ -66,10 +66,10 @@ src/
 ├── content/
 │   ├── blog/en/         # Blog posts (MDX)
 │   ├── services/en/     # Service descriptions (MDX)
-│   ├── portfolio/en/    # Project case studies (MDX)
 │   └── testimonials/en/ # Client testimonials (MDX)
 ├── data/
-│   └── team.json        # Team members (JSON — editable via GitHub UI)
+│   ├── team.json        # Team members (JSON — editable via GitHub UI)
+│   └── portfolio.json   # Portfolio projects (JSON — editable via GitHub UI)
 ├── i18n/                # Internationalization (EN default, extensible)
 ├── layouts/             # BaseLayout, PageLayout, BlogLayout
 ├── lib/                 # Constants, SEO helpers, utilities
@@ -189,6 +189,34 @@ Edit `src/data/team.json` and add a new entry to the array:
   "github": "https://github.com/username",
   "skills": ["Skill 1", "Skill 2", "Skill 3"],
   "order": 7
+}
+```
+
+This file can be edited directly via the GitHub web UI — no local clone needed.
+
+### Adding a Portfolio Project
+
+Edit `src/data/portfolio.json` and add a new entry to the array:
+
+```json
+{
+  "slug": "project-url-slug",
+  "title": "Project Title",
+  "description": "Brief project description for cards and SEO",
+  "techStack": ["Flutter", "AWS", "PostgreSQL"],
+  "year": 2026,
+  "featured": true,
+  "client": "Client Name (or null)",
+  "url": "https://live-site.com (or null)",
+  "challenge": "Description of the problem the client faced...",
+  "approach": [
+    { "label": "Frontend", "text": "How we built the frontend..." },
+    { "label": "Backend", "text": "How we built the backend..." }
+  ],
+  "results": [
+    "Key result or metric 1",
+    "Key result or metric 2"
+  ]
 }
 ```
 
