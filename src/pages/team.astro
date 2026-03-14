@@ -1,48 +1,73 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import TeamMember from '../components/team/TeamMember.astro';
 import { useTranslations } from '../i18n/utils';
+import { breadcrumbJsonLd } from '../lib/seo';
 import teamData from '../data/team.json';
 
 const t = useTranslations();
 const team = teamData.sort((a, b) => a.order - b.order);
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: t('team.title'), href: '/team/' },
+];
 ---
 
-<PageLayout
-  title={t('team.title')}
-  description={t('team.subtitle')}
-  heroTitle={t('team.title')}
-  heroDescription={t('team.subtitle')}
-  breadcrumbs={[
-    { name: 'Home', href: '/' },
-    { name: t('team.title'), href: '/team/' },
-  ]}
->
-  <!-- Team Manifesto -->
-  <section class="mb-12 md:mb-20 max-w-3xl mx-auto text-center">
-    <p class="text-lg md:text-xl text-text-muted leading-relaxed mb-6">
-      We are a young, creative, and free-spirited crew who live and breathe technology.
-      At Sekoya, writing code is not just work — it is how we express ourselves.
-      Every line we ship carries our excitement, every product reflects our obsession with craft.
-    </p>
-    <p class="text-lg md:text-xl text-text-muted leading-relaxed">
-      We don't follow trends — we chase the ideas that keep us up at night.
-      United by curiosity and driven by passion, we turn bold visions into software that actually matters.
-    </p>
+<BaseLayout title={t('team.title')} description={t('team.subtitle')}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={breadcrumbJsonLd(breadcrumbs)} />
+  </Fragment>
+
+  <!-- Hero + Manifesto (unified) -->
+  <section class="bg-surface border-b border-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 md:pt-16 md:pb-20">
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center gap-2 text-sm text-text-muted">
+          {breadcrumbs.map((crumb, i) => (
+            <li class="flex items-center gap-2">
+              {i > 0 && <span aria-hidden="true">/</span>}
+              {i === breadcrumbs.length - 1 ? (
+                <span aria-current="page" class="text-text">{crumb.name}</span>
+              ) : (
+                <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.name}</a>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <h1 class="text-3xl md:text-5xl font-extrabold text-text mb-3">{t('team.title')}</h1>
+      <p class="text-lg md:text-xl text-primary font-medium mb-8">{t('team.subtitle')}</p>
+
+      <div class="max-w-3xl">
+        <p class="text-base md:text-lg text-text-muted leading-relaxed mb-4">
+          We are a young, creative, and free-spirited crew who live and breathe technology.
+          At Sekoya, writing code is not just work — it is how we express ourselves.
+          Every line we ship carries our excitement, every product reflects our obsession with craft.
+        </p>
+        <p class="text-base md:text-lg text-text-muted leading-relaxed">
+          We don't follow trends — we chase the ideas that keep us up at night.
+          United by curiosity and driven by passion, we turn bold visions into software that actually matters.
+        </p>
+      </div>
+    </div>
   </section>
 
-  <div class="flex flex-col gap-8 md:gap-12">
-    {team.map((member, index) => (
-      <TeamMember
-        name={member.name}
-        role={member.role}
-        bio={member.bio}
-        photo={member.photo}
-        linkedin={member.linkedin}
-        github={member.github}
-        skills={member.skills}
-        index={index}
-      />
-    ))}
+  <!-- Team Members -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="flex flex-col gap-8 md:gap-12">
+      {team.map((member, index) => (
+        <TeamMember
+          name={member.name}
+          role={member.role}
+          bio={member.bio}
+          photo={member.photo}
+          linkedin={member.linkedin}
+          github={member.github}
+          skills={member.skills}
+          index={index}
+        />
+      ))}
+    </div>
   </div>
-</PageLayout>
+</BaseLayout>
