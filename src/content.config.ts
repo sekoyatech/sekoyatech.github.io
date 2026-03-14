@@ -49,6 +49,7 @@ const team = defineCollection({
     photo: z.string().optional(),
     linkedin: z.string().url().optional(),
     github: z.string().url().optional(),
+    skills: z.array(z.string()).default([]),
     order: z.number(),
   }),
 });

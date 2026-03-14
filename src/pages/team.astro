@@ -18,14 +18,17 @@ const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.
     { name: t('team.title'), href: '/team/' },
   ]}
 >
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    {team.map((member) => (
+  <div class="flex flex-col gap-8 md:gap-12">
+    {team.map((member, index) => (
       <TeamMember
         name={member.data.name}
         role={member.data.role}
         bio={member.data.bio}
+        photo={member.data.photo}
         linkedin={member.data.linkedin}
         github={member.data.github}
+        skills={member.data.skills}
+        index={index}
       />
     ))}
   </div>
