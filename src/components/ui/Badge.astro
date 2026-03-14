@@ -1,0 +1,19 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'accent' | 'muted';
+  class?: string;
+}
+
+const { variant = 'primary', class: className = '' } = Astro.props;
+
+const variants: Record<string, string> = {
+  primary: 'bg-primary/10 text-primary',
+  secondary: 'bg-secondary/10 text-secondary',
+  accent: 'bg-accent/10 text-accent',
+  muted: 'bg-surface text-text-muted',
+};
+---
+
+<span class:list={['inline-block px-3 py-1 text-xs font-medium rounded-full', variants[variant], className]}>
+  <slot />
+</span>

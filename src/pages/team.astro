@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import TeamMember from '../components/team/TeamMember.astro';
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations();
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout
+  title={t('team.title')}
+  description={t('team.subtitle')}
+  heroTitle={t('team.title')}
+  heroDescription={t('team.subtitle')}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: t('team.title'), href: '/team/' },
+  ]}
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {team.map((member) => (
+      <TeamMember
+        name={member.data.name}
+        role={member.data.role}
+        bio={member.data.bio}
+        linkedin={member.data.linkedin}
+        github={member.data.github}
+      />
+    ))}
+  </div>
+</PageLayout>

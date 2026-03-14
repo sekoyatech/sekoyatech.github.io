@@ -1,0 +1,136 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/ui/Section.astro';
+import Button from '../components/ui/Button.astro';
+import { useTranslations } from '../i18n/utils';
+import { SITE } from '../lib/constants';
+
+const t = useTranslations();
+
+const stats = [
+  { value: String(SITE.foundedYear), label: t('stats.founded') },
+  { value: '25+', label: t('stats.projects') },
+  { value: '15+', label: t('stats.clients') },
+  { value: '20+', label: t('stats.technologies') },
+];
+
+const milestones = [
+  {
+    year: '2024',
+    title: 'Founded',
+    description: 'Sekoya was established with a mission to deliver genuine engineering quality and help businesses navigate their digital transformation.',
+  },
+  {
+    year: '2025',
+    title: 'First Major Projects',
+    description: 'Delivered enterprise-grade solutions including IoT platforms, custom CRM systems, and mobile applications for clients across multiple industries.',
+  },
+  {
+    year: '2026',
+    title: 'Expanding Services',
+    description: 'Broadened our service portfolio to include AI and machine learning solutions, advanced DevOps practices, and expanded our team of specialists.',
+  },
+];
+---
+
+<PageLayout
+  title={t('about.title')}
+  description={t('about.subtitle')}
+  heroTitle={t('about.title')}
+  heroDescription={t('about.subtitle')}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: t('about.title'), href: '/about/' },
+  ]}
+>
+  <!-- Company Story -->
+  <section class="mb-16 md:mb-24">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold text-text mb-6">Our Story</h2>
+      <p class="text-lg text-text-muted leading-relaxed mb-6">
+        Sekoya was born from a simple conviction: businesses deserve software partners who care as much about code quality and long-term maintainability as they do about shipping on time. Founded in 2024 by engineers with over a decade of experience across mobile, web, IoT, and cloud domains, Sekoya set out to bridge the gap between cutting-edge technology and practical business outcomes.
+      </p>
+      <p class="text-lg text-text-muted leading-relaxed">
+        From our first day, we have focused on building lasting relationships with our clients. We don't just write code that works — we build systems that are maintainable, testable, and designed to evolve as your business grows. Every project we take on is an opportunity to deliver real engineering quality and measurable value.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission and Vision -->
+  <section class="mb-16 md:mb-24">
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-surface border border-border rounded-xl p-8">
+        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-text mb-3">Our Mission</h3>
+        <p class="text-text-muted leading-relaxed">
+          To empower businesses with custom software solutions that drive digital transformation. We combine deep technical expertise with a genuine understanding of business needs to deliver systems that are reliable, scalable, and built to last.
+        </p>
+      </div>
+      <div class="bg-surface border border-border rounded-xl p-8">
+        <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-text mb-3">Our Vision</h3>
+        <p class="text-text-muted leading-relaxed">
+          To be a trusted technology partner recognized for engineering excellence, innovation, and integrity. We envision a future where every business, regardless of size, has access to world-class software craftsmanship that accelerates their growth.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Grid -->
+  <section class="mb-16 md:mb-24">
+    <h2 class="text-2xl md:text-3xl font-bold text-text mb-8 text-center">Sekoya by the Numbers</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {stats.map((stat) => (
+        <div class="bg-surface border border-border rounded-xl p-6 text-center">
+          <div class="text-3xl md:text-4xl font-extrabold text-primary mb-2">{stat.value}</div>
+          <div class="text-sm text-text-muted font-medium">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="mb-16 md:mb-24">
+    <h2 class="text-2xl md:text-3xl font-bold text-text mb-8 text-center">Our Journey</h2>
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" aria-hidden="true"></div>
+
+      <div class="space-y-12">
+        {milestones.map((milestone, index) => (
+          <div class:list={['relative flex items-start gap-8', index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse']}>
+            <!-- Dot -->
+            <div class="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-primary border-4 border-bg -translate-x-1.5 md:-translate-x-1.5 mt-2" aria-hidden="true"></div>
+
+            <!-- Content -->
+            <div class:list={['ml-12 md:ml-0 md:w-1/2', index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12']}>
+              <span class="inline-block text-sm font-bold text-primary mb-2">{milestone.year}</span>
+              <h3 class="text-lg font-bold text-text mb-2">{milestone.title}</h3>
+              <p class="text-text-muted leading-relaxed">{milestone.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Preview -->
+  <section class="text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-text mb-4">Meet Our Team</h2>
+    <p class="text-lg text-text-muted max-w-2xl mx-auto mb-8">
+      Behind every project is a team of dedicated professionals passionate about technology and committed to your success.
+    </p>
+    <Button href="/team/" variant="outline" size="lg">
+      {t('nav.team')}
+    </Button>
+  </section>
+</PageLayout>

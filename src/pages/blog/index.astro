@@ -1,0 +1,21 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogList from '../../components/blog/BlogList.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<PageLayout
+  title={t('blog.title')}
+  description={t('blog.subtitle')}
+  heroTitle={t('blog.title')}
+  heroDescription={t('blog.subtitle')}
+>
+  <BlogList posts={posts} />
+</PageLayout>

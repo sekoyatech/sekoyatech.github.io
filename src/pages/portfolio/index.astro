@@ -1,0 +1,33 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProjectCard from '../../components/portfolio/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+
+const projects = (await getCollection('portfolio')).sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return b.data.year - a.data.year;
+});
+---
+
+<PageLayout
+  title={t('portfolio.title')}
+  description={t('portfolio.subtitle')}
+  heroTitle={t('portfolio.title')}
+  heroDescription={t('portfolio.subtitle')}
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {projects.map((project) => (
+      <ProjectCard
+        title={project.data.title}
+        description={project.data.description}
+        techStack={project.data.techStack}
+        year={project.data.year}
+        href={`/portfolio/${project.id}/`}
+        featured={project.data.featured}
+      />
+    ))}
+  </div>
+</PageLayout>

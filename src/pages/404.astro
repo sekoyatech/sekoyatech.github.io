@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations();
+---
+
+<BaseLayout title={t('404.title')} description={t('404.description')} noindex={true}>
+  <section class="min-h-[80vh] flex items-center justify-center">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <!-- Large 404 Number -->
+      <div class="mb-8">
+        <span class="text-[10rem] md:text-[14rem] font-extrabold leading-none text-transparent bg-clip-text bg-gradient-to-br from-primary/40 to-secondary/40 select-none" aria-hidden="true">
+          404
+        </span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-3xl md:text-4xl font-bold text-text mb-4">
+        {t('404.title')}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-lg text-text-muted max-w-md mx-auto mb-10">
+        {t('404.description')}
+      </p>
+
+      <!-- Helpful Links -->
+      <nav class="mb-10" aria-label="Helpful links">
+        <p class="text-sm text-text-muted mb-4">Here are some helpful links:</p>
+        <div class="flex flex-wrap justify-center gap-4 text-sm">
+          <a href="/" class="text-primary hover:underline">{t('nav.home')}</a>
+          <span class="text-border" aria-hidden="true">|</span>
+          <a href="/services/" class="text-primary hover:underline">{t('nav.services')}</a>
+          <span class="text-border" aria-hidden="true">|</span>
+          <a href="/blog/" class="text-primary hover:underline">{t('nav.blog')}</a>
+          <span class="text-border" aria-hidden="true">|</span>
+          <a href="/contact/" class="text-primary hover:underline">{t('nav.contact')}</a>
+        </div>
+      </nav>
+
+      <!-- Back to Home Button -->
+      <Button href="/" variant="primary" size="lg">
+        {t('404.cta')}
+      </Button>
+    </div>
+  </section>
+</BaseLayout>

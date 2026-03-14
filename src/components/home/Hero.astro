@@ -1,0 +1,67 @@
+---
+import Button from '../ui/Button.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+---
+
+<section class="relative overflow-hidden">
+  <!-- Background gradient -->
+  <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-bg to-secondary/10" aria-hidden="true"></div>
+  <div class="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" aria-hidden="true"></div>
+  <div class="absolute bottom-0 left-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" aria-hidden="true"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 lg:py-40">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Text Content -->
+      <div>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-text leading-tight mb-6">
+          {t('hero.title').split('digital').map((part, i) =>
+            i === 0 ? (
+              <>{part}<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">digital</span></>
+            ) : (
+              part
+            )
+          )}
+        </h1>
+        <p class="text-lg md:text-xl text-text-muted max-w-xl mb-10 leading-relaxed">
+          {t('hero.subtitle')}
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <Button href="/contact/" variant="primary" size="lg">
+            {t('hero.cta.primary')}
+          </Button>
+          <Button href="/services/" variant="outline" size="lg">
+            {t('hero.cta.secondary')}
+          </Button>
+        </div>
+      </div>
+
+      <!-- Decorative Element -->
+      <div class="hidden lg:block" aria-hidden="true">
+        <div class="relative">
+          <!-- Code-like decorative block -->
+          <div class="bg-surface/80 backdrop-blur-sm border border-border rounded-xl p-6 shadow-lg transform rotate-1">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+              <span class="ml-2 text-xs text-text-muted font-mono">sekoya.tech</span>
+            </div>
+            <div class="space-y-2 font-mono text-sm">
+              <p><span class="text-secondary">const</span> <span class="text-primary">sekoya</span> = {'{'}</p>
+              <p class="pl-4"><span class="text-accent">mission</span>: <span class="text-text-muted">"Digital Transformation"</span>,</p>
+              <p class="pl-4"><span class="text-accent">tech</span>: [<span class="text-text-muted">"IoT"</span>, <span class="text-text-muted">"AI"</span>, <span class="text-text-muted">"Cloud"</span>],</p>
+              <p class="pl-4"><span class="text-accent">passion</span>: <span class="text-primary">Infinity</span>,</p>
+              <p>{'}'}</p>
+            </div>
+          </div>
+          <!-- Floating accent card -->
+          <div class="absolute -top-4 -right-4 bg-primary/10 border border-primary/20 rounded-lg px-4 py-2 transform -rotate-3">
+            <span class="text-primary font-semibold text-sm">Est. 2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

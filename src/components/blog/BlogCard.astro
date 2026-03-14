@@ -1,0 +1,45 @@
+---
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+import { formatDate } from '../../lib/utils';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags?: string[];
+  href: string;
+  readingTime?: number;
+}
+
+const { title, description, pubDate, tags = [], href, readingTime } = Astro.props;
+const t = useTranslations();
+---
+
+<a href={href} class="group block">
+  <Card class="h-full group-hover:border-primary/30">
+    <div class="flex flex-col h-full">
+      <div class="flex items-center gap-3 text-xs text-text-muted mb-3">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        {readingTime && (
+          <>
+            <span aria-hidden="true">&middot;</span>
+            <span>{readingTime} {t('blog.reading_time')}</span>
+          </>
+        )}
+      </div>
+      <h3 class="text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors line-clamp-2">
+        {title}
+      </h3>
+      <p class="text-sm text-text-muted flex-1 line-clamp-3 leading-relaxed">{description}</p>
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-4">
+          {tags.slice(0, 3).map((tag) => (
+            <Badge variant="muted">{tag}</Badge>
+          ))}
+        </div>
+      )}
+    </div>
+  </Card>
+</a>

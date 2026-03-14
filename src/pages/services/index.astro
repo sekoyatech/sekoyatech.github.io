@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import ServiceCard from '../../components/services/ServiceCard.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout
+  title={t('services.title')}
+  description={t('services.subtitle')}
+  heroTitle={t('services.title')}
+  heroDescription={t('services.subtitle')}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: t('services.title'), href: '/services/' },
+  ]}
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {services.map((service) => (
+      <ServiceCard
+        title={service.data.title}
+        description={service.data.description}
+        icon={service.data.icon}
+        href={`/services/${service.id}/`}
+      />
+    ))}
+  </div>
+</PageLayout>

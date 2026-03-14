@@ -1,0 +1,136 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { useTranslations } from '../i18n/utils';
+import { SITE } from '../lib/constants';
+
+const t = useTranslations();
+const lastUpdated = 'March 14, 2026';
+---
+
+<PageLayout
+  title={t('privacy.title')}
+  description="Privacy policy for Sekoya.tech website. Learn how we handle your data."
+  heroTitle={t('privacy.title')}
+  heroDescription={`Last updated: ${lastUpdated}`}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: t('privacy.title'), href: '/privacy-policy/' },
+  ]}
+>
+  <div class="prose prose-invert prose-emerald max-w-none
+    prose-headings:text-text prose-headings:font-bold
+    prose-p:text-text-muted prose-p:leading-relaxed
+    prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+    prose-strong:text-text
+    prose-li:text-text-muted
+    prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
+    prose-h3:text-lg prose-h3:mt-8 prose-h3:mb-3">
+
+    <h2>Introduction</h2>
+    <p>
+      At {SITE.fullName} ("{SITE.name}"), we are committed to protecting your privacy and ensuring transparency in how we handle your information. This Privacy Policy explains what data we collect, why we collect it, and how it is used when you visit our website at <a href={SITE.url}>{SITE.url}</a>.
+    </p>
+    <p>
+      We believe in minimal data collection. We do not use cookies, we do not track you across the web, and we do not sell or share your personal information with third parties for marketing purposes.
+    </p>
+
+    <h2>Data Collection</h2>
+
+    <h3>Information You Provide</h3>
+    <p>
+      When you use our contact form, you voluntarily provide us with the following information:
+    </p>
+    <ul>
+      <li><strong>Full name</strong> - so we can address you properly.</li>
+      <li><strong>Email address</strong> - so we can respond to your inquiry.</li>
+      <li><strong>Subject and message</strong> - the content of your inquiry.</li>
+    </ul>
+    <p>
+      This information is submitted through our contact form and processed by Web3Forms, a third-party form handling service, solely for the purpose of delivering your message to us. We do not store this information in any database on our servers.
+    </p>
+
+    <h3>Information We Do Not Collect</h3>
+    <p>
+      We do not collect, store, or process any of the following:
+    </p>
+    <ul>
+      <li>Payment or financial information</li>
+      <li>Personally identifiable information beyond what you voluntarily submit</li>
+      <li>Location data, device fingerprints, or browsing history</li>
+      <li>Information from social media profiles</li>
+    </ul>
+
+    <h2>Cookies</h2>
+    <p>
+      This website does not use cookies. We do not set any first-party cookies, and our analytics solution (Plausible Analytics) operates entirely without cookies. Your theme preference (light/dark mode) is stored locally in your browser using <code>localStorage</code>, which is not a cookie and is never transmitted to our servers.
+    </p>
+
+    <h2>Analytics</h2>
+    <p>
+      We use <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>, a privacy-focused, cookieless analytics service. Plausible does not use cookies, does not collect personal data, and does not track visitors across websites. It complies with GDPR, CCPA, and PECR regulations without requiring a cookie consent banner.
+    </p>
+    <p>
+      Plausible collects only aggregate, anonymized data such as:
+    </p>
+    <ul>
+      <li>Page views and referral sources</li>
+      <li>Country of origin (inferred from anonymized IP, not stored)</li>
+      <li>Browser and operating system type</li>
+      <li>Device type (desktop, mobile, tablet)</li>
+    </ul>
+    <p>
+      No individual visitor profiles are created. All data is aggregated and cannot be used to identify any individual user. For more details, see the <a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer">Plausible Data Policy</a>.
+    </p>
+
+    <h2>Third-Party Services</h2>
+
+    <h3>Web3Forms</h3>
+    <p>
+      Our contact form submissions are processed by <a href="https://web3forms.com" target="_blank" rel="noopener noreferrer">Web3Forms</a>. When you submit the contact form, your name, email, and message are sent to Web3Forms, which then forwards them to our email inbox. Web3Forms does not sell or share your data. You can review their privacy policy on their website.
+    </p>
+
+    <h3>GitHub Pages</h3>
+    <p>
+      This website is hosted on GitHub Pages. GitHub may collect technical information such as IP addresses in server logs as part of their standard hosting operations. This data collection is governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub's Privacy Statement</a>.
+    </p>
+
+    <h2>Data Retention</h2>
+    <p>
+      Since we do not operate a database or user account system, we do not retain personal data on our infrastructure. Contact form submissions are forwarded to our email and are retained only as long as necessary to respond to your inquiry and maintain business records.
+    </p>
+
+    <h2>Your Rights</h2>
+    <p>
+      Depending on your jurisdiction, you may have the right to:
+    </p>
+    <ul>
+      <li>Request access to any personal data we hold about you</li>
+      <li>Request deletion of your personal data</li>
+      <li>Request correction of inaccurate data</li>
+      <li>Object to or restrict the processing of your data</li>
+    </ul>
+    <p>
+      To exercise any of these rights, please contact us at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+
+    <h2>Children's Privacy</h2>
+    <p>
+      Our website and services are not directed at individuals under the age of 16. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us so we can take appropriate action.
+    </p>
+
+    <h2>Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date. We encourage you to review this page periodically.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      If you have any questions about this Privacy Policy or how we handle your data, please contact us:
+    </p>
+    <ul>
+      <li><strong>Email:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      <li><strong>Phone:</strong> <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a></li>
+      <li><strong>Website:</strong> <a href={SITE.url}>{SITE.url}</a></li>
+    </ul>
+  </div>
+</PageLayout>

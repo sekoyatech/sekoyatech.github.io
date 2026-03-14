@@ -1,0 +1,30 @@
+---
+title: "Enterprise CRM & Sales Pipeline Platform"
+description: "A custom-built CRM platform that replaced a patchwork of spreadsheets and SaaS tools with a unified system for lead management, deal tracking, and sales analytics."
+techStack: ["React", "Node.js", "PostgreSQL", "Docker"]
+year: 2025
+featured: true
+---
+
+## The Challenge
+
+A growing B2B services company had outgrown their combination of spreadsheets, a legacy CRM, and three disconnected SaaS tools for email tracking, proposal generation, and reporting. Sales managers spent more time copying data between systems than actually selling. Reporting was inconsistent, pipeline visibility was poor, and onboarding new sales reps took weeks because the workflow lived in tribal knowledge rather than a coherent system.
+
+## Our Approach
+
+Sekoya built a unified CRM platform tailored to the client's specific sales process, consolidating lead capture, deal progression, proposal management, and analytics into a single application.
+
+**Frontend:** A React-based single-page application with a clean, responsive interface designed around the daily workflow of sales representatives. Key screens include a Kanban-style pipeline board, contact and company profiles with full interaction history, and a proposal builder with template support.
+
+**Backend:** A Node.js API layer implements the business logic for lead scoring, deal stage automation, and notification workflows. RESTful endpoints serve the frontend, while background workers handle email integration, scheduled reports, and data enrichment from third-party sources.
+
+**Data layer:** PostgreSQL serves as the primary data store, with a schema designed for flexible querying across contacts, companies, deals, and activities. Full-text search is powered by PostgreSQL's built-in capabilities, eliminating the need for a separate search infrastructure.
+
+**Infrastructure:** The entire platform runs in Docker containers orchestrated with Docker Compose in staging and Kubernetes in production. CI/CD pipelines automate testing and deployment, with zero-downtime rolling updates.
+
+## Results
+
+- **Sales team onboarding time reduced from three weeks to three days** thanks to a streamlined, self-explanatory interface.
+- **40% improvement in pipeline accuracy** — managers now have a single source of truth for forecasting.
+- **Proposal generation time cut by 65%** with built-in templates and auto-populated deal data.
+- The platform handles the client's full sales operation and has been extended with custom reporting dashboards for executive leadership.

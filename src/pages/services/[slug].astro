@@ -1,0 +1,99 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import Badge from '../../components/ui/Badge.astro';
+import ServiceCard from '../../components/services/ServiceCard.astro';
+import { useTranslations } from '../../i18n/utils';
+import { serviceJsonLd } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const t = useTranslations();
+
+const allServices = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const relatedServices = allServices.filter((s) => s.id !== entry.id).slice(0, 3);
+---
+
+<PageLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  heroTitle={entry.data.title}
+  heroDescription={entry.data.description}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: t('services.title'), href: '/services/' },
+    { name: entry.data.title, href: `/services/${entry.id}/` },
+  ]}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={serviceJsonLd({
+      title: entry.data.title,
+      description: entry.data.description,
+      url: `/services/${entry.id}/`,
+    })} />
+  </Fragment>
+
+  <!-- Features -->
+  {entry.data.features.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-text mb-6">Key Features</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {entry.data.features.map((feature) => (
+          <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-text-muted">{feature}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- MDX Content -->
+  <div class="prose prose-invert prose-emerald max-w-none mb-16
+    prose-headings:text-text prose-headings:font-bold
+    prose-p:text-text-muted prose-p:leading-relaxed
+    prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+    prose-strong:text-text
+    prose-code:text-primary prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+    prose-pre:bg-surface prose-pre:border prose-pre:border-border
+    prose-li:text-text-muted">
+    <Content />
+  </div>
+
+  <!-- CTA -->
+  <section class="bg-surface border border-border rounded-xl p-8 md:p-12 text-center mb-16">
+    <h2 class="text-2xl md:text-3xl font-bold text-text mb-4">Interested in {entry.data.title}?</h2>
+    <p class="text-text-muted max-w-2xl mx-auto mb-8">
+      Let's discuss how we can help your business with our {entry.data.title.toLowerCase()} expertise. Get in touch for a free consultation.
+    </p>
+    <Button href="/contact/" variant="primary" size="lg">{t('hero.cta.primary')}</Button>
+  </section>
+
+  <!-- Related Services -->
+  {relatedServices.length > 0 && (
+    <section>
+      <h2 class="text-2xl font-bold text-text mb-8">Other Services</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {relatedServices.map((service) => (
+          <ServiceCard
+            title={service.data.title}
+            description={service.data.description}
+            icon={service.data.icon}
+            href={`/services/${service.id}/`}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</PageLayout>

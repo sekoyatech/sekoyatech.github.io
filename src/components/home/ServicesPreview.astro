@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Section from '../ui/Section.astro';
+import ServiceCard from '../services/ServiceCard.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Section id="services">
+  <div class="text-center mb-12 md:mb-16">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">{t('home.services.title')}</h2>
+    <p class="text-lg text-text-muted max-w-2xl mx-auto">{t('home.services.subtitle')}</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {services.map((service) => (
+      <ServiceCard
+        title={service.data.title}
+        description={service.data.description}
+        icon={service.data.icon}
+        href={`/services/${service.id}/`}
+      />
+    ))}
+  </div>
+</Section>

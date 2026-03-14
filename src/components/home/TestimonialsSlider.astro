@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Section from '../ui/Section.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Section>
+  <div class="text-center mb-12">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">{t('home.testimonials.title')}</h2>
+  </div>
+
+  <div
+    class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-hide"
+    role="region"
+    aria-label="Testimonials"
+    style="scroll-behavior: smooth;"
+  >
+    {testimonials.map((item) => (
+      <div class="flex-shrink-0 w-[85vw] sm:w-[400px] snap-start">
+        <div class="bg-surface border border-border rounded-xl p-6 md:p-8 h-full flex flex-col">
+          <!-- Quote icon -->
+          <svg class="w-8 h-8 text-primary/30 mb-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H0z" />
+          </svg>
+          <blockquote class="text-text-muted leading-relaxed flex-1 mb-6">
+            "{item.data.quote}"
+          </blockquote>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+              {item.data.author.charAt(0)}
+            </div>
+            <div>
+              <p class="text-text font-semibold text-sm">{item.data.author}</p>
+              <p class="text-text-muted text-xs">{item.data.company}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import BlogCard from './BlogCard.astro';
+
+interface Props {
+  posts: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      pubDate: Date;
+      tags?: string[];
+      draft?: boolean;
+    };
+  }[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {posts.map((post) => (
+    <BlogCard
+      title={post.data.title}
+      description={post.data.description}
+      pubDate={post.data.pubDate}
+      tags={post.data.tags}
+      href={`/blog/${post.id}/`}
+    />
+  ))}
+</div>

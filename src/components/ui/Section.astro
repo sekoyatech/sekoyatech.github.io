@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+  id?: string;
+  background?: 'default' | 'surface' | 'gradient';
+  [key: string]: any;
+}
+
+const {
+  class: className = '',
+  id,
+  background = 'default',
+  ...rest
+} = Astro.props;
+
+const backgrounds: Record<string, string> = {
+  default: '',
+  surface: 'bg-surface',
+  gradient: 'bg-gradient-to-br from-primary/5 to-secondary/5',
+};
+---
+
+<section id={id} class:list={[backgrounds[background], className]} {...rest}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <slot />
+  </div>
+</section>

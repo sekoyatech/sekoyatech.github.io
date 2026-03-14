@@ -1,0 +1,62 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  heroTitle?: string;
+  heroDescription?: string;
+  image?: string;
+  canonicalURL?: string;
+  breadcrumbs?: { name: string; href: string }[];
+}
+
+const {
+  title,
+  description,
+  heroTitle,
+  heroDescription,
+  image,
+  canonicalURL,
+  breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: title, href: Astro.url.pathname },
+  ],
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image} canonicalURL={canonicalURL}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={breadcrumbJsonLd(breadcrumbs)} />
+  </Fragment>
+
+  {heroTitle && (
+    <section class="bg-surface border-b border-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center gap-2 text-sm text-text-muted">
+            {breadcrumbs.map((crumb, i) => (
+              <li class="flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true">/</span>}
+                {i === breadcrumbs.length - 1 ? (
+                  <span aria-current="page" class="text-text">{crumb.name}</span>
+                ) : (
+                  <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.name}</a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-text mb-4">{heroTitle}</h1>
+        {heroDescription && (
+          <p class="text-lg md:text-xl text-text-muted max-w-3xl">{heroDescription}</p>
+        )}
+      </div>
+    </section>
+  )}
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <slot />
+  </div>
+</BaseLayout>

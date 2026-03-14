@@ -1,0 +1,150 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { formatDate } from '../lib/utils';
+import { blogPostingJsonLd, breadcrumbJsonLd } from '../lib/seo';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author?: string;
+  heroImage?: string;
+  tags?: string[];
+  readingTime: number;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  author = 'Sekoya Team',
+  heroImage,
+  tags = [],
+  readingTime,
+} = Astro.props;
+
+const t = useTranslations();
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog/' },
+  { name: title, href: Astro.url.pathname },
+];
+
+const shareUrl = encodeURIComponent(`https://sekoya.tech${Astro.url.pathname}`);
+const shareTitle = encodeURIComponent(title);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={heroImage}
+  type="article"
+  publishedTime={pubDate.toISOString()}
+  modifiedTime={updatedDate?.toISOString()}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={blogPostingJsonLd({
+      title,
+      description,
+      url: Astro.url.pathname,
+      pubDate,
+      updatedDate,
+      author,
+      image: heroImage,
+    })} />
+    <script type="application/ld+json" set:html={breadcrumbJsonLd(breadcrumbs)} />
+  </Fragment>
+
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol class="flex items-center gap-2 text-sm text-text-muted">
+        {breadcrumbs.map((crumb, i) => (
+          <li class="flex items-center gap-2">
+            {i > 0 && <span aria-hidden="true">/</span>}
+            {i === breadcrumbs.length - 1 ? (
+              <span aria-current="page" class="text-text">{crumb.name}</span>
+            ) : (
+              <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.name}</a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <!-- Header -->
+    <header class="mb-12">
+      <div class="flex flex-wrap items-center gap-3 text-sm text-text-muted mb-4">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        <span aria-hidden="true">&middot;</span>
+        <span>{readingTime} {t('blog.reading_time')}</span>
+        {author && (
+          <>
+            <span aria-hidden="true">&middot;</span>
+            <span>{author}</span>
+          </>
+        )}
+      </div>
+      <h1 class="text-3xl md:text-5xl font-extrabold text-text mb-6">{title}</h1>
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Content -->
+    <div class="prose prose-invert prose-emerald max-w-none
+      prose-headings:text-text prose-headings:font-bold
+      prose-p:text-text-muted prose-p:leading-relaxed
+      prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-text
+      prose-code:text-primary prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+      prose-pre:bg-surface prose-pre:border prose-pre:border-border
+      prose-img:rounded-lg
+      prose-blockquote:border-primary prose-blockquote:text-text-muted
+      prose-li:text-text-muted">
+      <slot />
+    </div>
+
+    <!-- Share Links -->
+    <footer class="mt-16 pt-8 border-t border-border">
+      <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wider mb-4">{t('blog.share')}</h2>
+      <div class="flex gap-4">
+        <a
+          href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-muted hover:text-primary transition-colors"
+          aria-label="Share on X/Twitter"
+        >
+          X / Twitter
+        </a>
+        <a
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-muted hover:text-primary transition-colors"
+          aria-label="Share on LinkedIn"
+        >
+          LinkedIn
+        </a>
+        <a
+          href={`mailto:?subject=${shareTitle}&body=${shareUrl}`}
+          class="text-text-muted hover:text-primary transition-colors"
+          aria-label="Share via Email"
+        >
+          Email
+        </a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>

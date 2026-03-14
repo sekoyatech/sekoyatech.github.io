@@ -1,5 +1,14 @@
 # SEKOYA.TECH - ASTRO 6 WEBSITE REQUIREMENTS DOCUMENT
 
+* organization full name: Sekoya Group Information and Technology
+* shortname: Sekoya
+* github: https://github.com/sekoyatech
+* website: https://sekoya.tech
+* email: info@sekoya.tech 
+* contact form: https://web3forms.com/contact-form/a9b64a3a-08ca-4c30-97bf-a88f8700d7e8
+* web3forms API key: a9b64a3a-08ca-4c30-97bf-a88f8700d7e8
+* linkedin: https://www.linkedin.com/company/sekoya-tech
+
 I've updated the requirements document considering Astro 6's new features. Astro 6 is an **excellent choice** for software company websites - especially for performance, SEO, and content management.
 
 ---
@@ -416,8 +425,6 @@ npx astro add tailwind
 # Add Sitemap
 npx astro add sitemap
 
-# Deployment adapter (example: Vercel)
-npx astro add vercel
 
 # Development server
 npm run dev
