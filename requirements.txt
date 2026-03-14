@@ -1,0 +1,464 @@
+# SEKOYA.TECH - ASTRO 6 WEBSITE REQUIREMENTS DOCUMENT
+
+I've updated the requirements document considering Astro 6's new features. Astro 6 is an **excellent choice** for software company websites - especially for performance, SEO, and content management.
+
+---
+
+## ASTRO 6? (ADVANTAGES FOR SEKOYA)
+
+| Feature | Benefit for Sekoya |
+|---------|-------------------|
+| **Blazing Fast** | Astro's island architecture with minimal JavaScript, maximum performance |
+| **SEO-First** | Static generation + SSR hybrid, excellent Core Web Vitals scores |
+| **Built-in Security** | CSP API for automatic security headers |
+| **Live Content** | Content updates without rebuild for CMS integration |
+| **Fonts API** | Optimized font loading, privacy-friendly |
+| **Cloudflare Ready** | Native integration with Cloudflare Workers/Pages |
+| **Rust Compiler** | Faster build times (experimental) |
+
+---
+
+## PROJECT STRUCTURE (ASTRO 6 BEST PRACTICES)
+
+Follow 2026 folder website structure best-practices
+
+
+## ASTRO 6 CONFIGURATION RECOMMENDATIONS
+
+### Base Configuration
+
+Follow 2026 astro configuration best-practices
+
+### Live Content Collections
+Follow 2026 astro Live Content  best-practices
+
+### Route Caching 
+
+Follow 2026 astro Route Caching best-practices
+
+---
+
+## TECHNOLOGY STACK (ASTRO 6 ECOSYSTEM)
+Follow 2026 astro tech-stack best-practices
+
+| Category | Recommendation | Why |
+|----------|---------------|-----|
+| **Framework** | Astro 6 | Island architecture, hybrid rendering |
+| **Styling** | Tailwind CSS v4 | Astro native integration, utility-first |
+| **CMS** | Sanity / Contentful / Strapi | Compatible with Live Content Collections |
+| **Forms** | Formspree / Netlify Forms | Serverless form handling |
+| **Analytics** | Plausible / Fathom | Privacy-first, lightweight |
+| **Search** | Pagefind | Static search, Astro compatible |
+| **Icons** | Astro Icon | Tree-shakable icon components |
+| **Animations** | Astro Seaside / GSAP | Lightweight animations |
+| **Deployment** | Vercel / Cloudflare Pages | Native Astro adapters |
+| **Image CDN** | Astro Image Service | Automatic optimization |
+| **Fonts** | Astro Fonts API (built-in) | Self-hosted, optimized |
+| **Monitoring** | Sentry | Error tracking |
+
+---
+
+## REQUIRED PACKAGES
+
+```json
+{
+  "dependencies": {
+    "astro": "^6.0.0",
+    "@astrojs/tailwind": "^6.0.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/vercel": "^8.0.0",
+    "@astrojs/node": "^9.0.0",
+    "@iconify-json/heroicons": "^1.0.0",
+    "astro-icon": "^1.0.0",
+    "pagefind": "^1.0.0",
+    "@sentry/astro": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0"
+  }
+}
+```
+
+---
+
+## DESIGN SYSTEM (ASTRO + TAILWIND)
+
+### 6.1. Design Tokens 
+
+Follow 2026 astro-tailwind best-practices
+
+```css
+:root {
+  /* Colors - Sekoya Brand */
+  --color-primary: #10B981;      /* Emerald 500 */
+  --color-primary-dark: #059669; /* Emerald 600 */
+  --color-secondary: #6366F1;    /* Indigo 500 */
+  --color-accent: #F59E0B;       /* Amber 500 */
+  
+  /* Dark Mode */
+  --color-bg: #0F172A;
+  --color-bg-secondary: #1E293B;
+  --color-text: #F8FAFC;
+  --color-text-muted: #94A3B8;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Typography */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono);
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.1);
+}
+```
+
+### Base Layout (`src/layouts/BaseLayout.astro`)
+
+```astro
+---
+import type { HTMLAttributes } from 'astro/types';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/global.css';
+
+interface Props extends HTMLAttributes<'html'> {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: string;
+}
+
+const { 
+  title, 
+  description, 
+  image = '/og-default.png', 
+  canonicalURL = Astro.url.href,
+  ...props 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" {...props}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Fonts API -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    
+    <!-- SEO / Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url).href} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <title>{title} | Sekoya</title>
+  </head>
+  <body class="bg-bg text-text font-sans antialiased">
+    <Header />
+    <main class="min-h-screen">
+      <slot />
+    </main>
+    <Footer />
+    
+    <!-- Analytics -->
+    <script is:inline>
+      // Plausible Analytics
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import "tailwindcss";
+  
+  body {
+    font-family: var(--font-inter);
+  }
+  
+  code {
+    font-family: var(--font-mono);
+  }
+</style>
+```
+
+---
+
+## SECURITY (ASTRO 6 CSP API)
+
+follow 2026 astro-security best practices
+
+### CSP Configuration
+
+```javascript
+// astro.config.mjs
+export default defineConfig({
+  security: {
+    csp: {
+      algorithm: 'SHA-384',
+      directives: [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline' https://plausible.io",
+        "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
+        "font-src 'self' https://fonts.bunny.net",
+        "img-src 'self' https: ",
+        "connect-src 'self' https://api.cms.com",
+      ],
+    },
+  },
+  experimental: {
+    csp: true,
+  },
+});
+```
+
+### Security Checklist
+
+- [ ] CSP headers active
+- [ ] HTTPS enforced
+- [ ] Form CSRF protection
+- [ ] X-Frame-Options header
+- [ ] X-Content-Type-Options header
+- [ ] Referrer-Policy configured
+- [ ] Cookie security flags (Secure, HttpOnly, SameSite)
+
+---
+
+## PERFORMANCE TARGETS
+follow 2026 astro performance best practices
+
+| Metric | Target | Astro 6 Advantage |
+|--------|--------|-------------------|
+| **LCP** | < 2.5s | Static generation + Image optimization |
+| **FID** | < 100ms | Minimal JavaScript (Islands) |
+| **CLS** | < 0.1 | Font API + Reserved spaces |
+| **First Byte** | < 200ms | Edge deployment + Route caching |
+| **Bundle Size** | < 100KB JS | Tree-shaking + Islands architecture |
+| **PageSpeed Score** | > 95 | Built-in optimizations |
+
+### Optimization Techniques
+
+```astro
+---
+// Responsive Images (Auto-optimized)
+import blogImage from '../assets/blog-cover.jpg';
+---
+
+<Image 
+  src={blogImage} 
+  alt="Blog cover" 
+  widths={[400, 800, 1200]}
+  formats={['avif', 'webp']}
+  loading="lazy"
+/>
+
+// Component Islands (Lazy load)
+<Counter client:load />
+<SearchBar client:idle />
+<ChatWidget client:only="react" />
+```
+
+---
+
+## CONTENT MANAGEMENT STRATEGY
+
+### Content Collections Structure
+
+| Collection | Type | Update Frequency | Source |
+|------------|------|------------------|--------|
+| **Blog** | Live | Weekly | CMS (Sanity/Contentful) |
+| **Portfolio** | Live | Per project | CMS |
+| **Team** | Build-time | Rarely | Local MDX |
+| **Services** | Build-time | Rarely | Local MDX |
+| **Testimonials** | Live | Monthly | CMS |
+| **Careers** | Live | As needed | CMS / Greenhouse API |
+
+### CMS Integration
+
+```typescript
+// src/loaders/cms-loader.ts
+import type { CollectionLoader } from 'astro:content';
+
+interface CMSConfig {
+  apiKey: string;
+  endpoint: string;
+  baseUrl?: string;
+}
+
+export function cmsLoader(config: CMSConfig): CollectionLoader {
+  return {
+    name: 'sekoya-cms',
+    load: async ({ store }) => {
+      const response = await fetch(
+        `${config.baseUrl || 'https://api.cms.com'}/${config.endpoint}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${config.apiKey}`,
+          },
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`CMS API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    },
+  };
+}
+```
+
+---
+
+## TESTING STRATEGY
+
+| Test Type | Tool | Coverage |
+|-----------|------|----------|
+| **Unit Tests** | Vitest | Utils, helpers |
+| **Component Tests** | Testing Library | UI components |
+| **E2E Tests** | Playwright | Critical user flows |
+| **Visual Regression** | Percy / Chromatic | UI changes |
+| **Performance** | Lighthouse CI | Every PR |
+| **Accessibility** | axe-core | WCAG 2.1 AA |
+| **SEO** | Siteimprove / Screaming Frog | Pre-launch |
+
+### CI/CD Pipeline
+
+
+Github Actions .github/workflows
+name: Build, Test & Deploy to github-pages
+
+
+---
+
+## ASTRO 6 LAUNCH CHECKLIST
+
+### Build & Deploy
+- [ ] Node 22+ in use
+- [ ] `astro build` successful
+- [ ] `astro preview` local test passed
+- [ ] Adapter correctly configured (Vercel/Cloudflare/Node)
+- [ ] Environment variables set
+- [ ] CDN cache invalidation tested
+
+### Content
+- [ ] Content Collections schema validated
+- [ ] Live Collections CMS connected
+- [ ] All MDX/Markdown content rendered
+- [ ] Images optimized (WebP/AVIF)
+- [ ] Fonts loading correctly (Fonts API)
+
+### SEO
+- [ ] Sitemap generated (`/sitemap.xml`)
+- [ ] Robots.txt configured
+- [ ] Meta tags on all pages
+- [ ] Open Graph images generated
+- [ ] Structured data (JSON-LD) added
+- [ ] Canonical URLs set
+
+### Security
+- [ ] CSP headers working
+- [ ] HTTPS enforced
+- [ ] Form validation + sanitization
+- [ ] Cookie consent banner
+- [ ] Privacy policy page
+
+### Performance
+- [ ] Lighthouse score > 90
+- [ ] Core Web Vitals passing
+- [ ] Image lazy loading working
+- [ ] Route caching configured
+- [ ] Bundle size analyzed
+
+### Analytics
+- [ ] Analytics script loaded
+- [ ] Conversion tracking set up
+- [ ] 404 tracking enabled
+- [ ] Search Console verified
+
+---
+
+## QUICK START COMMANDS
+
+```bash
+# Create new Astro 6 project
+npm create astro@latest sekoya-website
+
+# Upgrade existing project to Astro 6
+npx @astrojs/upgrade
+
+# Install dependencies
+npm install
+
+# Add Tailwind CSS
+npx astro add tailwind
+
+# Add Sitemap
+npx astro add sitemap
+
+# Deployment adapter (example: Vercel)
+npx astro add vercel
+
+# Development server
+npm run dev
+
+# Production build
+npm run build
+
+# Production preview
+npm run preview
+
+# Enable Rust Compiler (experimental)
+npm install @astrojs/compiler-rs
+```
+
+---
+
+## ASTRO 6 SPECIFIC RECOMMENDATIONS
+
+| Recommendation | Description |
+|----------------|-------------|
+| **Islands Architecture** | Use client-side JS only for interactive components |
+| **Content Collections** | Use type-safe collections for all content |
+| **Live Collections** | CMS integration for Blog/Portfolio without rebuild |
+| **CSP Enable** | Activate Astro 6's built-in CSP for security |
+| **Route Caching** | Define cache strategy for SSR pages |
+| **Rust Compiler** | Test experimental Rust compiler for build speed |
+| **View Transitions** | Use View Transitions API for page transitions |
+| **Dark Mode** | Native dark mode support with Tailwind + Astro |
+
+---
+
+## NEXT STEPS
+
+1. **Approve this document**
+2. **Design system workshop** - Colors, typography, component library
+3. **CMS selection** - Sanity vs Contentful vs Strapi
+4. **Deployment target** - Vercel vs Cloudflare Pages
+5. **Content inventory** - Migration plan for existing content
+6. **Repo setup** - GitHub repo, CI/CD, branching strategy
+
+---
+
+> **With Astro 6, Sekoya.tech** will have a **fast, secure, SEO-optimized** website meeting 2026 standards. With Live Content Collections, your content team can update without waiting for rebuilds, CSP API provides enterprise-level security, and Fonts API delivers top-tier performance.
+
