@@ -10,7 +10,7 @@ The official website for **Sekoya Group Information and Technology** — a softw
 |----------|-----------|
 | Framework | [Astro 6](https://astro.build) — Static output, island architecture |
 | Styling | [Tailwind CSS v4](https://tailwindcss.com) — CSS-first `@theme` configuration |
-| Content | MDX + Astro Content Collections with Zod schemas |
+| Content | MDX Content Collections (Zod schemas) + JSON data files |
 | Icons | [astro-icon](https://github.com/natemoo-re/astro-icon) + Heroicons |
 | Fonts | Inter Variable + JetBrains Mono (self-hosted via Fontsource) |
 | Search | [Pagefind](https://pagefind.app) — Static search, built at build time |
@@ -67,8 +67,9 @@ src/
 │   ├── blog/en/         # Blog posts (MDX)
 │   ├── services/en/     # Service descriptions (MDX)
 │   ├── portfolio/en/    # Project case studies (MDX)
-│   ├── team/en/         # Team member bios (MDX)
 │   └── testimonials/en/ # Client testimonials (MDX)
+├── data/
+│   └── team.json        # Team members (JSON — editable via GitHub UI)
 ├── i18n/                # Internationalization (EN default, extensible)
 ├── layouts/             # BaseLayout, PageLayout, BlogLayout
 ├── lib/                 # Constants, SEO helpers, utilities
@@ -137,7 +138,7 @@ src/
 
 ## Content Management
 
-All content is managed via MDX files in `src/content/`. Each collection has a Zod schema defined in `src/content.config.ts`.
+Most content is managed via MDX files in `src/content/`. Each collection has a Zod schema defined in `src/content.config.ts`. Team data is managed separately via a JSON file.
 
 ### Adding a Blog Post
 
@@ -176,18 +177,22 @@ Detailed service description here...
 
 ### Adding a Team Member
 
-Create `src/content/team/en/name.mdx`:
+Edit `src/data/team.json` and add a new entry to the array:
 
-```mdx
----
-name: "Full Name"
-role: "Job Title"
-bio: "Short biography"
-linkedin: "https://linkedin.com/in/username"
-github: "https://github.com/username"
-order: 3
----
+```json
+{
+  "name": "Full Name",
+  "role": "Job Title",
+  "bio": "Short biography",
+  "photo": "https://github.com/username.png",
+  "linkedin": "https://linkedin.com/in/username",
+  "github": "https://github.com/username",
+  "skills": ["Skill 1", "Skill 2", "Skill 3"],
+  "order": 7
+}
 ```
+
+This file can be edited directly via the GitHub web UI — no local clone needed.
 
 ## Deployment
 

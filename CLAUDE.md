@@ -40,10 +40,13 @@ Defined in `src/content.config.ts` (NOT root `content.config.ts`). Uses Astro 6 
 | blog | `./src/content/blog/en` | title, pubDate, tags, draft |
 | services | `./src/content/services/en` | title, icon, order, features |
 | portfolio | `./src/content/portfolio/en` | title, techStack, year, featured |
-| team | `./src/content/team/en` | name, role, bio, order |
 | testimonials | `./src/content/testimonials/en` | quote, author, company, order |
 
 Content is organized by locale (`/en/`). Only English exists now; adding a language means creating `src/content/*/tr/` dirs and adding `'tr'` to `astro.config.mjs` locales.
+
+### Team Data
+
+Team members are **not** a Content Collection. They live in a single JSON file at `src/data/team.json`, imported directly by `src/pages/team.astro` and `src/pages/llms-full.txt.ts`. Each entry has: `name`, `role`, `bio`, `photo` (GitHub avatar URL), `linkedin`, `github`, `skills` (string array), `order`. To add/edit a team member, edit `team.json` — no other files need to change.
 
 In dynamic routes (`[slug].astro`), use `entry.id` for the slug param — Astro 6 with glob loaders uses `.id`, not `.slug`.
 
@@ -61,7 +64,7 @@ UI strings are in `src/i18n/en.json`. Access via `useTranslations()` from `src/i
 
 `src/lib/seo.ts` exports JSON-LD generators: `organizationJsonLd`, `websiteJsonLd`, `breadcrumbJsonLd`, `blogPostingJsonLd`, `serviceJsonLd`, `personJsonLd`, `professionalServiceJsonLd`, `faqPageJsonLd`. BaseLayout injects Organization + WebSite on every page. PageLayout adds BreadcrumbList.
 
-AI discovery files: `public/llms.txt` (static), `src/pages/llms-full.txt.ts` (auto-generated at build from content collections).
+AI discovery files: `public/llms.txt` (static), `src/pages/llms-full.txt.ts` (auto-generated at build from content collections + `src/data/team.json`).
 
 ### Mobile Menu
 
