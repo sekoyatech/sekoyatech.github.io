@@ -451,7 +451,7 @@ AI agents parse HTML differently than traditional crawlers. Key principles:
 
 ```txt
 /* TEAM */
-Founder: Cevheri Bozoglan
+Founder: Sekoya Group
 Contact: info@sekoya.tech
 Site: https://sekoya.tech
 

@@ -1,6 +1,6 @@
 /* TEAM */
 Company: Sekoya Group Information and Technology
-Founder: Cevheri Bozoglan
+Founder: Sekoya Group
 Contact: info@sekoya.tech
 Site: https://sekoya.tech
 Location: Turkey

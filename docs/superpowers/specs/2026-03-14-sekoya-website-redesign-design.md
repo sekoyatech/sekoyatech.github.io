@@ -3,7 +3,7 @@
 **Date:** 2026-03-14
 **Status:** Draft
 **Author:** Claude (AI-assisted design)
-**Stakeholder:** cevheri (Sekoya Group)
+**Stakeholder:** Sekoya Group
 
 ---
 

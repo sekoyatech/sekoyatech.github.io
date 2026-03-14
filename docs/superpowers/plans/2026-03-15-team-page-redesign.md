@@ -15,8 +15,7 @@
 | Action | File | Responsibility |
 |--------|------|----------------|
 | Modify | `src/content.config.ts:43-54` | Add `skills` array to team schema |
-| Delete | `src/content/team/en/team-member.mdx` | Remove placeholder |
-| Delete | `src/content/team/en/cevheri-bozoglan.mdx` | Remove old entry (not in new team list) |
+| Delete | `src/content/team/en/team-member.mdx` | Remove placeholder | 
 | Create | `src/content/team/en/abdullah-kaya.mdx` | Founder, CEO content |
 | Create | `src/content/team/en/yusuf-gundogdu.mdx` | Founder, Tech Lead content |
 | Create | `src/content/team/en/suleyman-surucu.mdx` | Software Engineer content |
@@ -65,21 +64,12 @@ git commit -m "feat(team): add skills array to team collection schema"
 
 ### Task 2: Replace content files with real team data
 
-**Files:**
-- Delete: `src/content/team/en/team-member.mdx`
-- Delete: `src/content/team/en/cevheri-bozoglan.mdx`
-- Create: `src/content/team/en/abdullah-kaya.mdx`
-- Create: `src/content/team/en/yusuf-gundogdu.mdx`
-- Create: `src/content/team/en/suleyman-surucu.mdx`
-- Create: `src/content/team/en/mehmet-ucmaz.mdx`
-- Create: `src/content/team/en/baha-serdaroglu.mdx`
-- Create: `src/content/team/en/ihsan-erturk.mdx`
+
 
 - [ ] **Step 1: Delete old placeholder files**
 
 ```bash
-rm src/content/team/en/team-member.mdx
-rm src/content/team/en/cevheri-bozoglan.mdx
+rm src/content/team/en/team-member.mdx 
 ```
 
 - [ ] **Step 2: Create abdullah-kaya.mdx**
