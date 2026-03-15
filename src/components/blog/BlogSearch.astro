@@ -1,0 +1,35 @@
+---
+---
+
+<div class="blog-search mb-8">
+  <div id="blog-search-container"></div>
+</div>
+
+<script is:inline>
+  function initPagefind() {
+    const container = document.getElementById('blog-search-container');
+    if (!container || container.children.length > 0) return;
+
+    // @ts-ignore - Pagefind is loaded at runtime from the build output
+    import('/pagefind/pagefind-ui.js').then((module) => {
+      new module.PagefindUI({
+        element: '#blog-search-container',
+        showSubResults: true,
+        showImages: false,
+        translations: {
+          placeholder: 'Search articles...',
+          zero_results: 'No results found for [SEARCH_TERM]',
+        },
+      });
+    }).catch(() => {
+      // Pagefind not available (dev mode) — show fallback
+      const fallback = document.createElement('p');
+      fallback.className = 'text-sm text-text-muted italic';
+      fallback.textContent = 'Search is available in production builds.';
+      container.appendChild(fallback);
+    });
+  }
+
+  initPagefind();
+  document.addEventListener('astro:after-swap', initPagefind);
+</script>

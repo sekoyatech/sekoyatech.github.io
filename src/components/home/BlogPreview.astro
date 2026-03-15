@@ -25,7 +25,10 @@ const posts = (await getCollection('blog'))
         pubDate={post.data.pubDate}
         tags={post.data.tags}
         href={`/blog/${post.id}/`}
+        readingTime={calculateReadingTime(post.body ?? '')}
         slug={post.id}
+        heroImage={post.data.heroImage}
+        heroImageAlt={post.data.heroImageAlt}
       />
     ))}
   </div>

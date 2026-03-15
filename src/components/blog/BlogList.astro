@@ -1,30 +1,72 @@
 ---
 import BlogCard from './BlogCard.astro';
+import { calculateReadingTime } from '../../lib/utils';
+import { useTranslations } from '../../i18n/utils';
 
 interface Props {
   posts: {
     id: string;
+    body?: string;
     data: {
       title: string;
       description: string;
       pubDate: Date;
       tags?: string[];
+      heroImage?: string;
+      heroImageAlt?: string;
+      featured?: boolean;
       draft?: boolean;
     };
   }[];
+  featuredPost?: {
+    id: string;
+    body?: string;
+    data: {
+      title: string;
+      description: string;
+      pubDate: Date;
+      tags?: string[];
+      heroImage?: string;
+      heroImageAlt?: string;
+      featured?: boolean;
+    };
+  };
 }
 
-const { posts } = Astro.props;
+const { posts, featuredPost } = Astro.props;
+const t = useTranslations();
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {posts.map((post) => (
-    <BlogCard
-      title={post.data.title}
-      description={post.data.description}
-      pubDate={post.data.pubDate}
-      tags={post.data.tags}
-      href={`/blog/${post.id}/`}
-    />
-  ))}
-</div>
+{posts.length === 0 && !featuredPost ? (
+  <p class="text-center text-text-muted py-12">{t('blog.no_posts')}</p>
+) : (
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {featuredPost && (
+      <BlogCard
+        title={featuredPost.data.title}
+        description={featuredPost.data.description}
+        pubDate={featuredPost.data.pubDate}
+        tags={featuredPost.data.tags}
+        href={`/blog/${featuredPost.id}/`}
+        readingTime={calculateReadingTime(featuredPost.body ?? '')}
+        slug={featuredPost.id}
+        heroImage={featuredPost.data.heroImage}
+        heroImageAlt={featuredPost.data.heroImageAlt}
+        featured={true}
+      />
+    )}
+    {posts.map((post) => (
+      <BlogCard
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        tags={post.data.tags}
+        href={`/blog/${post.id}/`}
+        readingTime={calculateReadingTime(post.body ?? '')}
+        slug={post.id}
+        heroImage={post.data.heroImage}
+        heroImageAlt={post.data.heroImageAlt}
+      />
+    ))}
+  </div>
+)}
