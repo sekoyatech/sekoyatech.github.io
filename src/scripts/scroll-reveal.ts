@@ -5,12 +5,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function initScrollReveal(): void {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) {
-    document.querySelectorAll('.reveal-hidden').forEach((el) => {
-      el.classList.remove('reveal-hidden');
-    });
-    return;
-  }
+  if (prefersReducedMotion) return;
 
   ScrollTrigger.defaults({
     start: 'top 85%',
@@ -20,29 +15,34 @@ function initScrollReveal(): void {
   // Single element reveals: [data-reveal]
   document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
     const direction = el.dataset.reveal || 'up';
-    const fromVars: gsap.TweenVars = { opacity: 0, duration: 0.8, ease: 'power2.out' };
+    const fromVars: gsap.TweenVars = { opacity: 0 };
+    const toVars: gsap.TweenVars = { opacity: 1, duration: 0.8, ease: 'power2.out' };
 
     switch (direction) {
       case 'left':
         fromVars.x = -40;
+        toVars.x = 0;
         break;
       case 'right':
         fromVars.x = 40;
+        toVars.x = 0;
         break;
       case 'scale':
         fromVars.scale = 0.9;
+        toVars.scale = 1;
         break;
       case 'up':
       default:
         fromVars.y = 30;
+        toVars.y = 0;
         break;
     }
 
     // Set initial hidden state immediately to prevent flash
-    gsap.set(el, { opacity: 0, ...( 'x' in fromVars ? { x: fromVars.x } : 'y' in fromVars ? { y: fromVars.y } : { scale: fromVars.scale }) });
+    gsap.set(el, fromVars);
 
-    gsap.from(el, {
-      ...fromVars,
+    gsap.fromTo(el, fromVars, {
+      ...toVars,
       scrollTrigger: { trigger: el },
     });
   });
@@ -55,14 +55,17 @@ function initScrollReveal(): void {
     // Set initial hidden state on children
     gsap.set(children, { opacity: 0, y: 30 });
 
-    gsap.from(children, {
-      opacity: 0,
-      y: 30,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: container },
-    });
+    gsap.fromTo(children,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: container },
+      }
+    );
   });
 
   // Animated counters: [data-counter]
