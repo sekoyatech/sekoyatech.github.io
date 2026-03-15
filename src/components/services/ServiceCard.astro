@@ -15,7 +15,7 @@ const { title, description, icon, href, slug } = Astro.props;
 const t = useTranslations();
 ---
 
-<a href={href} class="group block" transition:name={slug ? `service-${slug}` : undefined}>
+<a href={href} class="group block">
   <Card class="h-full group-hover:border-primary/30">
     <div class="flex flex-col h-full">
       <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">

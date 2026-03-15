@@ -51,6 +51,36 @@ function initHeroCanvas(): void {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
+  // In reduced-motion mode, draw a single static frame and return early
+  // before attaching any listeners or hiding fallbacks
+  if (prefersReducedMotion) {
+    // Hide fallback for static canvas frame
+    document.querySelectorAll('.hero-canvas-fallback').forEach((el) => {
+      (el as HTMLElement).style.display = 'none';
+    });
+    const rect = canvas.parentElement!.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const dpr = window.devicePixelRatio;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const colors = getThemeColors();
+    const time = 0.5;
+    colors.blobs.forEach((color, i) => {
+      const bx = w * 0.5 + Math.sin(time * (0.3 + i * 0.1) + i * Math.PI * 0.5) * w * 0.3;
+      const by = h * 0.5 + Math.cos(time * (0.2 + i * 0.15) + i * Math.PI * 0.5) * h * 0.25;
+      const radius = Math.max(w, h) * (0.3 + i * 0.05);
+      const gradient = ctx.createRadialGradient(bx, by, 0, bx, by, radius);
+      gradient.addColorStop(0, color);
+      gradient.addColorStop(1, 'transparent');
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, w, h);
+    });
+    return;
+  }
+
   // Hide fallback gradients when canvas is active
   document.querySelectorAll('.hero-canvas-fallback').forEach((el) => {
     (el as HTMLElement).style.display = 'none';
@@ -65,9 +95,10 @@ function initHeroCanvas(): void {
     const rect = canvas!.parentElement!.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
-    canvas!.width = width * window.devicePixelRatio;
-    canvas!.height = height * window.devicePixelRatio;
-    ctx!.scale(window.devicePixelRatio, window.devicePixelRatio);
+    const dpr = window.devicePixelRatio;
+    canvas!.width = width * dpr;
+    canvas!.height = height * dpr;
+    ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   // First resize to get dimensions
@@ -224,14 +255,6 @@ function initHeroCanvas(): void {
     particleColor = document.documentElement.classList.contains('light')
       ? 'rgba(5, 150, 105,' : 'rgba(16, 185, 129,';
   });
-
-  // Reduced motion: draw single static frame
-  if (prefersReducedMotion) {
-    time = 0.5;
-    drawMeshGradient();
-    drawParticles();
-    return;
-  }
 
   observer.observe(canvas);
   themeObserver.observe(document.documentElement, {

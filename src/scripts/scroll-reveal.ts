@@ -20,26 +20,29 @@ function initScrollReveal(): void {
   // Single element reveals: [data-reveal]
   document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
     const direction = el.dataset.reveal || 'up';
-    const from: gsap.TweenVars = { opacity: 0, duration: 0.8, ease: 'power2.out' };
+    const fromVars: gsap.TweenVars = { opacity: 0, duration: 0.8, ease: 'power2.out' };
 
     switch (direction) {
       case 'left':
-        from.x = -40;
+        fromVars.x = -40;
         break;
       case 'right':
-        from.x = 40;
+        fromVars.x = 40;
         break;
       case 'scale':
-        from.scale = 0.9;
+        fromVars.scale = 0.9;
         break;
       case 'up':
       default:
-        from.y = 30;
+        fromVars.y = 30;
         break;
     }
 
+    // Set initial hidden state immediately to prevent flash
+    gsap.set(el, { opacity: 0, ...( 'x' in fromVars ? { x: fromVars.x } : 'y' in fromVars ? { y: fromVars.y } : { scale: fromVars.scale }) });
+
     gsap.from(el, {
-      ...from,
+      ...fromVars,
       scrollTrigger: { trigger: el },
     });
   });
@@ -48,6 +51,9 @@ function initScrollReveal(): void {
   document.querySelectorAll<HTMLElement>('[data-reveal-stagger]').forEach((container) => {
     const children = container.children;
     if (children.length === 0) return;
+
+    // Set initial hidden state on children
+    gsap.set(children, { opacity: 0, y: 30 });
 
     gsap.from(children, {
       opacity: 0,
@@ -68,6 +74,9 @@ function initScrollReveal(): void {
     const target = parseInt(match[1], 10);
     const suffix = match[2];
     const obj = { value: 0 };
+
+    // Set initial text to starting value to prevent visual jump
+    el.textContent = '0' + suffix;
 
     gsap.to(obj, {
       value: target,

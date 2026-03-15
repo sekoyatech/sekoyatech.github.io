@@ -1,4 +1,10 @@
+let initialized = false;
+let cleanupFn: (() => void) | null = null;
+
 function initCustomCursor(): void {
+  // Prevent duplicate initialization
+  if (initialized) return;
+
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (isTouchDevice) return;
 
@@ -10,6 +16,7 @@ function initCustomCursor(): void {
   const ring = document.getElementById('cursor-ring');
   if (!cursor || !dot || !ring) return;
 
+  initialized = true;
   cursor.style.display = 'block';
   document.body.classList.add('custom-cursor-active');
 
@@ -22,32 +29,39 @@ function initCustomCursor(): void {
   let ringScale = 1;
   let rafId: number | null = null;
 
-  document.addEventListener('mousemove', (e) => {
+  const onMouseMove = (e: MouseEvent): void => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-  });
+  };
 
   const interactiveSelector = 'a, button, [role="button"], input, textarea, select, label, summary';
 
-  document.addEventListener('mouseover', (e) => {
+  const onMouseOver = (e: Event): void => {
     const target = e.target as HTMLElement;
     if (target.closest(interactiveSelector)) {
       ringScale = 1.5;
       ring.style.opacity = '0.5';
     }
-  });
+  };
 
-  document.addEventListener('mouseout', (e) => {
+  const onMouseOut = (e: Event): void => {
     const target = e.target as HTMLElement;
     if (target.closest(interactiveSelector)) {
       ringScale = 1;
       ring.style.opacity = '1';
     }
-  });
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseover', onMouseOver);
+  document.addEventListener('mouseout', onMouseOut);
+
+  // Magnetic button effect
+  const magneticCleanups: (() => void)[] = [];
 
   function initMagnetic(): void {
     document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((btn) => {
-      btn.addEventListener('mousemove', (e) => {
+      const onBtnMove = (e: MouseEvent): void => {
         const rect = btn.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
@@ -60,16 +74,27 @@ function initCustomCursor(): void {
           const strength = (1 - distance / maxDist) * 10;
           const moveX = (deltaX / distance) * strength;
           const moveY = (deltaY / distance) * strength;
+          btn.style.transition = 'none';
           btn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+          btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+          btn.style.transform = '';
         }
-      });
+      };
 
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
+      const onBtnLeave = (): void => {
         btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        btn.style.transform = '';
         setTimeout(() => {
           btn.style.transition = '';
         }, 300);
+      };
+
+      btn.addEventListener('mousemove', onBtnMove);
+      btn.addEventListener('mouseleave', onBtnLeave);
+      magneticCleanups.push(() => {
+        btn.removeEventListener('mousemove', onBtnMove);
+        btn.removeEventListener('mouseleave', onBtnLeave);
       });
     });
   }
@@ -96,14 +121,25 @@ function initCustomCursor(): void {
     rafId = requestAnimationFrame(animate);
   }
 
-  const cleanup = (): void => {
+  cleanupFn = (): void => {
     if (rafId) cancelAnimationFrame(rafId);
     rafId = null;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseover', onMouseOver);
+    document.removeEventListener('mouseout', onMouseOut);
+    magneticCleanups.forEach((fn) => fn());
+    magneticCleanups.length = 0;
     cursor.style.display = 'none';
     document.body.classList.remove('custom-cursor-active');
+    initialized = false;
   };
 
-  document.addEventListener('astro:before-swap', cleanup, { once: true });
+  document.addEventListener('astro:before-swap', () => {
+    if (cleanupFn) {
+      cleanupFn();
+      cleanupFn = null;
+    }
+  }, { once: true });
 }
 
 document.addEventListener('DOMContentLoaded', initCustomCursor);

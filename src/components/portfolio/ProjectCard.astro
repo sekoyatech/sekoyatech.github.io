@@ -17,7 +17,7 @@ const { title, description, techStack, year, href, featured = false, slug } = As
 const t = useTranslations();
 ---
 
-<a href={href} class="group block" transition:name={slug ? `project-${slug}` : undefined}>
+<a href={href} class="group block">
   <Card class:list={['h-full group-hover:border-primary/30', featured && 'ring-1 ring-primary/20']}>
     <div class="flex flex-col h-full">
       {featured && (

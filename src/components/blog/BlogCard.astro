@@ -18,7 +18,7 @@ const { title, description, pubDate, tags = [], href, readingTime, slug } = Astr
 const t = useTranslations();
 ---
 
-<a href={href} class="group block" transition:name={slug ? `blog-${slug}` : undefined}>
+<a href={href} class="group block">
   <Card class="h-full group-hover:border-primary/30">
     <div class="flex flex-col h-full">
       <div class="flex items-center gap-3 text-xs text-text-muted mb-3">
