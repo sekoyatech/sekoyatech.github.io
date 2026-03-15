@@ -13,6 +13,7 @@ interface Props {
   heroImage?: string;
   tags?: string[];
   readingTime: number;
+  slug?: string;
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   heroImage,
   tags = [],
   readingTime,
+  slug,
 } = Astro.props;
 
 const t = useTranslations();
@@ -89,7 +91,7 @@ const shareTitle = encodeURIComponent(title);
           </>
         )}
       </div>
-      <h1 class="text-3xl md:text-5xl font-extrabold text-text mb-6">{title}</h1>
+      <h1 class="text-3xl md:text-5xl font-extrabold text-text mb-6" transition:name={slug ? `blog-title-${slug}` : undefined}>{title}</h1>
       {tags.length > 0 && (
         <div class="flex flex-wrap gap-2">
           {tags.map((tag) => (

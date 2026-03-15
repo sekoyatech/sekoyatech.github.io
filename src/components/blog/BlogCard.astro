@@ -11,9 +11,10 @@ interface Props {
   tags?: string[];
   href: string;
   readingTime?: number;
+  slug?: string;
 }
 
-const { title, description, pubDate, tags = [], href, readingTime } = Astro.props;
+const { title, description, pubDate, tags = [], href, readingTime, slug } = Astro.props;
 const t = useTranslations();
 ---
 
@@ -29,7 +30,7 @@ const t = useTranslations();
           </>
         )}
       </div>
-      <h3 class="text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors line-clamp-2">
+      <h3 class="text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors line-clamp-2" transition:name={slug ? `blog-title-${slug}` : undefined}>
         {title}
       </h3>
       <p class="text-sm text-text-muted flex-1 line-clamp-3 leading-relaxed">{description}</p>

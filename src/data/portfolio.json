@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "smart-factory-iot",
+    "title": "Smart Factory IoT Monitoring Platform",
+    "description": "A real-time industrial IoT platform that connects factory floor sensors to a cloud-based monitoring dashboard, enabling predictive maintenance and operational visibility across multiple facilities.",
+    "techStack": ["Flutter", "Dart", "IoT", "MQTT", "AWS"],
+    "year": 2025,
+    "featured": true,
+    "client": null,
+    "url": null,
+    "challenge": "A mid-sized manufacturing company operating three production facilities needed real-time visibility into machine health, environmental conditions, and production throughput. Their existing monitoring relied on manual readings taken at shift changes, meaning equipment failures were only detected after they caused downtime — costing an average of four hours of lost production per incident.",
+    "approach": [
+      {
+        "label": "Device layer",
+        "text": "We selected industrial-grade temperature, vibration, and power-consumption sensors and developed firmware that publishes readings over MQTT at configurable intervals. Each device authenticates via X.509 certificates and supports over-the-air firmware updates."
+      },
+      {
+        "label": "Edge layer",
+        "text": "On-site gateway devices aggregate sensor data, perform local anomaly detection to trigger immediate alerts without cloud dependency, and batch-forward data to the cloud during connectivity windows."
+      },
+      {
+        "label": "Cloud layer",
+        "text": "AWS IoT Core ingests device telemetry, which flows through a processing pipeline built on AWS Lambda and Amazon Timestream for time-series storage. Threshold-based and ML-based alerting rules notify maintenance teams via push notification and email."
+      },
+      {
+        "label": "Application layer",
+        "text": "A Flutter-based dashboard application — available on iOS, Android, and web — provides real-time and historical views of every sensor across all facilities. Operators can drill down from facility-level overviews to individual machine metrics, view trend graphs, and acknowledge alerts directly from the app."
+      }
+    ],
+    "results": [
+      "73% reduction in unplanned downtime within the first six months of deployment",
+      "Real-time visibility across all three facilities from a single dashboard",
+      "Predictive maintenance alerts enabled the team to schedule repairs during planned maintenance windows, reducing emergency interventions by over 60%",
+      "The platform was designed for scale and has since been expanded to include two additional facilities with no architectural changes"
+    ]
+  },
+  {
+    "slug": "enterprise-crm",
+    "title": "Enterprise CRM & Sales Pipeline Platform",
+    "description": "A custom-built CRM platform that replaced a patchwork of spreadsheets and SaaS tools with a unified system for lead management, deal tracking, and sales analytics.",
+    "techStack": ["React", "Node.js", "PostgreSQL", "Docker"],
+    "year": 2025,
+    "featured": true,
+    "client": null,
+    "url": null,
+    "challenge": "A growing B2B services company had outgrown their combination of spreadsheets, a legacy CRM, and three disconnected SaaS tools for email tracking, proposal generation, and reporting. Sales managers spent more time copying data between systems than actually selling. Reporting was inconsistent, pipeline visibility was poor, and onboarding new sales reps took weeks because the workflow lived in tribal knowledge rather than a coherent system.",
+    "approach": [
+      {
+        "label": "Frontend",
+        "text": "A React-based single-page application with a clean, responsive interface designed around the daily workflow of sales representatives. Key screens include a Kanban-style pipeline board, contact and company profiles with full interaction history, and a proposal builder with template support."
+      },
+      {
+        "label": "Backend",
+        "text": "A Node.js API layer implements the business logic for lead scoring, deal stage automation, and notification workflows. RESTful endpoints serve the frontend, while background workers handle email integration, scheduled reports, and data enrichment from third-party sources."
+      },
+      {
+        "label": "Data layer",
+        "text": "PostgreSQL serves as the primary data store, with a schema designed for flexible querying across contacts, companies, deals, and activities. Full-text search is powered by PostgreSQL's built-in capabilities, eliminating the need for a separate search infrastructure."
+      },
+      {
+        "label": "Infrastructure",
+        "text": "The entire platform runs in Docker containers orchestrated with Docker Compose in staging and Kubernetes in production. CI/CD pipelines automate testing and deployment, with zero-downtime rolling updates."
+      }
+    ],
+    "results": [
+      "Sales team onboarding time reduced from three weeks to three days thanks to a streamlined, self-explanatory interface",
+      "40% improvement in pipeline accuracy — managers now have a single source of truth for forecasting",
+      "Proposal generation time cut by 65% with built-in templates and auto-populated deal data",
+      "The platform handles the client's full sales operation and has been extended with custom reporting dashboards for executive leadership"
+    ]
+  }
+]

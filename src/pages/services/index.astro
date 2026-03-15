@@ -18,13 +18,14 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
     { name: t('services.title'), href: '/services/' },
   ]}
 >
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-reveal-stagger>
     {services.map((service) => (
       <ServiceCard
         title={service.data.title}
         description={service.data.description}
         icon={service.data.icon}
         href={`/services/${service.id}/`}
+        slug={service.id}
       />
     ))}
   </div>

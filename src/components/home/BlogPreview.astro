@@ -14,7 +14,7 @@ const posts = (await getCollection('blog'))
 ---
 
 <Section background="surface">
-  <div class="text-center mb-12">
+  <div class="text-center mb-12" data-reveal>
     <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">{t('home.blog.title')}</h2>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -25,6 +25,7 @@ const posts = (await getCollection('blog'))
         pubDate={post.data.pubDate}
         tags={post.data.tags}
         href={`/blog/${post.id}/`}
+        slug={post.id}
       />
     ))}
   </div>

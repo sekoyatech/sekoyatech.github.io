@@ -26,20 +26,6 @@ const services = defineCollection({
   }),
 });
 
-const portfolio = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/portfolio/en' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    heroImage: z.string().optional(),
-    techStack: z.array(z.string()),
-    client: z.string().optional(),
-    year: z.number(),
-    url: z.string().url().optional(),
-    featured: z.boolean().default(false),
-  }),
-});
-
 const testimonials = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/testimonials/en' }),
   schema: z.object({
@@ -51,4 +37,4 @@ const testimonials = defineCollection({
   }),
 });
 
-export const collections = { blog, services, portfolio, testimonials };
+export const collections = { blog, services, testimonials };

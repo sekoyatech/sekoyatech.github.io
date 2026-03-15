@@ -10,9 +10,10 @@ interface Props {
   year: number;
   href: string;
   featured?: boolean;
+  slug?: string;
 }
 
-const { title, description, techStack, year, href, featured = false } = Astro.props;
+const { title, description, techStack, year, href, featured = false, slug } = Astro.props;
 const t = useTranslations();
 ---
 
@@ -23,7 +24,7 @@ const t = useTranslations();
         <Badge variant="primary" class="self-start mb-3">Featured</Badge>
       )}
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-semibold text-text group-hover:text-primary transition-colors">{title}</h3>
+        <h3 class="text-lg font-semibold text-text group-hover:text-primary transition-colors" transition:name={slug ? `project-title-${slug}` : undefined}>{title}</h3>
         <span class="text-xs text-text-muted">{year}</span>
       </div>
       <p class="text-sm text-text-muted flex-1 line-clamp-3 leading-relaxed mb-4">{description}</p>

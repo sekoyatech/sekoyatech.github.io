@@ -25,6 +25,7 @@ const readingTime = calculateReadingTime(post.body ?? '');
   heroImage={post.data.heroImage}
   tags={post.data.tags}
   readingTime={readingTime}
+  slug={post.id}
 >
   <Content />
 </BlogLayout>

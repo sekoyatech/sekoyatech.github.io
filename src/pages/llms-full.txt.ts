@@ -2,13 +2,14 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE, SOCIAL } from '../lib/constants';
 import teamData from '../data/team.json';
+import portfolioData from '../data/portfolio.json';
 
 export const GET: APIRoute = async () => {
   const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
   const blogPosts = (await getCollection('blog'))
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-  const portfolioItems = (await getCollection('portfolio'));
+  const portfolioItems = portfolioData;
   const teamMembers = teamData.sort((a, b) => a.order - b.order);
   const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
 
@@ -56,14 +57,14 @@ export const GET: APIRoute = async () => {
   lines.push('## Portfolio & Case Studies');
   lines.push('');
   for (const project of portfolioItems) {
-    lines.push(`### ${project.data.title}`);
+    lines.push(`### ${project.title}`);
     lines.push('');
-    lines.push(project.data.description);
+    lines.push(project.description);
     lines.push('');
-    lines.push(`- Year: ${project.data.year}`);
-    if (project.data.client) lines.push(`- Client: ${project.data.client}`);
-    lines.push(`- Tech Stack: ${project.data.techStack.join(', ')}`);
-    lines.push(`- URL: ${SITE.url}/portfolio/${project.id}/`);
+    lines.push(`- Year: ${project.year}`);
+    if (project.client) lines.push(`- Client: ${project.client}`);
+    lines.push(`- Tech Stack: ${project.techStack.join(', ')}`);
+    lines.push(`- URL: ${SITE.url}/portfolio/${project.slug}/`);
     lines.push('');
   }
 
