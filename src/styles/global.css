@@ -81,6 +81,12 @@ body {
     scroll-behavior: auto !important;
   }
 
+  [data-reveal],
+  [data-reveal-stagger] > .reveal-child {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
@@ -100,27 +106,35 @@ body {
   color: white;
 }
 
-/* Animation initial states */
-.reveal-hidden {
+/* Scroll reveal transitions */
+[data-reveal],
+[data-reveal-stagger] > .reveal-child {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
+[data-reveal="left"] {
+  transform: translateX(-40px);
+}
+
+[data-reveal="right"] {
+  transform: translateX(40px);
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.9);
+}
+
+[data-reveal].revealed,
+[data-reveal-stagger] > .revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance initial state */
 .hero-hidden {
   opacity: 0;
-}
-
-/* Custom cursor */
-.custom-cursor-active {
-  cursor: none;
-}
-
-.custom-cursor-active a,
-.custom-cursor-active button,
-.custom-cursor-active input,
-.custom-cursor-active textarea,
-.custom-cursor-active select {
-  cursor: none;
 }
 
 /* Skip navigation */

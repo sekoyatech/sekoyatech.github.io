@@ -33,16 +33,14 @@ const sizes: Record<string, string> = {
 };
 
 const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
-const isMagnetic = variant === 'primary' && size === 'lg';
-const Tag = href ? 'a' : 'button';
 ---
 
 {href ? (
-  <a href={href} class={classes} data-magnetic={isMagnetic || undefined} {...rest}>
+  <a href={href} class={classes} {...rest}>
     <slot />
   </a>
 ) : (
-  <button type={type} class={classes} data-magnetic={isMagnetic || undefined} {...rest}>
+  <button type={type} class={classes} {...rest}>
     <slot />
   </button>
 )}

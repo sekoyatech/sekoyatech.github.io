@@ -1,101 +1,87 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+let observer: IntersectionObserver | null = null;
+let counterObserver: IntersectionObserver | null = null;
 
 function initScrollReveal(): void {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
 
-  ScrollTrigger.defaults({
-    start: 'top 85%',
-    toggleActions: 'play none none none',
-  });
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer?.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -15% 0px' }
+  );
 
   // Single element reveals: [data-reveal]
   document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
-    const direction = el.dataset.reveal || 'up';
-    const fromVars: gsap.TweenVars = { opacity: 0 };
-    const toVars: gsap.TweenVars = { opacity: 1, duration: 0.8, ease: 'power2.out' };
-
-    switch (direction) {
-      case 'left':
-        fromVars.x = -40;
-        toVars.x = 0;
-        break;
-      case 'right':
-        fromVars.x = 40;
-        toVars.x = 0;
-        break;
-      case 'scale':
-        fromVars.scale = 0.9;
-        toVars.scale = 1;
-        break;
-      case 'up':
-      default:
-        fromVars.y = 30;
-        toVars.y = 0;
-        break;
-    }
-
-    // Set initial hidden state immediately to prevent flash
-    gsap.set(el, fromVars);
-
-    gsap.fromTo(el, fromVars, {
-      ...toVars,
-      scrollTrigger: { trigger: el },
-    });
+    observer!.observe(el);
   });
 
   // Staggered children reveals: [data-reveal-stagger]
   document.querySelectorAll<HTMLElement>('[data-reveal-stagger]').forEach((container) => {
-    const children = container.children;
-    if (children.length === 0) return;
-
-    // Set initial hidden state on children
-    gsap.set(children, { opacity: 0, y: 30 });
-
-    gsap.fromTo(children,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: container },
-      }
-    );
+    Array.from(container.children).forEach((child, i) => {
+      (child as HTMLElement).style.transitionDelay = `${i * 100}ms`;
+      (child as HTMLElement).classList.add('reveal-child');
+      observer!.observe(child);
+    });
   });
 
   // Animated counters: [data-counter]
+  counterObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target as HTMLElement);
+          counterObserver?.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
   document.querySelectorAll<HTMLElement>('[data-counter]').forEach((el) => {
-    const raw = el.dataset.counter || '0';
-    const match = raw.match(/^(\d+)(.*)$/);
-    if (!match) return;
-
-    const target = parseInt(match[1], 10);
-    const suffix = match[2];
-    const obj = { value: 0 };
-
-    // Set initial text to starting value to prevent visual jump
-    el.textContent = '0' + suffix;
-
-    gsap.to(obj, {
-      value: target,
-      duration: 1.5,
-      ease: 'power2.out',
-      snap: { value: 1 },
-      scrollTrigger: { trigger: el },
-      onUpdate() {
-        el.textContent = Math.round(obj.value) + suffix;
-      },
-    });
+    el.textContent = '0' + (el.dataset.counter?.replace(/^\d+/, '') || '');
+    counterObserver!.observe(el);
   });
 }
 
+function animateCounter(el: HTMLElement): void {
+  const raw = el.dataset.counter || '0';
+  const match = raw.match(/^(\d+)(.*)$/);
+  if (!match) return;
+
+  const target = parseInt(match[1], 10);
+  const suffix = match[2];
+  const duration = 1500;
+  const start = performance.now();
+
+  function step(now: number): void {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
 function cleanupScrollReveal(): void {
-  ScrollTrigger.getAll().forEach((t) => t.kill());
+  observer?.disconnect();
+  observer = null;
+  counterObserver?.disconnect();
+  counterObserver = null;
+
+  document.querySelectorAll('.revealed').forEach((el) => el.classList.remove('revealed'));
+  document.querySelectorAll('.reveal-child').forEach((el) => {
+    (el as HTMLElement).style.transitionDelay = '';
+    el.classList.remove('reveal-child');
+  });
 }
 
 if (typeof document !== 'undefined') {

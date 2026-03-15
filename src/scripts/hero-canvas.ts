@@ -118,7 +118,7 @@ function initHeroCanvas(): void {
   // Particle system
   const mouse = { x: -1000, y: -1000 };
   const isMobile = window.innerWidth < 768;
-  const particleCount = isMobile ? 30 : window.innerWidth < 1024 ? 50 : 70;
+  const particleCount = isMobile ? 15 : window.innerWidth < 1024 ? 25 : 35;
 
   const particles: Particle[] = Array.from({ length: particleCount }, () => ({
     x: Math.random() * width,
@@ -143,7 +143,7 @@ function initHeroCanvas(): void {
 
   let particleColor = document.documentElement.classList.contains('light')
     ? 'rgba(5, 150, 105,' : 'rgba(16, 185, 129,';
-  const CONNECTION_DIST = 150;
+  const CONNECTION_DIST = 120;
 
   let time = 0;
   let lastFrame = 0;
