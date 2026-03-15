@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+import { calculateReadingTime } from '../../lib/utils';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  currentTags: string[];
+  currentSlug: string;
+}
+
+const { currentTags, currentSlug } = Astro.props;
+const t = useTranslations();
+
+const allPosts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft && post.id !== currentSlug);
+
+// Score posts by number of shared tags
+const scored = allPosts.map((post) => {
+  const sharedTags = post.data.tags.filter((tag) =>
+    currentTags.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
+  );
+  return { post, score: sharedTags.length };
+});
+
+// Sort by score (most shared tags first), then by date
+scored.sort((a, b) => {
+  if (b.score !== a.score) return b.score - a.score;
+  return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
+});
+
+const relatedPosts = scored.slice(0, 3).map((s) => s.post);
+---
+
+{relatedPosts.length > 0 && (
+  <section class="mt-16 pt-8 border-t border-border">
+    <h2 class="text-xl font-bold text-text mb-6">{t('blog.related')}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {relatedPosts.map((post) => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          tags={post.data.tags}
+          href={`/blog/${post.id}/`}
+          readingTime={calculateReadingTime(post.body ?? '')}
+          slug={post.id}
+          heroImage={post.data.heroImage}
+          heroImageAlt={post.data.heroImageAlt}
+        />
+      ))}
+    </div>
+  </section>
+)}

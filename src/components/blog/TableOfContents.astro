@@ -1,0 +1,107 @@
+---
+import { useTranslations } from '../../i18n/utils';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  mode?: 'mobile' | 'desktop';
+}
+
+const { headings, mode = 'mobile' } = Astro.props;
+const t = useTranslations();
+
+// Filter to H2 and H3 only
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{tocHeadings.length > 0 && mode === 'mobile' && (
+  <details class="lg:hidden mb-8 border border-border rounded-lg bg-surface">
+    <summary class="px-4 py-3 text-sm font-semibold text-text cursor-pointer select-none">
+      {t('blog.toc')}
+    </summary>
+    <nav class="px-4 pb-4" aria-label="Table of Contents">
+      <ul class="space-y-1">
+        {tocHeadings.map((heading) => (
+          <li>
+            <a
+              href={`#${heading.slug}`}
+              class:list={[
+                "block py-1 text-sm text-text-muted hover:text-primary transition-colors",
+                heading.depth === 3 && "pl-4"
+              ]}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </details>
+)}
+
+{tocHeadings.length > 0 && mode === 'desktop' && (
+  <nav class="sticky top-24" aria-label="Table of Contents">
+    <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wider mb-4">
+      {t('blog.toc')}
+    </h2>
+    <ul class="space-y-1 border-l border-border">
+      {tocHeadings.map((heading) => (
+        <li>
+          <a
+            href={`#${heading.slug}`}
+            class:list={[
+              "toc-link block py-1.5 text-sm text-text-muted hover:text-primary transition-colors border-l-2 border-transparent hover:border-primary -ml-px",
+              heading.depth === 2 ? "pl-4" : "pl-8"
+            ]}
+            data-heading={heading.slug}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  function initTocHighlight() {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    if (tocLinks.length === 0) return;
+
+    const headingIds = Array.from(tocLinks).map((link) =>
+      (link as HTMLElement).dataset.heading!
+    );
+    const headingElements = headingIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (headingElements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            tocLinks.forEach((link) => {
+              const isActive = (link as HTMLElement).dataset.heading === entry.target.id;
+              link.classList.toggle('text-primary', isActive);
+              link.classList.toggle('border-primary', isActive);
+              link.classList.toggle('text-text-muted', !isActive);
+              link.classList.toggle('border-transparent', !isActive);
+            });
+          }
+        }
+      },
+      { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+    );
+
+    headingElements.forEach((el) => observer.observe(el));
+  }
+
+  initTocHighlight();
+  document.addEventListener('astro:after-swap', initTocHighlight);
+</script>

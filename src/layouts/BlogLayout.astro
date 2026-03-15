@@ -1,8 +1,17 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { formatDate } from '../lib/utils';
+import BlogHero from '../components/blog/BlogHero.astro';
+import TableOfContents from '../components/blog/TableOfContents.astro';
+import RelatedPosts from '../components/blog/RelatedPosts.astro';
+import GiscusComments from '../components/blog/GiscusComments.astro';
 import { blogPostingJsonLd, breadcrumbJsonLd } from '../lib/seo';
 import { useTranslations } from '../i18n/utils';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
   title: string;
@@ -11,9 +20,11 @@ interface Props {
   updatedDate?: Date;
   author?: string;
   heroImage?: string;
+  heroImageAlt?: string;
   tags?: string[];
   readingTime: number;
   slug?: string;
+  headings?: Heading[];
 }
 
 const {
@@ -23,9 +34,11 @@ const {
   updatedDate,
   author = 'Sekoya Team',
   heroImage,
+  heroImageAlt,
   tags = [],
   readingTime,
   slug,
+  headings = [],
 } = Astro.props;
 
 const t = useTranslations();
@@ -38,6 +51,8 @@ const breadcrumbs = [
 
 const shareUrl = encodeURIComponent(`https://sekoya.tech${Astro.url.pathname}`);
 const shareTitle = encodeURIComponent(title);
+
+const hasToC = headings.filter((h) => h.depth >= 2 && h.depth <= 3).length > 0;
 ---
 
 <BaseLayout
@@ -61,8 +76,8 @@ const shareTitle = encodeURIComponent(title);
     <script type="application/ld+json" set:html={breadcrumbJsonLd(breadcrumbs)} />
   </Fragment>
 
-  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-    <!-- Breadcrumb -->
+  <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    {/* Breadcrumb */}
     <nav aria-label="Breadcrumb" class="mb-8">
       <ol class="flex items-center gap-2 text-sm text-text-muted">
         {breadcrumbs.map((crumb, i) => (
@@ -78,66 +93,75 @@ const shareTitle = encodeURIComponent(title);
       </ol>
     </nav>
 
-    <!-- Header -->
-    <header class="mb-12">
-      <div class="flex flex-wrap items-center gap-3 text-sm text-text-muted mb-4">
-        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
-        <span aria-hidden="true">&middot;</span>
-        <span>{readingTime} {t('blog.reading_time')}</span>
-        {author && (
-          <>
-            <span aria-hidden="true">&middot;</span>
-            <span>{author}</span>
-          </>
-        )}
-      </div>
-      <h1 class="text-3xl md:text-5xl font-extrabold text-text mb-6" transition:name={slug ? `blog-title-${slug}` : undefined}>{title}</h1>
-      {tags.length > 0 && (
-        <div class="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
-              {tag}
-            </span>
-          ))}
+    {/* Hero section */}
+    <BlogHero
+      title={title}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      author={author}
+      readingTime={readingTime}
+      tags={tags}
+      heroImage={heroImage}
+      heroImageAlt={heroImageAlt}
+      slug={slug}
+    />
+
+    {/* Mobile ToC */}
+    <TableOfContents headings={headings} mode="mobile" />
+
+    {/* 2-column layout: content + ToC sidebar */}
+    <div class:list={["flex gap-12", hasToC && "lg:grid lg:grid-cols-[1fr_240px]"]}>
+      {/* Main content */}
+      <div class="min-w-0 max-w-none">
+        <div class="mdx-content">
+          <slot />
         </div>
-      )}
-    </header>
 
-    <!-- Content -->
-    <div class="mdx-content">
-      <slot />
-    </div>
+        {/* Share Links */}
+        <footer class="mt-16 pt-8 border-t border-border">
+          <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wider mb-4">{t('blog.share')}</h2>
+          <div class="flex gap-4">
+            <a
+              href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-muted hover:text-primary transition-colors"
+              aria-label="Share on X/Twitter"
+            >
+              X / Twitter
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-muted hover:text-primary transition-colors"
+              aria-label="Share on LinkedIn"
+            >
+              LinkedIn
+            </a>
+            <a
+              href={`mailto:?subject=${shareTitle}&body=${shareUrl}`}
+              class="text-text-muted hover:text-primary transition-colors"
+              aria-label="Share via Email"
+            >
+              Email
+            </a>
+          </div>
+        </footer>
 
-    <!-- Share Links -->
-    <footer class="mt-16 pt-8 border-t border-border">
-      <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wider mb-4">{t('blog.share')}</h2>
-      <div class="flex gap-4">
-        <a
-          href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-text-muted hover:text-primary transition-colors"
-          aria-label="Share on X/Twitter"
-        >
-          X / Twitter
-        </a>
-        <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-text-muted hover:text-primary transition-colors"
-          aria-label="Share on LinkedIn"
-        >
-          LinkedIn
-        </a>
-        <a
-          href={`mailto:?subject=${shareTitle}&body=${shareUrl}`}
-          class="text-text-muted hover:text-primary transition-colors"
-          aria-label="Share via Email"
-        >
-          Email
-        </a>
+        {/* Related Posts */}
+        <RelatedPosts currentTags={tags} currentSlug={slug ?? ''} />
+
+        {/* Comments */}
+        <GiscusComments />
       </div>
-    </footer>
+
+      {/* Desktop ToC sidebar */}
+      {hasToC && (
+        <aside class="hidden lg:block">
+          <TableOfContents headings={headings} mode="desktop" />
+        </aside>
+      )}
+    </div>
   </article>
 </BaseLayout>

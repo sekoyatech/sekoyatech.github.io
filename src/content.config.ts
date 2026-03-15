@@ -9,9 +9,11 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     heroImage: z.string().optional(),
+    heroImageAlt: z.string().optional(),
     tags: z.array(z.string()).default([]),
     author: z.string().default('Sekoya Team'),
     draft: z.boolean().default(false),
+    featured: z.boolean().default(false),
   }),
 });
 

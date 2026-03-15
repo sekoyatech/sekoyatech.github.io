@@ -50,3 +50,14 @@ export const FOOTER_NAV = {
 export const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 
 export const PLAUSIBLE_DOMAIN = 'sekoya.tech';
+
+export const GISCUS = {
+  repo: 'sekoyatech/sekoyatech.github.io',
+  repoId: 'R_kgDORnIRIA',
+  category: 'General',
+  categoryId: 'DIC_kwDORnIRIM4C4d4b',
+} as const;
+
+export const BLOG = {
+  postsPerPage: 6,
+} as const;

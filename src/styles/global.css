@@ -258,6 +258,44 @@ body {
   margin: 2rem 0;
 }
 
+/* Pagefind search theme overrides (dark-first) */
+.pagefind-ui {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: var(--color-primary);
+  --pagefind-ui-text: var(--color-text);
+  --pagefind-ui-background: var(--color-surface);
+  --pagefind-ui-border: var(--color-border);
+  --pagefind-ui-tag: var(--color-primary);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--radius-lg);
+  --pagefind-ui-font: var(--font-sans);
+}
+
+.pagefind-ui .pagefind-ui__search-input {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.pagefind-ui .pagefind-ui__search-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.pagefind-ui .pagefind-ui__result-link {
+  color: var(--color-primary);
+}
+
+.pagefind-ui .pagefind-ui__result-excerpt {
+  color: var(--color-text-muted);
+}
+
+/* Blog hero image aspect ratio */
+.blog-hero-image {
+  aspect-ratio: 21 / 9;
+}
+
 /* View Transition animations */
 @keyframes fade-in {
   from { opacity: 0; }

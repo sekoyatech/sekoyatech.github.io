@@ -1,0 +1,45 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../../i18n/utils';
+
+const t = useTranslations();
+
+const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+
+// Collect all tags with counts
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    const lower = tag.toLowerCase();
+    tagCounts.set(lower, (tagCounts.get(lower) ?? 0) + 1);
+  }
+}
+
+const tags = Array.from(tagCounts.entries())
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count);
+---
+
+<PageLayout
+  title={t('blog.all_tags')}
+  description="Browse all blog tags"
+  heroTitle={t('blog.all_tags')}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: t('blog.title'), href: '/blog/' },
+    { name: t('blog.all_tags'), href: '/blog/tags/' },
+  ]}
+>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    {tags.map(({ name, count }) => (
+      <a
+        href={`/blog/tags/${name}/`}
+        class="flex items-center justify-between px-4 py-3 rounded-lg border border-border bg-surface hover:border-primary/30 hover:text-primary transition-colors group"
+      >
+        <span class="font-medium text-text group-hover:text-primary transition-colors">{name}</span>
+        <span class="text-xs text-text-muted ml-2 bg-bg px-2 py-0.5 rounded-full">{count}</span>
+      </a>
+    ))}
+  </div>
+</PageLayout>

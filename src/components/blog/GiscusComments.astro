@@ -1,0 +1,82 @@
+---
+import { GISCUS } from '../../lib/constants';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations();
+
+const isConfigured = GISCUS.repo && GISCUS.repoId && GISCUS.categoryId;
+---
+
+{isConfigured && (
+  <section class="mt-16 pt-8 border-t border-border">
+    <h2 class="text-xl font-bold text-text mb-6">{t('blog.comments')}</h2>
+    <div
+      id="giscus-container"
+      data-repo={GISCUS.repo}
+      data-repo-id={GISCUS.repoId}
+      data-category={GISCUS.category}
+      data-category-id={GISCUS.categoryId}
+    ></div>
+  </section>
+)}
+
+<script>
+  function initGiscus() {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+
+    // Remove existing iframe on page swap
+    container.replaceChildren();
+
+    const isDark = !document.documentElement.classList.contains('light');
+    const theme = isDark ? 'dark_dimmed' : 'light';
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.dataset.repo = container.dataset.repo || '';
+    script.dataset.repoId = container.dataset.repoId || '';
+    script.dataset.category = container.dataset.category || '';
+    script.dataset.categoryId = container.dataset.categoryId || '';
+    script.dataset.mapping = 'pathname';
+    script.dataset.strict = '0';
+    script.dataset.reactionsEnabled = '1';
+    script.dataset.emitMetadata = '0';
+    script.dataset.inputPosition = 'top';
+    script.dataset.theme = theme;
+    script.dataset.lang = 'en';
+    script.dataset.loading = 'lazy';
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+
+    container.appendChild(script);
+  }
+
+  // Listen for theme changes to update Giscus
+  function updateGiscusTheme() {
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    if (!iframe) return;
+    const isDark = !document.documentElement.classList.contains('light');
+    const theme = isDark ? 'dark_dimmed' : 'light';
+    iframe.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme } } },
+      'https://giscus.app'
+    );
+  }
+
+  // Watch for class changes on <html> (theme toggle)
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.attributeName === 'class') {
+        updateGiscusTheme();
+      }
+    }
+  });
+
+  function setupGiscus() {
+    observer.observe(document.documentElement, { attributes: true });
+    initGiscus();
+  }
+
+  setupGiscus();
+  document.addEventListener('astro:after-swap', setupGiscus);
+</script>

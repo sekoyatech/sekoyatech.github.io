@@ -1,0 +1,62 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogList from '../../components/blog/BlogList.astro';
+import BlogPagination from '../../components/blog/BlogPagination.astro';
+import BlogTagList from '../../components/blog/BlogTagList.astro';
+import BlogSearch from '../../components/blog/BlogSearch.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../i18n/utils';
+import { BLOG } from '../../lib/constants';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection('blog'))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return paginate(posts, { pageSize: BLOG.postsPerPage });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const t = useTranslations();
+
+// Get all tags with counts for the tag filter
+const allPosts = (await getCollection('blog')).filter((post) => !post.data.draft);
+const tagCounts = new Map<string, number>();
+for (const post of allPosts) {
+  for (const tag of post.data.tags) {
+    const lower = tag.toLowerCase();
+    tagCounts.set(lower, (tagCounts.get(lower) ?? 0) + 1);
+  }
+}
+const tags = Array.from(tagCounts.entries())
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count);
+
+// Extract featured post (only on page 1)
+const featuredPost = page.currentPage === 1
+  ? page.data.find((p) => p.data.featured) ?? undefined
+  : undefined;
+
+const regularPosts = featuredPost
+  ? page.data.filter((p) => p.id !== featuredPost.id)
+  : page.data;
+---
+
+<PageLayout
+  title={page.currentPage === 1 ? t('blog.title') : `${t('blog.title')} - Page ${page.currentPage}`}
+  description={t('blog.subtitle')}
+  heroTitle={t('blog.title')}
+  heroDescription={t('blog.subtitle')}
+>
+  <div class="space-y-6">
+    <BlogSearch />
+    <BlogTagList tags={tags} />
+    <BlogList posts={regularPosts} featuredPost={featuredPost} />
+    <BlogPagination
+      currentPage={page.currentPage}
+      totalPages={page.lastPage}
+      baseUrl="/blog"
+    />
+  </div>
+</PageLayout>

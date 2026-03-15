@@ -1,0 +1,90 @@
+---
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl?: string;
+}
+
+const { currentPage, totalPages, baseUrl = '/blog' } = Astro.props;
+const t = useTranslations();
+
+function getPageUrl(page: number): string {
+  if (page === 1) return `${baseUrl}/`;
+  return `${baseUrl}/${page}/`;
+}
+
+const prevUrl = currentPage > 1 ? getPageUrl(currentPage - 1) : null;
+const nextUrl = currentPage < totalPages ? getPageUrl(currentPage + 1) : null;
+
+// Generate page numbers with ellipsis for large sets
+function getPageNumbers(): (number | '...')[] {
+  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages: (number | '...')[] = [1];
+  if (currentPage > 3) pages.push('...');
+  for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+    pages.push(i);
+  }
+  if (currentPage < totalPages - 2) pages.push('...');
+  pages.push(totalPages);
+  return pages;
+}
+---
+
+{totalPages > 1 && (
+  <nav aria-label="Blog pagination" class="flex items-center justify-center gap-2 mt-12">
+    {/* Previous */}
+    {prevUrl ? (
+      <a
+        href={prevUrl}
+        class="px-4 py-2 text-sm font-medium rounded-lg border border-border text-text-muted hover:text-primary hover:border-primary/30 transition-colors"
+      >
+        {t('blog.prev_page')}
+      </a>
+    ) : (
+      <span class="px-4 py-2 text-sm font-medium rounded-lg border border-border text-text-muted/40 cursor-not-allowed">
+        {t('blog.prev_page')}
+      </span>
+    )}
+
+    {/* Page numbers */}
+    <div class="hidden sm:flex items-center gap-1">
+      {getPageNumbers().map((page) =>
+        page === '...' ? (
+          <span class="px-3 py-2 text-sm text-text-muted">...</span>
+        ) : page === currentPage ? (
+          <span class="px-3 py-2 text-sm font-semibold rounded-lg bg-primary text-bg" aria-current="page">
+            {page}
+          </span>
+        ) : (
+          <a
+            href={getPageUrl(page)}
+            class="px-3 py-2 text-sm font-medium rounded-lg text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+          >
+            {page}
+          </a>
+        )
+      )}
+    </div>
+
+    {/* Mobile page indicator */}
+    <span class="sm:hidden text-sm text-text-muted px-3">
+      {t('blog.page_of').replace('{current}', String(currentPage)).replace('{total}', String(totalPages))}
+    </span>
+
+    {/* Next */}
+    {nextUrl ? (
+      <a
+        href={nextUrl}
+        class="px-4 py-2 text-sm font-medium rounded-lg border border-border text-text-muted hover:text-primary hover:border-primary/30 transition-colors"
+      >
+        {t('blog.next_page')}
+      </a>
+    ) : (
+      <span class="px-4 py-2 text-sm font-medium rounded-lg border border-border text-text-muted/40 cursor-not-allowed">
+        {t('blog.next_page')}
+      </span>
+    )}
+  </nav>
+)}
