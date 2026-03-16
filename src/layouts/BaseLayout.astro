@@ -44,11 +44,22 @@ const ogImage = getOgImageUrl(image, SITE.url);
     <!-- Theme script - must be before body to prevent FOUC -->
     <script is:inline>
       (function() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'light') {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.classList.add('light');
+        function applyTheme(doc) {
+          var theme = localStorage.getItem('theme');
+          if (theme === 'light') {
+            doc.documentElement.classList.remove('dark');
+            doc.documentElement.classList.add('light');
+          } else {
+            doc.documentElement.classList.remove('light');
+            doc.documentElement.classList.add('dark');
+          }
         }
+
+        applyTheme(document);
+
+        document.addEventListener('astro:before-swap', function(e) {
+          applyTheme(e.newDocument);
+        });
       })();
     </script>
 
