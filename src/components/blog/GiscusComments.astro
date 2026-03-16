@@ -64,19 +64,34 @@ const isConfigured = GISCUS.repo && GISCUS.repoId && GISCUS.categoryId;
   }
 
   // Watch for class changes on <html> (theme toggle)
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.attributeName === 'class') {
-        updateGiscusTheme();
-      }
+  let giscusObserver: MutationObserver | null = null;
+
+  function cleanupGiscus() {
+    if (giscusObserver) {
+      giscusObserver.disconnect();
+      giscusObserver = null;
     }
-  });
+  }
 
   function setupGiscus() {
-    observer.observe(document.documentElement, { attributes: true });
+    cleanupGiscus();
+
+    giscusObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.attributeName === 'class') {
+          updateGiscusTheme();
+        }
+      }
+    });
+    giscusObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
     initGiscus();
   }
 
   setupGiscus();
   document.addEventListener('astro:after-swap', setupGiscus);
+  document.addEventListener('astro:before-swap', cleanupGiscus);
 </script>

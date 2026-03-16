@@ -98,14 +98,13 @@ const gradientIndex = tags.length > 0
         {tags.length > 0 && (
           <div class="flex flex-wrap gap-2 mt-4">
             {tags.slice(0, 3).map((tag) => (
-              <span
-                class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                onclick={`event.preventDefault(); event.stopPropagation(); window.location.href='/blog/tags/${tag.toLowerCase()}/';`}
-                role="link"
-                tabindex="0"
+              <a
+                href={`/blog/tags/${encodeURIComponent(tag.toLowerCase())}/`}
+                class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors relative z-10"
+                onclick="event.stopPropagation();"
               >
                 {tag}
-              </span>
+              </a>
             ))}
           </div>
         )}
