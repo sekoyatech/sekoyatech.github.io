@@ -1,0 +1,199 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import { useTranslations } from '../../i18n/utils';
+import { toolPageJsonLd } from '../../lib/seo';
+import models from '../../data/llm-models.json';
+
+const t = useTranslations();
+
+const pageTitle = t('tools.tokenCalculator.title');
+const pageDescription = t('tools.tokenCalculator.description');
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: t('tools.title'), href: '/tools/' },
+  { name: pageTitle, href: '/tools/token-calculator/' },
+];
+---
+
+<PageLayout
+  title={pageTitle}
+  description={pageDescription}
+  heroTitle={pageTitle}
+  heroDescription={pageDescription}
+  breadcrumbs={breadcrumbs}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={toolPageJsonLd({
+      name: pageTitle,
+      description: pageDescription,
+      url: '/tools/token-calculator/',
+    })} />
+  </Fragment>
+
+  <!-- Hidden data carrier -->
+  <div class="hidden" data-models={JSON.stringify(models)}></div>
+
+  <div class="space-y-8">
+
+    <!-- Model Selector -->
+    <Card hover={false}>
+      <label for="model-select" class="block text-sm font-medium text-text mb-2">
+        Select Model
+      </label>
+      <select
+        id="model-select"
+        data-model-select
+        class="w-full bg-bg border border-border rounded-lg px-4 py-2.5 text-text focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+      >
+        {models.map((m, i) => (
+          <option value={i}>
+            {m.provider} — {m.model} (${m.inputPer1M} / ${m.outputPer1M} per 1M tokens)
+          </option>
+        ))}
+      </select>
+    </Card>
+
+    <!-- Text Input -->
+    <Card hover={false}>
+      <label for="token-input" class="block text-sm font-medium text-text mb-2">
+        Paste or type your text
+      </label>
+      <textarea
+        id="token-input"
+        data-token-input
+        rows="8"
+        placeholder="Paste your prompt, code, or any text here to estimate token count and cost..."
+        class="w-full bg-bg border border-border rounded-lg px-4 py-2.5 text-text focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-y font-mono text-sm leading-relaxed"
+      ></textarea>
+    </Card>
+
+    <!-- Results -->
+    <Card hover={false}>
+      <div data-token-results>
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="text-center p-3 bg-bg rounded-lg">
+            <div class="text-2xl font-bold text-text" data-chars>0</div>
+            <div class="text-xs text-text-muted mt-1">Characters</div>
+          </div>
+          <div class="text-center p-3 bg-bg rounded-lg">
+            <div class="text-2xl font-bold text-text" data-words>0</div>
+            <div class="text-xs text-text-muted mt-1">Words</div>
+          </div>
+          <div class="text-center p-3 bg-bg rounded-lg">
+            <div class="text-2xl font-bold text-primary" data-tokens>0</div>
+            <div class="text-xs text-text-muted mt-1">Estimated Tokens</div>
+          </div>
+        </div>
+
+        <!-- Cost Breakdown -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="text-center p-3 bg-bg rounded-lg">
+            <div class="text-lg font-semibold text-text" data-input-cost>$0.00</div>
+            <div class="text-xs text-text-muted mt-1">Input Cost</div>
+          </div>
+          <div class="text-center p-3 bg-bg rounded-lg">
+            <div class="text-lg font-semibold text-text" data-output-cost>$0.00</div>
+            <div class="text-xs text-text-muted mt-1">Output Cost</div>
+          </div>
+          <div class="text-center p-3 bg-bg rounded-lg">
+            <div class="text-lg font-semibold text-primary" data-total-cost>$0.00</div>
+            <div class="text-xs text-text-muted mt-1">Total Cost</div>
+          </div>
+        </div>
+
+        <!-- Output Multiplier -->
+        <div class="mb-6">
+          <div class="text-sm font-medium text-text mb-2">Output Multiplier</div>
+          <p class="text-xs text-text-muted mb-3">
+            Estimate how many tokens the model will generate in response.
+          </p>
+          <div class="flex gap-2">
+            <button
+              data-multiplier="1"
+              class="px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-primary text-white hover:bg-primary-dark"
+            >
+              1x
+            </button>
+            <button
+              data-multiplier="2"
+              class="px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-bg text-text-muted hover:bg-surface"
+            >
+              2x
+            </button>
+            <button
+              data-multiplier="3"
+              class="px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-bg text-text-muted hover:bg-surface"
+            >
+              3x
+            </button>
+            <button
+              data-multiplier="5"
+              class="px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-bg text-text-muted hover:bg-surface"
+            >
+              5x
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3">
+          <Button variant="outline" size="sm" data-copy-results>
+            {t('tools.common.copy')}
+          </Button>
+          <Button variant="ghost" size="sm" data-clear>
+            {t('tools.common.clear')}
+          </Button>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Model Comparison Table -->
+    <Card hover={false}>
+      <h2 class="text-lg font-semibold text-text mb-4">Model Comparison</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-b border-border">
+              <th class="py-3 px-4 text-sm font-medium text-text-muted">Provider</th>
+              <th class="py-3 px-4 text-sm font-medium text-text-muted">Model</th>
+              <th class="py-3 px-4 text-sm font-medium text-text-muted text-right">Input</th>
+              <th class="py-3 px-4 text-sm font-medium text-text-muted text-right">Output</th>
+              <th class="py-3 px-4 text-sm font-medium text-text-muted text-right">Total</th>
+            </tr>
+          </thead>
+          <tbody data-token-table-body>
+            {models.map((m) => (
+              <tr class="border-b border-border">
+                <td class="py-3 px-4 text-sm text-text-muted">{m.provider}</td>
+                <td class="py-3 px-4 text-sm font-medium text-text">{m.model}</td>
+                <td class="py-3 px-4 text-sm text-text-muted text-right">$0.00</td>
+                <td class="py-3 px-4 text-sm text-text-muted text-right">$0.00</td>
+                <td class="py-3 px-4 text-sm font-semibold text-primary text-right">$0.00</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
+    <!-- CTA Section -->
+    <Card class="text-center" hover={false}>
+      <h2 class="text-xl font-semibold text-text mb-2">
+        Need help choosing the right AI model?
+      </h2>
+      <p class="text-text-muted mb-6">
+        Our AI experts can help you optimize costs and performance for your specific use case.
+      </p>
+      <Button href="/services/artificial-intelligence/" variant="primary" size="md">
+        Explore Our AI Services
+      </Button>
+    </Card>
+
+  </div>
+
+  <script src="../../scripts/tools/token-calculator.ts"></script>
+</PageLayout>

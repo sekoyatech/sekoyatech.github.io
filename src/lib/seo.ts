@@ -205,3 +205,29 @@ export function faqPageJsonLd(faqs: { question: string; answer: string }[]) {
     })),
   });
 }
+
+export function toolPageJsonLd(tool: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: tool.name,
+    description: tool.description,
+    url: `${SITE.url}${tool.url}`,
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    provider: {
+      '@type': 'Organization',
+      name: SITE.fullName,
+      url: SITE.url,
+    },
+  });
+}

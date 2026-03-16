@@ -1,0 +1,174 @@
+{
+  "category": "AI & LLMs",
+  "icon": "cpu-chip",
+  "slug": "ai-llms",
+  "ctaText": "See how we build AI solutions",
+  "ctaHref": "/services/artificial-intelligence/",
+  "questions": [
+    {
+      "question": "What does 'RAG' stand for in LLM applications?",
+      "options": [
+        "Rapid Application Generation",
+        "Retrieval-Augmented Generation",
+        "Real-time Adaptive Gateway",
+        "Recursive Agent Graph"
+      ],
+      "correct": 1,
+      "explanation": "RAG combines retrieval systems with LLMs to ground responses in external knowledge, reducing hallucinations and improving factual accuracy."
+    },
+    {
+      "question": "In the Transformer architecture, what is the primary purpose of the self-attention mechanism?",
+      "options": [
+        "To compress the input sequence into a fixed-size vector",
+        "To allow each token to attend to every other token in the sequence",
+        "To generate random noise for regularization",
+        "To convert words into one-hot encoded vectors"
+      ],
+      "correct": 1,
+      "explanation": "Self-attention lets each token compute a weighted sum over all positions in the input, capturing long-range dependencies without recurrence."
+    },
+    {
+      "question": "What does the 'temperature' parameter control during LLM text generation?",
+      "options": [
+        "The maximum number of tokens in the output",
+        "The randomness of the probability distribution over next tokens",
+        "The learning rate during fine-tuning",
+        "The size of the context window"
+      ],
+      "correct": 1,
+      "explanation": "Temperature scales the logits before softmax: lower values make the distribution sharper (more deterministic), higher values make it flatter (more creative/random)."
+    },
+    {
+      "question": "What is a 'token' in the context of large language models?",
+      "options": [
+        "A complete sentence processed as one unit",
+        "A sub-word unit produced by algorithms like BPE or SentencePiece",
+        "A binary encoding of each character",
+        "A unique identifier for each training document"
+      ],
+      "correct": 1,
+      "explanation": "Tokenizers like Byte-Pair Encoding (BPE) split text into sub-word units, balancing vocabulary size and the ability to represent any text."
+    },
+    {
+      "question": "What is 'prompt engineering' primarily concerned with?",
+      "options": [
+        "Modifying the model's internal weights",
+        "Crafting effective input instructions to elicit desired model behaviour",
+        "Building the GPU infrastructure for model training",
+        "Designing the tokenizer vocabulary"
+      ],
+      "correct": 1,
+      "explanation": "Prompt engineering focuses on structuring inputs, providing context, and using techniques like few-shot examples to guide model outputs without changing weights."
+    },
+    {
+      "question": "What is a common cause of 'hallucination' in LLMs?",
+      "options": [
+        "Insufficient GPU memory during inference",
+        "The model generating plausible-sounding text not grounded in its training data or provided context",
+        "Using too low a temperature setting",
+        "Exceeding the token rate limit"
+      ],
+      "correct": 1,
+      "explanation": "Hallucinations occur when models produce fluent but factually incorrect content because they rely on statistical patterns rather than verified knowledge."
+    },
+    {
+      "question": "What is the 'context window' of an LLM?",
+      "options": [
+        "The time it takes to process a single request",
+        "The maximum number of tokens the model can consider in a single forward pass",
+        "The number of layers in the transformer network",
+        "The amount of training data used"
+      ],
+      "correct": 1,
+      "explanation": "The context window defines the upper limit of combined input and output tokens. Exceeding it causes the model to lose earlier information."
+    },
+    {
+      "question": "What are embeddings in the context of AI/NLP?",
+      "options": [
+        "Physical hardware chips embedded in servers",
+        "Dense numerical vector representations that capture semantic meaning",
+        "Encryption keys used to secure model weights",
+        "Log files generated during model training"
+      ],
+      "correct": 1,
+      "explanation": "Embeddings map text (words, sentences, or documents) into continuous vector spaces where semantic similarity corresponds to geometric proximity."
+    },
+    {
+      "question": "What is the role of an AI 'agent' in modern LLM systems?",
+      "options": [
+        "A human reviewer who checks model outputs",
+        "An autonomous system that uses an LLM to plan, reason, and call external tools to accomplish goals",
+        "A smaller model that compresses large model weights",
+        "A database that stores all training data"
+      ],
+      "correct": 1,
+      "explanation": "AI agents combine LLM reasoning with tool-use capabilities, enabling autonomous multi-step task completion through planning and execution loops."
+    },
+    {
+      "question": "What does RLHF stand for, and why is it used?",
+      "options": [
+        "Randomized Linear Hyperparameter Fitting; it tunes batch sizes automatically",
+        "Reinforcement Learning from Human Feedback; it aligns model outputs with human preferences",
+        "Recursive Layer Hashing Framework; it speeds up inference",
+        "Real-time Language Handling Format; it standardizes API responses"
+      ],
+      "correct": 1,
+      "explanation": "RLHF trains a reward model from human preference data and uses reinforcement learning to fine-tune the LLM so its outputs better align with human expectations."
+    },
+    {
+      "question": "What is the primary purpose of a vector database in AI applications?",
+      "options": [
+        "To store relational data with SQL queries",
+        "To efficiently index and retrieve high-dimensional embedding vectors using similarity search",
+        "To compress model checkpoints for deployment",
+        "To manage user authentication tokens"
+      ],
+      "correct": 1,
+      "explanation": "Vector databases like Pinecone, Weaviate, and Qdrant enable fast approximate nearest-neighbour search over embeddings, powering RAG and semantic search systems."
+    },
+    {
+      "question": "What is model quantization?",
+      "options": [
+        "Splitting a model across multiple GPUs for parallel training",
+        "Reducing the numerical precision of model weights (e.g., from FP32 to INT4) to decrease size and speed up inference",
+        "Adding more layers to increase model capacity",
+        "Converting a text model into a multimodal model"
+      ],
+      "correct": 1,
+      "explanation": "Quantization trades small accuracy losses for significant reductions in memory footprint and inference latency, enabling large models to run on smaller hardware."
+    },
+    {
+      "question": "What is 'chain-of-thought' prompting?",
+      "options": [
+        "Connecting multiple LLMs in a sequential pipeline",
+        "Asking the model to show its step-by-step reasoning before giving the final answer",
+        "Training the model on chains of related documents",
+        "A method for encrypting prompts in transit"
+      ],
+      "correct": 1,
+      "explanation": "Chain-of-thought prompting improves accuracy on reasoning tasks by encouraging the model to decompose problems into intermediate steps before arriving at a conclusion."
+    },
+    {
+      "question": "What is model distillation?",
+      "options": [
+        "Removing toxic content from training data",
+        "Training a smaller 'student' model to replicate the behaviour of a larger 'teacher' model",
+        "Converting a generative model into a discriminative one",
+        "Splitting a model into microservices for deployment"
+      ],
+      "correct": 1,
+      "explanation": "Knowledge distillation transfers the learned behaviour of a large, expensive model into a compact model that is cheaper and faster to run with minimal quality loss."
+    },
+    {
+      "question": "What is the key difference between fine-tuning and prompt engineering?",
+      "options": [
+        "Fine-tuning is free; prompt engineering requires expensive hardware",
+        "Fine-tuning updates model weights on new data; prompt engineering modifies only the input without changing weights",
+        "Prompt engineering requires more data than fine-tuning",
+        "There is no practical difference; they achieve the same result"
+      ],
+      "correct": 1,
+      "explanation": "Fine-tuning adjusts internal weights through additional training on task-specific data, while prompt engineering achieves adaptation purely through clever input design."
+    }
+  ]
+}

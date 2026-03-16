@@ -104,6 +104,24 @@ export const GET: APIRoute = async () => {
     lines.push('');
   }
 
+  // Developer Tools
+  lines.push('## Developer Tools');
+  lines.push('');
+  lines.push('Free interactive tools for developers, engineers, and tech leaders.');
+  lines.push('');
+  lines.push('### AI Token & Cost Calculator');
+  lines.push('Estimate token count and cost for popular LLM models. Paste your text and compare pricing across providers.');
+  lines.push(`URL: ${SITE.url}/tools/token-calculator/`);
+  lines.push('');
+  lines.push('### Secure Password Generator');
+  lines.push('Generate strong passwords, passphrases, and API keys. Fully client-side — nothing leaves your browser.');
+  lines.push(`URL: ${SITE.url}/tools/password-generator/`);
+  lines.push('');
+  lines.push('### Developer Skill Assessment');
+  lines.push('Test your knowledge in AI, Cloud, and DevOps. Share your score and challenge your peers.');
+  lines.push(`URL: ${SITE.url}/tools/developer-quiz/`);
+  lines.push('');
+
   // Contact
   lines.push('## Contact');
   lines.push('');

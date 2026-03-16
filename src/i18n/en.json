@@ -39,6 +39,27 @@
   "services.ai": "Artificial Intelligence",
   "services.devops": "DevOps & Cloud",
 
+  "nav.tools": "Tools",
+
+  "tools.title": "Developer Tools",
+  "tools.subtitle": "Free tools for developers, engineers, and tech leaders",
+  "tools.tokenCalculator.title": "AI Token & Cost Calculator",
+  "tools.tokenCalculator.description": "Estimate token count and cost for popular LLM models. Paste your text and compare pricing across providers.",
+  "tools.passwordGenerator.title": "Secure Password Generator",
+  "tools.passwordGenerator.description": "Generate strong passwords, passphrases, and API keys. Fully client-side — nothing leaves your browser.",
+  "tools.developerQuiz.title": "Developer Skill Assessment",
+  "tools.developerQuiz.description": "Test your knowledge in AI, Cloud, and DevOps. Share your score and challenge your peers.",
+  "tools.common.copy": "Copy",
+  "tools.common.copyAll": "Copy All",
+  "tools.common.clear": "Clear",
+  "tools.common.share": "Share",
+  "tools.common.regenerate": "Regenerate",
+  "tools.common.copied": "Copied!",
+  "tools.common.tryAgain": "Try Again",
+  "tools.common.startQuiz": "Start Quiz",
+  "tools.common.nextQuestion": "Next Question",
+  "tools.common.viewResults": "View Results",
+
   "about.title": "About Us",
   "about.subtitle": "Our story, vision, and values",
 

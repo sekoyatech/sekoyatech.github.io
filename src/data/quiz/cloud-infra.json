@@ -1,0 +1,174 @@
+{
+  "category": "Cloud & Infrastructure",
+  "icon": "cloud",
+  "slug": "cloud-infra",
+  "ctaText": "Explore our cloud solutions",
+  "ctaHref": "/services/devops-cloud/",
+  "questions": [
+    {
+      "question": "What is the primary difference between IaaS, PaaS, and SaaS?",
+      "options": [
+        "They differ only in pricing models",
+        "They represent different levels of abstraction: IaaS provides infrastructure, PaaS adds platform management, SaaS delivers complete applications",
+        "IaaS is for storage, PaaS is for networking, SaaS is for compute",
+        "They are three names for the same cloud model"
+      ],
+      "correct": 1,
+      "explanation": "IaaS gives you virtual machines and networking, PaaS adds runtime and middleware management, and SaaS provides fully managed applications, each abstracting more operational responsibility."
+    },
+    {
+      "question": "What is an Availability Zone (AZ) in AWS?",
+      "options": [
+        "A geographic area containing multiple regions",
+        "One or more discrete data centres with redundant power and networking within a region",
+        "A virtual private network segment",
+        "A pricing tier for reserved instances"
+      ],
+      "correct": 1,
+      "explanation": "Each AZ is an isolated data centre facility within a region, designed so that failures in one AZ do not affect others, enabling high-availability architectures."
+    },
+    {
+      "question": "What is the primary benefit of serverless computing (e.g., AWS Lambda, Google Cloud Functions)?",
+      "options": [
+        "It eliminates the need for any code",
+        "You pay only for actual compute time and do not manage servers, scaling is automatic",
+        "It guarantees zero latency for all requests",
+        "It provides dedicated bare-metal hardware"
+      ],
+      "correct": 1,
+      "explanation": "Serverless platforms handle provisioning, scaling, and maintenance automatically. You are billed per execution, making it cost-effective for variable or event-driven workloads."
+    },
+    {
+      "question": "What is Amazon S3 primarily used for?",
+      "options": [
+        "Relational database management",
+        "Scalable object storage with high durability",
+        "In-memory caching",
+        "Container orchestration"
+      ],
+      "correct": 1,
+      "explanation": "Amazon S3 (Simple Storage Service) provides virtually unlimited object storage with 99.999999999% (11 nines) durability, used for backups, static assets, data lakes, and more."
+    },
+    {
+      "question": "What is the purpose of IAM (Identity and Access Management) in cloud platforms?",
+      "options": [
+        "To monitor application performance metrics",
+        "To control who can access which cloud resources and what actions they can perform",
+        "To manage DNS routing",
+        "To encrypt data at rest"
+      ],
+      "correct": 1,
+      "explanation": "IAM provides fine-grained access control by defining users, groups, roles, and policies that specify exactly which API actions are allowed on which resources."
+    },
+    {
+      "question": "What is a VPC (Virtual Private Cloud)?",
+      "options": [
+        "A type of virtual machine instance",
+        "A logically isolated virtual network within a cloud provider where you define your own IP ranges, subnets, and routing",
+        "A managed container service",
+        "A content delivery network"
+      ],
+      "correct": 1,
+      "explanation": "A VPC gives you complete control over your virtual networking environment, including IP address ranges, subnets, route tables, and network gateways."
+    },
+    {
+      "question": "What does auto-scaling do in a cloud environment?",
+      "options": [
+        "Automatically updates your application code",
+        "Dynamically adjusts the number of compute instances based on demand metrics",
+        "Encrypts traffic between services",
+        "Backs up databases on a schedule"
+      ],
+      "correct": 1,
+      "explanation": "Auto-scaling monitors metrics like CPU utilization or request count and adds or removes instances to match demand, optimizing both performance and cost."
+    },
+    {
+      "question": "What is a CDN (Content Delivery Network) and why is it used?",
+      "options": [
+        "A centralized database network for real-time analytics",
+        "A distributed network of edge servers that cache content close to end users to reduce latency",
+        "A type of load balancer for microservices",
+        "A CI/CD pipeline service"
+      ],
+      "correct": 1,
+      "explanation": "CDNs like CloudFront, Cloud CDN, and Azure CDN cache static and dynamic content at edge locations worldwide, dramatically reducing load times for global users."
+    },
+    {
+      "question": "What is the main advantage of managed database services (e.g., RDS, Cloud SQL)?",
+      "options": [
+        "They are always free to use",
+        "The cloud provider handles backups, patching, scaling, and high availability, reducing operational burden",
+        "They only support NoSQL databases",
+        "They run exclusively on serverless infrastructure"
+      ],
+      "correct": 1,
+      "explanation": "Managed databases offload operational tasks like patching, backups, failover, and replication to the provider, letting teams focus on application logic instead of database administration."
+    },
+    {
+      "question": "What is the key difference between containers and virtual machines?",
+      "options": [
+        "Containers include a full OS; VMs share the host kernel",
+        "Containers share the host OS kernel and are more lightweight; VMs include a full guest OS and hypervisor layer",
+        "There is no meaningful difference",
+        "VMs start faster than containers"
+      ],
+      "correct": 1,
+      "explanation": "Containers virtualize at the OS level, sharing the host kernel, making them faster to start and more resource-efficient. VMs include a complete guest OS, providing stronger isolation."
+    },
+    {
+      "question": "What is multi-cloud strategy?",
+      "options": [
+        "Running everything on a single cloud provider in multiple regions",
+        "Using services from two or more cloud providers to avoid vendor lock-in, increase resilience, or leverage best-of-breed services",
+        "Using cloud and on-premises infrastructure together",
+        "Deploying the same application in multiple containers"
+      ],
+      "correct": 1,
+      "explanation": "Multi-cloud distributes workloads across providers (e.g., AWS + GCP), reducing dependency on one vendor and allowing teams to choose the best service for each need."
+    },
+    {
+      "question": "What is edge computing?",
+      "options": [
+        "Running workloads exclusively in the cloud provider's largest data centres",
+        "Processing data closer to where it is generated, at the network edge, to reduce latency and bandwidth usage",
+        "A method for encrypting data at rest",
+        "A frontend JavaScript framework"
+      ],
+      "correct": 1,
+      "explanation": "Edge computing moves computation to locations near data sources (IoT devices, users), enabling real-time processing and reducing the need to send all data to centralised cloud regions."
+    },
+    {
+      "question": "What does a load balancer do?",
+      "options": [
+        "It compresses data to reduce storage costs",
+        "It distributes incoming network traffic across multiple backend servers to ensure no single server is overwhelmed",
+        "It manages database replication",
+        "It schedules container deployments"
+      ],
+      "correct": 1,
+      "explanation": "Load balancers (ALB, NLB, Cloud Load Balancing) spread traffic across healthy instances, improving availability, fault tolerance, and response times."
+    },
+    {
+      "question": "What is a common strategy for cloud cost optimisation?",
+      "options": [
+        "Always using the largest instance types available",
+        "Using reserved instances or savings plans for predictable workloads, and spot/preemptible instances for fault-tolerant jobs",
+        "Disabling auto-scaling to keep costs fixed",
+        "Running all services in a single availability zone"
+      ],
+      "correct": 1,
+      "explanation": "Reserved instances offer up to 72% savings for steady-state workloads, while spot instances provide up to 90% savings for interruptible jobs. Right-sizing and auto-scaling further reduce waste."
+    },
+    {
+      "question": "In cloud networking, what is a 'public subnet' vs a 'private subnet'?",
+      "options": [
+        "Public subnets use IPv6; private subnets use IPv4",
+        "Public subnets have a route to an internet gateway allowing direct internet access; private subnets do not",
+        "Public subnets are free; private subnets cost extra",
+        "There is no technical difference; it is just a naming convention"
+      ],
+      "correct": 1,
+      "explanation": "Resources in a public subnet can receive traffic directly from the internet via an Internet Gateway. Private subnet resources access the internet only through a NAT gateway, adding a layer of security."
+    }
+  ]
+}

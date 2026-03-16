@@ -1,0 +1,174 @@
+{
+  "category": "DevOps & CI/CD",
+  "icon": "wrench-screwdriver",
+  "slug": "devops-cicd",
+  "ctaText": "See our DevOps services",
+  "ctaHref": "/services/devops-cloud/",
+  "questions": [
+    {
+      "question": "What is Docker primarily used for?",
+      "options": [
+        "Managing virtual machine hypervisors",
+        "Packaging applications and their dependencies into lightweight, portable containers",
+        "Monitoring network traffic in real time",
+        "Automating Git branch merging"
+      ],
+      "correct": 1,
+      "explanation": "Docker containers package an application with all its dependencies and configuration, ensuring consistent behaviour across development, testing, and production environments."
+    },
+    {
+      "question": "What is Kubernetes?",
+      "options": [
+        "A programming language for cloud-native applications",
+        "An open-source container orchestration platform that automates deploying, scaling, and managing containerised applications",
+        "A cloud provider similar to AWS",
+        "A database management system"
+      ],
+      "correct": 1,
+      "explanation": "Kubernetes (K8s) manages container lifecycles across clusters, handling scheduling, scaling, self-healing, service discovery, and rolling updates."
+    },
+    {
+      "question": "What is Infrastructure as Code (IaC)?",
+      "options": [
+        "Writing application code that runs on any infrastructure",
+        "Managing and provisioning infrastructure through machine-readable definition files rather than manual processes",
+        "A coding standard for naming cloud resources",
+        "An IDE plugin for cloud development"
+      ],
+      "correct": 1,
+      "explanation": "Tools like Terraform, Pulumi, and CloudFormation let you define infrastructure declaratively, enabling version control, peer review, and repeatable deployments."
+    },
+    {
+      "question": "What is the core principle of CI/CD?",
+      "options": [
+        "Deploying code manually once a quarter",
+        "Automating the build, test, and deployment pipeline so code changes are integrated frequently and delivered reliably",
+        "Using only cloud-based IDEs for development",
+        "Writing code without any tests"
+      ],
+      "correct": 1,
+      "explanation": "CI (Continuous Integration) automatically builds and tests every commit. CD (Continuous Delivery/Deployment) extends this to automatically release validated changes to production."
+    },
+    {
+      "question": "What is GitOps?",
+      "options": [
+        "Using Git only for frontend code",
+        "An operational model where Git repositories are the single source of truth for declarative infrastructure and application definitions",
+        "A Git GUI client for DevOps teams",
+        "A branching strategy for monorepos"
+      ],
+      "correct": 1,
+      "explanation": "GitOps uses Git as the source of truth. Changes are made via pull requests, and automated agents (like ArgoCD or Flux) reconcile the live state with the desired state in Git."
+    },
+    {
+      "question": "What does Prometheus primarily do in a DevOps stack?",
+      "options": [
+        "Manages container images",
+        "Collects and stores time-series metrics, providing a powerful query language (PromQL) for monitoring and alerting",
+        "Orchestrates CI/CD pipelines",
+        "Manages secrets and credentials"
+      ],
+      "correct": 1,
+      "explanation": "Prometheus scrapes metrics from instrumented targets, stores them as time series, and supports alerting rules. It is typically paired with Grafana for visualisation."
+    },
+    {
+      "question": "What is the difference between blue-green and canary deployments?",
+      "options": [
+        "Blue-green uses Docker; canary uses VMs",
+        "Blue-green switches all traffic between two identical environments; canary gradually shifts a small percentage of traffic to the new version",
+        "They are the same strategy with different names",
+        "Blue-green is for databases; canary is for applications"
+      ],
+      "correct": 1,
+      "explanation": "Blue-green maintains two full environments and switches traffic instantly. Canary releases to a small subset of users first, allowing observation before full rollout."
+    },
+    {
+      "question": "What is secrets management in DevOps?",
+      "options": [
+        "Encrypting all application source code",
+        "Securely storing, accessing, and rotating sensitive data like API keys, passwords, and certificates using tools like Vault or AWS Secrets Manager",
+        "Hiding deployment logs from developers",
+        "Using private Git repositories"
+      ],
+      "correct": 1,
+      "explanation": "Secrets management ensures credentials are never hardcoded or stored in plain text. Tools like HashiCorp Vault provide encryption, access policies, audit trails, and automatic rotation."
+    },
+    {
+      "question": "What is an SLO (Service Level Objective)?",
+      "options": [
+        "A legal contract between a provider and customer",
+        "A target value or range for a service reliability metric (e.g., 99.9% availability) that a team aims to meet",
+        "A logging format standard",
+        "A Kubernetes resource type"
+      ],
+      "correct": 1,
+      "explanation": "SLOs define internal reliability targets (e.g., 99.95% uptime, p99 latency under 200ms). They drive error budget decisions and are a core SRE practice."
+    },
+    {
+      "question": "What is a container registry?",
+      "options": [
+        "A service that registers domain names for containers",
+        "A storage and distribution service for container images, such as Docker Hub, ECR, or GCR",
+        "A monitoring dashboard for running containers",
+        "A network proxy for container traffic"
+      ],
+      "correct": 1,
+      "explanation": "Container registries store versioned container images that can be pulled by orchestration platforms like Kubernetes during deployment. They support access control and vulnerability scanning."
+    },
+    {
+      "question": "What is Helm in the Kubernetes ecosystem?",
+      "options": [
+        "A Kubernetes networking plugin",
+        "A package manager for Kubernetes that uses 'charts' to define, install, and upgrade complex applications",
+        "A monitoring tool similar to Prometheus",
+        "A serverless framework for K8s"
+      ],
+      "correct": 1,
+      "explanation": "Helm charts bundle Kubernetes manifests into reusable, versioned packages with configurable values, simplifying deployment of complex multi-resource applications."
+    },
+    {
+      "question": "What is a service mesh (e.g., Istio, Linkerd)?",
+      "options": [
+        "A physical network topology for data centres",
+        "A dedicated infrastructure layer that handles service-to-service communication, providing observability, traffic management, and security",
+        "A type of load balancer",
+        "A container image format"
+      ],
+      "correct": 1,
+      "explanation": "Service meshes inject sidecar proxies alongside each service to manage traffic routing, mutual TLS, retries, circuit breaking, and distributed tracing without changing application code."
+    },
+    {
+      "question": "What are the three pillars of observability?",
+      "options": [
+        "CPU, memory, and disk",
+        "Logs, metrics, and traces",
+        "Alerts, dashboards, and reports",
+        "Availability, latency, and throughput"
+      ],
+      "correct": 1,
+      "explanation": "Logs provide event records, metrics capture numerical measurements over time, and distributed traces follow requests across services, together enabling deep system understanding."
+    },
+    {
+      "question": "What is the purpose of Git branching strategies like GitFlow or trunk-based development?",
+      "options": [
+        "To limit the number of developers who can contribute",
+        "To organise parallel development work, manage releases, and reduce integration conflicts through defined branch workflows",
+        "To encrypt source code in transit",
+        "To automatically deploy code without reviews"
+      ],
+      "correct": 1,
+      "explanation": "Branching strategies define how teams create, merge, and release branches. Trunk-based development favours short-lived branches for faster integration; GitFlow uses long-lived branches for structured releases."
+    },
+    {
+      "question": "In a Dockerfile, what does a multi-stage build accomplish?",
+      "options": [
+        "It runs the container on multiple operating systems simultaneously",
+        "It uses multiple FROM instructions to separate build dependencies from the final runtime image, producing smaller and more secure images",
+        "It deploys the container to multiple cloud providers",
+        "It enables horizontal scaling of the container"
+      ],
+      "correct": 1,
+      "explanation": "Multi-stage builds let you compile code in one stage with all build tools, then copy only the final artefact into a minimal runtime image, dramatically reducing image size and attack surface."
+    }
+  ]
+}

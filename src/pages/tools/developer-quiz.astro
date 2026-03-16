@@ -1,0 +1,236 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import { useTranslations } from '../../i18n/utils';
+import { toolPageJsonLd } from '../../lib/seo';
+
+import aiLlms from '../../data/quiz/ai-llms.json';
+import cloudInfra from '../../data/quiz/cloud-infra.json';
+import devopsCicd from '../../data/quiz/devops-cicd.json';
+
+const t = useTranslations();
+
+const title = t('tools.developerQuiz.title');
+const description = t('tools.developerQuiz.description');
+
+const quizCategories = [aiLlms, cloudInfra, devopsCicd];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: t('tools.title'), href: '/tools/' },
+  { name: title, href: '/tools/developer-quiz/' },
+];
+---
+
+<PageLayout
+  title={title}
+  description={description}
+  heroTitle={title}
+  heroDescription={description}
+  breadcrumbs={breadcrumbs}
+>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={toolPageJsonLd({
+        name: title,
+        description: description,
+        url: '/tools/developer-quiz/',
+      })}
+    />
+  </Fragment>
+
+  {/* Hidden data carriers for build-time JSON injection */}
+  {quizCategories.map((cat) => (
+    <div data-quiz-data={JSON.stringify(cat)} class="hidden"></div>
+  ))}
+
+  {/* Screen: Categories (visible by default) */}
+  <div data-screen="categories">
+    <div class="text-center mb-12">
+      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+        Choose a topic below and test your knowledge with 10 randomly selected questions.
+        Get instant feedback, track your time, and share your results.
+      </p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      data-category-grid
+      data-reveal-stagger
+    >
+      {quizCategories.map((cat) => (
+        <button data-start-category={cat.slug} class="group block w-full text-left">
+          <Card class="h-full group-hover:border-primary/30">
+            <div class="flex flex-col h-full">
+              <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342" />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-text mb-1 group-hover:text-primary transition-colors">{cat.category}</h3>
+              <p class="text-sm text-text-muted mb-4">{cat.questions.length} questions</p>
+              <span class="mt-auto text-sm font-medium text-primary inline-flex items-center gap-1">
+                Start Quiz <span>&rarr;</span>
+              </span>
+            </div>
+          </Card>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {/* Screen: Question (hidden by default) */}
+  <div data-screen="question" class="hidden" aria-hidden="true">
+    <Card hover={false} padding="lg" class="max-w-3xl mx-auto">
+      {/* Header */}
+      <div class="flex items-center justify-between mb-2">
+        <span
+          data-quiz-category
+          class="text-sm font-medium text-primary"
+        ></span>
+        <span
+          data-quiz-progress
+          class="text-sm text-text-muted"
+        ></span>
+      </div>
+
+      {/* Progress bar */}
+      <div class="w-full bg-border rounded-full overflow-hidden mb-8" style="height: 3px;">
+        <div
+          data-quiz-progress-bar
+          class="h-full bg-primary rounded-full transition-all duration-500 ease-out"
+          style="width: 0%;"
+        ></div>
+      </div>
+
+      {/* Question */}
+      <h3
+        data-quiz-question
+        class="text-xl font-semibold text-text mb-6 leading-relaxed"
+      ></h3>
+
+      {/* Options */}
+      <div data-quiz-options class="space-y-3 mb-6">
+        {/* Options rendered by JS */}
+      </div>
+
+      {/* Feedback */}
+      <div
+        data-quiz-feedback
+        class="hidden rounded-lg bg-surface border border-border p-4 mb-6"
+        aria-live="polite"
+      ></div>
+
+      {/* Next button */}
+      <div class="flex justify-end">
+        <Button
+          data-quiz-next
+          class="hidden"
+          variant="primary"
+          size="md"
+        >
+          Next Question
+        </Button>
+      </div>
+    </Card>
+  </div>
+
+  {/* Screen: Results (hidden by default) */}
+  <div data-screen="results" class="hidden" aria-hidden="true">
+    <div class="max-w-3xl mx-auto space-y-8">
+
+      {/* Score card */}
+      <Card hover={false} padding="lg" class="text-center">
+        <p class="text-5xl font-extrabold text-primary mb-3" data-result-score></p>
+        <div class="mb-4">
+          <span data-result-badge></span>
+        </div>
+        <div class="flex items-center justify-center gap-6 text-sm text-text-muted">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span data-result-time></span>
+          </span>
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span><span data-result-correct></span> correct</span>
+          </span>
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span><span data-result-wrong></span> wrong</span>
+          </span>
+        </div>
+      </Card>
+
+      {/* Share card */}
+      <Card hover={false} padding="md">
+        <h4 class="text-sm font-semibold text-text mb-3">Share your results</h4>
+        <div class="flex flex-wrap gap-3">
+          <Button
+            data-share-linkedin
+            variant="outline"
+            size="sm"
+          >
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </Button>
+          <Button
+            data-share-x
+            variant="outline"
+            size="sm"
+          >
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Share on X
+          </Button>
+          <Button
+            data-share-copy
+            variant="ghost"
+            size="sm"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+            </svg>
+            Copy Result
+          </Button>
+        </div>
+      </Card>
+
+      {/* Review card */}
+      <Card hover={false} padding="md">
+        <h4 class="text-sm font-semibold text-text mb-4">Question Review</h4>
+        <div data-result-review>
+          {/* Review items rendered by JS */}
+        </div>
+      </Card>
+
+      {/* Action buttons */}
+      <div class="flex items-center justify-center gap-4">
+        <Button data-try-again variant="primary" size="md">
+          Try Again
+        </Button>
+        <Button data-try-another variant="outline" size="md">
+          Try Another Category
+        </Button>
+      </div>
+
+      {/* CTA container */}
+      <div data-result-cta class="text-center">
+        {/* CTA populated by JS from category data */}
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../../scripts/tools/developer-quiz.ts"></script>
+</PageLayout>

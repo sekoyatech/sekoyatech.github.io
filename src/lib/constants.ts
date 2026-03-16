@@ -22,6 +22,7 @@ export const NAV_ITEMS = [
   { label: 'nav.services', href: '/services/' },
   { label: 'nav.portfolio', href: '/portfolio/' },
   { label: 'nav.blog', href: '/blog/' },
+  { label: 'nav.tools', href: '/tools/' },
   { label: 'nav.team', href: '/team/' },
   { label: 'nav.careers', href: '/careers/' },
   { label: 'nav.contact', href: '/contact/' },
@@ -43,6 +44,7 @@ export const FOOTER_NAV = {
   resources: [
     { label: 'nav.blog', href: '/blog/' },
     { label: 'nav.portfolio', href: '/portfolio/' },
+    { label: 'tools.title', href: '/tools/' },
     { label: 'footer.privacy', href: '/privacy-policy/' },
   ],
 } as const;
