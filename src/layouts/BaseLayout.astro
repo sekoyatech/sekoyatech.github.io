@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import CookieConsent from '../components/ui/CookieConsent.astro';
 import { SITE, PLAUSIBLE_DOMAIN } from '../lib/constants';
 import { organizationJsonLd, websiteJsonLd } from '../lib/seo';
 import { getOgImageUrl } from '../lib/utils';
@@ -122,5 +123,6 @@ const ogImage = getOgImageUrl(image, SITE.url);
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
   </body>
 </html>

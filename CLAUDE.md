@@ -21,11 +21,11 @@ Astro 6 static site for sekoya.tech, deployed to GitHub Pages. Output is purely 
 - **Tailwind v4**: Uses `@tailwindcss/vite` plugin (NOT `@astrojs/tailwind` which is deprecated). Theme is configured via CSS `@theme` block in `src/styles/global.css`, not a JS config file.
 - **No `@tailwindcss/typography`**: MDX content uses custom `.mdx-content` styles in `global.css` instead of `prose` classes.
 - **Dark-first theme**: Default is dark (colors in `@theme`), light mode via `.light` class on `<html>`. Do NOT use Tailwind `dark:` variant — it uses `prefers-color-scheme` which conflicts with our class-based approach.
-- **No cookies**: Plausible analytics is cookieless. No cookie consent needed. Do not add Google Analytics or any cookie-setting tool without also adding consent management.
+- **Cookie consent**: Google Analytics (GA4) is loaded only after user consent via the `CookieConsent.astro` component. Plausible remains cookieless. Consent state is stored in `localStorage` key `cookie-consent` (`accepted` / `rejected`). Do not add additional cookie-setting tools without integrating them into the consent flow.
 
 ### Layout Hierarchy
 
-- `BaseLayout.astro` — Root HTML shell. Every page uses this. Contains: theme init script, ClientRouter, meta tags, JSON-LD, Plausible, Header, Footer.
+- `BaseLayout.astro` — Root HTML shell. Every page uses this. Contains: theme init script, ClientRouter, meta tags, JSON-LD, Plausible, Header, Footer, CookieConsent.
 - `PageLayout.astro` — Wraps BaseLayout. Adds hero section with breadcrumbs. Used by most inner pages.
 - `BlogLayout.astro` — Wraps BaseLayout. Article-specific: reading time, date, tags, share links. Used by blog post pages.
 

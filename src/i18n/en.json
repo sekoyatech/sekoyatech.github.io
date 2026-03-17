@@ -118,6 +118,11 @@
   "footer.resources": "Resources",
   "footer.tagline": "Your digital transformation partner.",
 
+  "cookie.message": "We use cookies to analyze site traffic and improve your experience.",
+  "cookie.accept": "Accept",
+  "cookie.reject": "Reject",
+  "cookie.privacy": "Privacy Policy",
+
   "common.skip_nav": "Skip to content",
   "common.menu_open": "Open menu",
   "common.menu_close": "Close menu",

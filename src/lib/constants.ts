@@ -53,6 +53,8 @@ export const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 
 export const PLAUSIBLE_DOMAIN = 'sekoya.tech';
 
+export const GA_MEASUREMENT_ID = 'G-B228RH4CK1';
+
 export const GISCUS = {
   repo: 'sekoyatech/sekoyatech.github.io',
   repoId: 'R_kgDORnIRIA',
