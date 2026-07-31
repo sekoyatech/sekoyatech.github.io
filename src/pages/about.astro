@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
+import CompanyDetails from '../components/company/CompanyDetails.astro';
 import { useTranslations } from '../i18n/utils';
 import { SITE } from '../lib/constants';
 
@@ -124,7 +125,7 @@ const milestones = [
   </section>
 
   <!-- Team Preview -->
-  <section class="text-center" data-reveal>
+  <section class="text-center mb-16 md:mb-24" data-reveal>
     <h2 class="text-2xl md:text-3xl font-bold text-text mb-4">Meet Our Team</h2>
     <p class="text-lg text-text-muted max-w-2xl mx-auto mb-8">
       Behind every project is a team of dedicated professionals passionate about technology and committed to your success.
@@ -133,4 +134,7 @@ const milestones = [
       {t('nav.team')}
     </Button>
   </section>
+
+  <!-- Legal entity details, for partner / vendor verification -->
+  <CompanyDetails />
 </PageLayout>

@@ -1,10 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import { useTranslations } from '../i18n/utils';
-import { SITE } from '../lib/constants';
+import { SITE, ADDRESS_FULL, COMPANY } from '../lib/constants';
 
 const t = useTranslations();
-const lastUpdated = 'March 14, 2026';
+const lastUpdated = 'August 1, 2026';
 ---
 
 <PageLayout
@@ -31,7 +31,7 @@ const lastUpdated = 'March 14, 2026';
       At {SITE.fullName} ("{SITE.name}"), we are committed to protecting your privacy and ensuring transparency in how we handle your information. This Privacy Policy explains what data we collect, why we collect it, and how it is used when you visit our website at <a href={SITE.url}>{SITE.url}</a>.
     </p>
     <p>
-      We believe in minimal data collection. We do not use cookies, we do not track you across the web, and we do not sell or share your personal information with third parties for marketing purposes.
+      We believe in minimal data collection. We set no cookies unless you explicitly consent to them, we do not track you across the web, and we do not sell or share your personal information with third parties for marketing purposes.
     </p>
 
     <h2>Data Collection</h2>
@@ -56,18 +56,40 @@ const lastUpdated = 'March 14, 2026';
     <ul>
       <li>Payment or financial information</li>
       <li>Personally identifiable information beyond what you voluntarily submit</li>
-      <li>Location data, device fingerprints, or browsing history</li>
+      <li>Precise location data or device fingerprints</li>
+      <li>Your browsing history on other websites</li>
       <li>Information from social media profiles</li>
     </ul>
-
-    <h2>Cookies</h2>
     <p>
-      This website does not use cookies. We do not set any first-party cookies, and our analytics solution (Plausible Analytics) operates entirely without cookies. Your theme preference (light/dark mode) is stored locally in your browser using <code>localStorage</code>, which is not a cookie and is never transmitted to our servers.
+      Our analytics providers do record which pages you view on this website, and infer an approximate location from your IP address. See <a href="#analytics">Analytics</a> below for exactly what each provider collects and which of them requires your consent.
     </p>
 
-    <h2>Analytics</h2>
+    <h2>Cookies and Consent</h2>
     <p>
-      We use <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>, a privacy-focused, cookieless analytics service. Plausible does not use cookies, does not collect personal data, and does not track visitors across websites. It complies with GDPR, CCPA, and PECR regulations without requiring a cookie consent banner.
+      We set no cookies when you first arrive. On your first visit you will see a consent banner offering a clear choice between <strong>Accept</strong> and <strong>Reject</strong>:
+    </p>
+    <ul>
+      <li>
+        <strong>If you reject</strong> (or simply ignore the banner), no cookies are set at any point and no Google Analytics code is ever loaded. The site remains fully functional.
+      </li>
+      <li>
+        <strong>If you accept</strong>, we load Google Analytics 4, which sets its own first-party cookies (typically <code>_ga</code> and <code>_ga_&lt;id&gt;</code>) to distinguish visitors and measure sessions.
+      </li>
+    </ul>
+    <p>
+      Your choice itself is recorded in your browser's <code>localStorage</code> under the key <code>cookie-consent</code>, not in a cookie, and is never transmitted to our servers. Your theme preference (light/dark mode) is stored the same way.
+    </p>
+
+    <h3>Withdrawing or Changing Your Consent</h3>
+    <p>
+      You can change your mind at any time by clearing your browser's site data for this website — this removes the stored <code>cookie-consent</code> value along with any Google Analytics cookies, and the consent banner will appear again on your next visit. You can also block or delete cookies through your browser settings, or opt out of Google Analytics entirely using Google's <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">opt-out browser add-on</a>.
+    </p>
+
+    <h2 id="analytics">Analytics</h2>
+
+    <h3>Plausible Analytics (no consent required)</h3>
+    <p>
+      We use <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>, a privacy-focused, cookieless analytics service, on every visit. Plausible does not use cookies, does not collect personal data, and does not track visitors across websites. It complies with GDPR, CCPA, and PECR regulations without requiring consent, which is why it runs regardless of your choice in the banner.
     </p>
     <p>
       Plausible collects only aggregate, anonymized data such as:
@@ -82,7 +104,20 @@ const lastUpdated = 'March 14, 2026';
       No individual visitor profiles are created. All data is aggregated and cannot be used to identify any individual user. For more details, see the <a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer">Plausible Data Policy</a>.
     </p>
 
+    <h3>Google Analytics 4 (consent required)</h3>
+    <p>
+      If — and only if — you accept cookies, we additionally load <a href="https://marketingplatform.google.com/about/analytics/" target="_blank" rel="noopener noreferrer">Google Analytics 4</a> to understand how visitors use the site in more depth: which pages are read, how visitors navigate between them, and which content is most useful. Google Analytics processes data such as your IP address (truncated by Google), device and browser information, referral source, and the pages you view.
+    </p>
+    <p>
+      Google acts as a data processor on our behalf and may process this data outside your country of residence. We do not use Google Analytics for advertising, remarketing, or audience sharing, and we do not link analytics data to any information you submit through our contact form. For details on how Google handles this data, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a> and <a href="https://business.safety.google/privacy/" target="_blank" rel="noopener noreferrer">Google's privacy and terms for businesses</a>.
+    </p>
+
     <h2>Third-Party Services</h2>
+
+    <h3>Google Analytics</h3>
+    <p>
+      Loaded only after you accept cookies, as described under <a href="#analytics">Analytics</a> above. If you reject or ignore the consent banner, no request is ever made to Google.
+    </p>
 
     <h3>Web3Forms</h3>
     <p>
@@ -123,6 +158,17 @@ const lastUpdated = 'March 14, 2026';
       We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date. We encourage you to review this page periodically.
     </p>
 
+    <h2>Data Controller</h2>
+    <p>
+      The data controller responsible for the processing described in this policy is:
+    </p>
+    <ul>
+      <li><strong>{t('company.legal_name')}:</strong> {COMPANY.legalName}</li>
+      <li><strong>{t('company.registered_office')}:</strong> {ADDRESS_FULL}</li>
+      <li><strong>{t('company.tax_office')} / {t('company.tax_id')}:</strong> {COMPANY.taxOffice} / {COMPANY.taxId}</li>
+      <li><strong>{t('company.mersis')}:</strong> {COMPANY.mersisNo}</li>
+    </ul>
+
     <h2>Contact</h2>
     <p>
       If you have any questions about this Privacy Policy or how we handle your data, please contact us:
@@ -130,6 +176,7 @@ const lastUpdated = 'March 14, 2026';
     <ul>
       <li><strong>Email:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
       <li><strong>Phone:</strong> <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a></li>
+      <li><strong>Address:</strong> {ADDRESS_FULL}</li>
       <li><strong>Website:</strong> <a href={SITE.url}>{SITE.url}</a></li>
     </ul>
   </div>

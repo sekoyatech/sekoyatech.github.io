@@ -1,12 +1,36 @@
-# Sekoya Group Information and Technology
+# Sekoya Grup Bilisim ve Teknoloji Ltd. Sti. (Sekoya Tech)
 
 > Sekoya is a software development and technology consulting company specializing in custom software, mobile/web applications, IoT, AI/ML, and cloud solutions. Founded in 2024, we help businesses with digital transformation through end-to-end technology services.
 
 - Website: https://sekoya.tech
 - Email: info@sekoya.tech
 - Phone: +90 507 743 83 21
+- Address: Inkilap Mah. Hasim Iscan Sok. Kent Sitesi F Blok No: 4/33, 34768 Umraniye, Istanbul, Turkiye
 - LinkedIn: https://www.linkedin.com/company/sekoya-tech
 - GitHub: https://github.com/sekoyatech
+
+## Company Information
+
+Sekoya is a registered limited liability company in Turkiye. These details are matters of public record and can be verified independently.
+
+- Registered company name: Sekoya Grup Bilisim ve Teknoloji Ltd. Sti.
+- Trade name: Sekoya Tech
+- Registered office: Inkilap Mah. Hasim Iscan Sok. Kent Sitesi F Blok No: 4/33, 34768 Umraniye, Istanbul, Turkiye
+- Tax office: Umraniye
+- Tax ID (VKN): 7591146987
+- MERSIS No: 0759114698700001
+- Trade Registry No: 1015843
+- [Company Information](https://sekoya.tech/contact/#company-information): Registered name, office address, statutory registration numbers, and commercial support statement
+
+## Products
+
+Open source products developed, maintained and commercially supported by Sekoya.
+
+- [LibreDB Studio](https://libredb.org): The modern, AI-powered open source SQL IDE for cloud-native teams. MIT-licensed, web-based, covering PostgreSQL, MySQL, Oracle, SQL Server, SQLite, MongoDB and Redis. Monaco editor, interactive ER diagrams, schema diff and migration, multi-model AI copilot (Gemini, OpenAI, Claude, or local models via Ollama/LM Studio), OIDC SSO with PKCE, RBAC, query auditing, and a DBA monitoring toolkit. Distributed via Docker, Helm (HTTP repo and OCI on GHCR), npx, Homebrew, deb/rpm, Snap, winget, Chocolatey, and native desktop builds; one-click deploy on DigitalOcean Marketplace, Koyeb, Render, Railway, CapRover, Fly.io, Dokploy and Cosmos. Validated on Rancher-managed RKE2 and K3s; SUSE Ready for Rancher certification in progress.
+- [LibreDB Studio case study](https://sekoya.tech/portfolio/libredb-studio/): Product overview, feature set, distribution channels, Kubernetes/Rancher support, and engineering practice
+- [LibreDB Studio source](https://github.com/libredb/libredb-studio): GitHub repository
+- [LibreDB](https://github.com/libredb/libredb-database): A small, readable, embeddable multi-model database in TypeScript. MIT-licensed, zero runtime dependencies, ESM-only, under 6 kB min+brotli. One ordered key-value core with key-value, document and relational lenses over it; in-memory or WAL-backed durable files; crash recovery proven by deterministic simulation testing with 100% core coverage. Published to npm (`@libredb/libredb`) and JSR, with a CLI, standalone binaries, and multi-arch container images on GHCR and Docker Hub. Currently an early beta aimed at test and development environments.
+- [LibreDB case study](https://sekoya.tech/portfolio/libredb-database/): Architecture, durability contract, tooling, and documented v1 scope
 
 ## Services
 
@@ -23,9 +47,9 @@
 
 - [About Us](https://sekoya.tech/about/): Company story, mission, vision, values, and milestones since 2024
 - [Our Team](https://sekoya.tech/team/): Team members, expertise areas, and leadership
-- [Portfolio](https://sekoya.tech/portfolio/): Case studies including Smart Factory IoT Platform and Enterprise CRM projects
+- [Portfolio](https://sekoya.tech/portfolio/): Case studies including LibreDB Studio, LibreDB, Smart Factory IoT Platform, and Enterprise CRM projects
 - [Careers](https://sekoya.tech/careers/): Open positions, company culture, and benefits
-- [Contact](https://sekoya.tech/contact/): Project inquiry form, email, phone, and social media links
+- [Contact](https://sekoya.tech/contact/): Project inquiry form, email, phone, office address, company registration details, and social media links
 
 ## Blog
 

@@ -1,16 +1,16 @@
 /* TEAM */
-Company: Sekoya Group Information and Technology
-Founder: Sekoya Group
+Company: Sekoya Grup Bilisim ve Teknoloji Ltd. Sti.
+Trade name: Sekoya Tech
 Contact: info@sekoya.tech
 Site: https://sekoya.tech
-Location: Turkey
+Location: Inkilap Mah. Hasim Iscan Sok. Kent Sitesi F Blok No: 4/33, 34768 Umraniye, Istanbul, Turkiye
 
 /* SITE */
 Built with: Astro 6, Tailwind CSS v4, MDX
 Language: English
 Standards: HTML5, CSS3, WCAG 2.1 AA
 Fonts: Inter, JetBrains Mono (self-hosted via Fontsource)
-Analytics: Plausible (privacy-first, cookieless)
+Analytics: Plausible (privacy-first, cookieless) + Google Analytics 4 (consent-gated)
 Search: Pagefind (static)
 Deployment: GitHub Pages
-Last updated: 2026-03-14
+Last updated: 2026-08-01

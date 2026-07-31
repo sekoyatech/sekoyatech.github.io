@@ -68,5 +68,100 @@
       "Proposal generation time cut by 65% with built-in templates and auto-populated deal data",
       "The platform handles the client's full sales operation and has been extended with custom reporting dashboards for executive leadership"
     ]
+  },
+  {
+    "slug": "libredb-studio",
+    "title": "LibreDB Studio — AI-Powered Open Source SQL IDE",
+    "description": "Our own product: the modern, AI-powered open source SQL IDE for cloud-native teams. An MIT-licensed, web-based workbench for PostgreSQL, MySQL, Oracle, SQL Server, SQLite, MongoDB and Redis, with a multi-model AI copilot, OIDC SSO and a DBA monitoring toolkit. Developed, maintained and commercially supported by Sekoya.",
+    "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Monaco Editor", "Kubernetes", "Helm", "Docker", "PostgreSQL", "MongoDB", "Redis"],
+    "year": 2026,
+    "featured": true,
+    "client": "Sekoya (in-house product)",
+    "url": "https://libredb.org",
+    "challenge": "Database tooling forces an awkward choice. Heavyweight desktop clients like DataGrip and DBeaver are hard to standardise across a team and never follow you to a phone or a locked-down laptop. Minimal CLI tools go everywhere but give up the schema awareness, visual plans and result grids that make real work fast. Hosted cloud consoles solve distribution by asking you to hand your credentials to a third party. Teams running on Kubernetes had no straightforward way to give developers a shared, self-hosted SQL workbench that speaks every engine they use — relational and NoSQL alike — while keeping the data and the credentials inside their own perimeter. We built LibreDB Studio to close that gap as an open source product, and to build a commercially supportable offering around it.",
+    "approach": [
+      {
+        "label": "Professional SQL IDE",
+        "text": "The editor runs on Monaco — the same core as VS Code — with schema-aware autocompletion for tables, columns and keywords, a multi-tab workspace with independent execution states, and visual EXPLAIN plans for finding bottlenecks. Interactive ER diagrams are rendered with React Flow and laid out automatically by ELK.js, with real foreign-key edges, cardinality labels, search and PNG/SVG export. Schema diff and migration compares snapshots or two live connections side by side and generates the migration SQL, with a snapshot timeline for tracking how a schema evolved."
+      },
+      {
+        "label": "Multi-model AI copilot",
+        "text": "Natural-language-to-SQL generation runs with full schema context, defaulting to Gemini 2.5 Flash but working equally with OpenAI, Claude or local models through Ollama and LM Studio — so teams that cannot send schemas to a third party can keep inference on their own hardware. The same layer powers pre-execution risk assessment for destructive statements, plain-language EXPLAIN translation with optimisation suggestions, automated slow-query analysis with index and rewrite recommendations, and one-click table profiling with column statistics."
+      },
+      {
+        "label": "Enterprise foundation",
+        "text": "Authentication runs in either local or OIDC SSO mode, switchable by environment variable and vendor-agnostic across Auth0, Keycloak, Okta, Azure AD, Zitadel and Google, using Authorization Code Flow with PKCE and claim-based role mapping. Role-based access control, a full organisation-wide query audit trail, SSL/TLS and SSH tunnel support, transaction control and query cancellation round out the enterprise surface. A seven-tab DBA monitoring dashboard tracks performance, sessions, storage and connection pool health with time-series trends and threshold alerting, and triggers VACUUM, ANALYZE, REINDEX, UPDATE STATISTICS and DBCC CHECKDB per engine."
+      },
+      {
+        "label": "Seven database engines",
+        "text": "PostgreSQL, MySQL, Oracle (oracledb thin mode), SQL Server (mssql/tedious, with Azure SQL auto-detection), SQLite, MongoDB and Redis each get a purpose-built provider rather than a lowest-common-denominator abstraction — engine-native pagination, monitoring views and maintenance commands, while sharing the schema explorer, ER diagrams, diff and monitoring surfaces. Every provider has its own in-depth reference documenting design, connection handling, query format, monitoring and limitations."
+      },
+      {
+        "label": "Distribution everywhere",
+        "text": "One product, fourteen install channels: Docker on GHCR, a Helm chart published both at libredb.org/libredb-studio/ and as an OCI artifact on GHCR, npx, Homebrew, deb/rpm with a systemd unit, Snap, winget, Chocolatey, a portable Windows zip with a bundled Node runtime, and native desktop builds as AppImage, Debian package and sandboxed Flatpak. One-click deployment targets cover DigitalOcean Marketplace, Koyeb, Render, Railway, CapRover, Fly.io, Dokploy and Cosmos. The Helm chart is production-shaped, with a PostgreSQL subchart, Ingress/TLS, HPA, PDB, NetworkPolicy and ExternalSecrets support."
+      },
+      {
+        "label": "Kubernetes & Rancher",
+        "text": "Deployment is validated and documented against the Rancher-managed Kubernetes distributions RKE2 and K3s, with the supported version matrix maintained in the repository. We are pursuing SUSE Ready for Rancher certification and have prepared a Rancher catalog listing as part of that process."
+      },
+      {
+        "label": "Engineering practice",
+        "text": "Quality is measured in public: a SonarCloud quality gate on every change, 100% test coverage on the codebase, and continuously generated documentation on DeepWiki. Development runs on a regular release cadence with timely security patching. Sekoya is the primary developer and maintainer, which means customers get their fixes from the same team that writes the code — the basis on which we can offer commercial support and SLAs."
+      }
+    ],
+    "results": [
+      "Fifteen roadmap phases delivered, from the Monaco SQL IDE through multi-model AI, enterprise database support for Oracle and SQL Server, and vendor-agnostic OIDC SSO",
+      "Fourteen install channels and eight one-click deployment targets, including the DigitalOcean Marketplace",
+      "OpenShift Community Operator merged into the Red Hat OpenShift Community Operators catalog",
+      "Helm chart published to both a versioned HTTP repository and GHCR as an OCI artifact, listed on Artifact Hub, with automated integrity verification on every release",
+      "Deployment on Rancher-managed RKE2 and K3s validated and documented, with SUSE Ready for Rancher certification in progress",
+      "100% test coverage with a passing SonarCloud quality gate, and a public demo instance at app.libredb.org",
+      "Commercial support, integration and long-term maintenance for LibreDB Studio are offered by Sekoya Grup Bilisim ve Teknoloji Ltd. Sti."
+    ]
+  },
+  {
+    "slug": "libredb-database",
+    "title": "LibreDB — Embeddable Multi-Model Database",
+    "description": "Our own product: a small, readable, embeddable multi-model database written in TypeScript. One ordered key-value core carries durability and transactions; key-value, document and relational APIs are thin lenses over it. MIT-licensed, zero runtime dependencies, and crash recovery proven by deterministic simulation testing.",
+    "techStack": ["TypeScript", "Bun", "Node.js", "ESM", "Write-Ahead Log", "npm", "JSR", "Docker"],
+    "year": 2026,
+    "featured": true,
+    "client": "Sekoya (in-house product)",
+    "url": "https://github.com/libredb/libredb-database",
+    "challenge": "Embedded databases ask developers to accept a black box. You get durability guarantees you cannot inspect, query costs you cannot predict, and a codebase far too large to read. Teams that only need a real store for tests and local development end up either mocking their data layer — and shipping bugs that only a real database would have caught — or standing up three separate systems to cover key-value, document and relational shapes. We built LibreDB on one idea: a database can be powerful and still be understood by opening its source. The whole engineering budget in v1 goes to comprehension and provable durability rather than raw throughput.",
+    "approach": [
+      {
+        "label": "One core, three lenses",
+        "text": "A single ordered key-value kernel handles storage, transactions and durability. The key-value, document and relational APIs are thin typed lenses over that one core — FoundationDB-style — not three engines bolted together. A relational table is physically a document collection, which is physically ordered key-value entries built from composite keys. The result is that raw strings, JSON documents and schema-validated typed tables can live in the same database, even the same file."
+      },
+      {
+        "label": "Readable by design",
+        "text": "The kernel is one file of under a thousand lines, roughly half of it explanatory prose. That is a deliberate product decision, not a limitation: the codebase is meant to be opened and read by anyone who wants to learn how a database actually works, and small enough that a contributor can reason about the whole durability path in one sitting."
+      },
+      {
+        "label": "Durability you can verify",
+        "text": "A transaction that returns has been written to a length-framed, CRC-32-checksummed write-ahead log and fsync'd before the commit becomes visible. Failure modes outside the clean-crash model are handled explicitly rather than assumed away: a failed append or fsync latches the database instead of writing past a torn record, a second writer is refused by an exclusive open lock, a foreign file is refused untouched via a magic header, and mid-log corruption refuses to open rather than silently truncating. The crash and recovery path is proven by deterministic simulation testing — the real engine run against a seeded in-memory filesystem that tears, corrupts, errors and crashes the log on command — plus binary round-trip fuzzing, on top of 100% line coverage of the core."
+      },
+      {
+        "label": "Embeddable anywhere",
+        "text": "The package ships zero runtime dependencies, is ESM-only and tree-shakeable at under 6 kB min+brotli, and carries its own TypeScript types. It runs in-memory for tests or file-backed for durability, targets Bun and Node 22+, and is published to npm, JSR and the CDNs. A dedicated browser entry imports nothing from node:, so it bundles cleanly for the web — with an injectable filesystem seam that backs durable storage onto an OPFS sync access handle inside a Web Worker."
+      },
+      {
+        "label": "Tooling",
+        "text": "A libredb command-line tool inspects and edits .libredb files directly — namespaces, table schemas, key scans, atomic bulk import — with read commands opening the file read-only and write commands taking an advisory lock that refuses a second concurrent writer. It ships as a bin in the package, as self-contained binaries for Linux, macOS and Windows attached to each release with SHA-256 checksums, and as a multi-arch container image on both GHCR and Docker Hub."
+      },
+      {
+        "label": "Honest scope",
+        "text": "LibreDB is an early beta whose recommended home today is test and development data. Queries are O(n) scans by design in v1, there are no secondary indexes yet, and access is embedded, in-process and strictly single-writer. These are documented v1 boundaries rather than hidden gaps, published alongside the performance envelope so nobody deploys it into a role it does not yet fill. Secondary indexes, a richer query surface and write-ahead log compaction are the next milestones."
+      }
+    ],
+    "results": [
+      "100% line, function and statement coverage on the core, with a passing SonarCloud quality gate",
+      "Crash recovery proven by a deterministic simulation testing harness with IO-fault injection and binary fuzzing, not just asserted",
+      "Zero runtime dependencies, ESM-only, under 6 kB min+brotli with TypeScript types included",
+      "Published to npm and JSR, served by the public CDNs, with multi-arch CLI images on GHCR and Docker Hub and signed standalone binaries on every release",
+      "One of three products in the LibreDB family, sharing an access-model spine with LibreDB Studio and the managed LibreDB Platform",
+      "Commercial support and integration services for LibreDB are offered by Sekoya Grup Bilisim ve Teknoloji Ltd. Sti."
+    ]
   }
 ]

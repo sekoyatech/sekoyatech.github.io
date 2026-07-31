@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { SITE, SOCIAL } from '../lib/constants';
+import { SITE, SOCIAL, ADDRESS_FULL, COMPANY } from '../lib/constants';
 import teamData from '../data/team.json';
 import portfolioData from '../data/portfolio.json';
 
@@ -23,6 +23,7 @@ export const GET: APIRoute = async () => {
   lines.push(`- Website: ${SITE.url}`);
   lines.push(`- Email: ${SITE.email}`);
   lines.push(`- Phone: ${SITE.phone}`);
+  lines.push(`- Address: ${ADDRESS_FULL}`);
   lines.push(`- LinkedIn: ${SOCIAL.linkedin}`);
   lines.push(`- GitHub: ${SOCIAL.github}`);
   lines.push(`- Founded: ${SITE.foundedYear}`);
@@ -31,7 +32,22 @@ export const GET: APIRoute = async () => {
   // About
   lines.push('## About Sekoya');
   lines.push('');
-  lines.push('Established in 2024, Sekoya Group Information and Technology is a pioneer in industrial transformation, continuously offering innovative solutions to provide our customers with a competitive advantage. With an experienced team and a strong R&D infrastructure, we push the boundaries of industrial IoT, machine learning, and artificial intelligence technologies. Focused on our customers\' needs, we aim to deliver scalable, reliable, and user-friendly solutions.');
+  lines.push(`Established in 2024, ${COMPANY.tradeName} (${COMPANY.legalName}) is a pioneer in industrial transformation, continuously offering innovative solutions to provide our customers with a competitive advantage. With an experienced team and a strong R&D infrastructure, we push the boundaries of industrial IoT, machine learning, and artificial intelligence technologies. Focused on our customers' needs, we aim to deliver scalable, reliable, and user-friendly solutions.`);
+  lines.push('');
+
+  // Company / legal information
+  lines.push('## Company Information');
+  lines.push('');
+  lines.push(`- Registered company name: ${COMPANY.legalName}`);
+  lines.push(`- Trade name: ${COMPANY.tradeName}`);
+  lines.push(`- Legal form: ${COMPANY.legalForm}`);
+  lines.push(`- Registered office: ${ADDRESS_FULL}`);
+  lines.push(`- Registered in: ${COMPANY.registeredIn}`);
+  lines.push(`- Tax office: ${COMPANY.taxOffice}`);
+  lines.push(`- Tax ID (VKN): ${COMPANY.taxId}`);
+  lines.push(`- MERSIS No: ${COMPANY.mersisNo}`);
+  lines.push(`- Trade Registry No: ${COMPANY.tradeRegistryNo}`);
+  lines.push(`- Company information page: ${SITE.url}/contact/#company-information`);
   lines.push('');
 
   // Services
@@ -65,6 +81,7 @@ export const GET: APIRoute = async () => {
     if (project.client) lines.push(`- Client: ${project.client}`);
     lines.push(`- Tech Stack: ${project.techStack.join(', ')}`);
     lines.push(`- URL: ${SITE.url}/portfolio/${project.slug}/`);
+    if (project.url) lines.push(`- Project website: ${project.url}`);
     lines.push('');
   }
 
@@ -128,6 +145,7 @@ export const GET: APIRoute = async () => {
   lines.push(`For project inquiries, contact us at:`);
   lines.push(`- Email: ${SITE.email}`);
   lines.push(`- Phone: ${SITE.phone}`);
+  lines.push(`- Office address: ${ADDRESS_FULL}`);
   lines.push(`- Contact Form: ${SITE.url}/contact/`);
   lines.push(`- LinkedIn: ${SOCIAL.linkedin}`);
   lines.push(`- GitHub: ${SOCIAL.github}`);

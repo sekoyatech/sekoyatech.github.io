@@ -1,8 +1,9 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import ContactForm from '../components/contact/ContactForm.astro';
+import CompanyDetails from '../components/company/CompanyDetails.astro';
 import { useTranslations } from '../i18n/utils';
-import { SITE, SOCIAL } from '../lib/constants';
+import { SITE, SOCIAL, ADDRESS, ADDRESS_LOCALITY, ADDRESS_MAPS_URL } from '../lib/constants';
 
 const t = useTranslations();
 ---
@@ -46,6 +47,24 @@ const t = useTranslations();
           <h4 class="text-sm font-semibold text-text mb-2">{t('contact.info.phone')}</h4>
           <a href={`tel:${SITE.phone.replace(/\s/g, '')}`} class="text-primary hover:underline text-sm">
             {SITE.phone}
+          </a>
+        </div>
+
+        <!-- Office Address -->
+        <div>
+          <h4 class="text-sm font-semibold text-text mb-2">{t('contact.info.office')}</h4>
+          <address class="not-italic text-sm text-text-muted leading-relaxed">
+            {ADDRESS.street}<br />
+            {ADDRESS_LOCALITY} / {ADDRESS.city}<br />
+            {ADDRESS.country}
+          </address>
+          <a
+            href={ADDRESS_MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block mt-2 text-primary hover:underline text-sm"
+          >
+            {t('contact.info.directions')} &rarr;
           </a>
         </div>
 
@@ -102,4 +121,7 @@ const t = useTranslations();
       </div>
     </aside>
   </div>
+
+  <!-- Legal entity details, for partner / vendor verification -->
+  <CompanyDetails class="mt-16 md:mt-24" />
 </PageLayout>

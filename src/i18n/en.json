@@ -104,6 +104,22 @@
   "contact.info.email": "Email",
   "contact.info.phone": "Phone",
   "contact.info.social": "Follow Us",
+  "contact.info.office": "Office Address",
+  "contact.info.directions": "View on Google Maps",
+
+  "company.title": "Company Information",
+  "company.subtitle": "Sekoya is a registered company in Turkiye. The details below are matters of public record and can be verified independently.",
+  "company.legal_name": "Registered Company Name",
+  "company.trade_name": "Trade Name",
+  "company.legal_form": "Legal Form",
+  "company.registered_office": "Registered Office",
+  "company.tax_office": "Tax Office",
+  "company.tax_id": "Tax ID (VKN)",
+  "company.mersis": "MERSIS No",
+  "company.trade_registry": "Trade Registry No",
+  "company.founded": "Founded",
+  "company.support.title": "Commercial Support",
+  "company.support.text": "Sekoya provides commercial support, integration services and long-term maintenance for the software we develop, including our own open source products. For support agreements, SLAs or procurement enquiries, contact us at",
 
   "privacy.title": "Privacy Policy",
 
@@ -117,6 +133,7 @@
   "footer.services": "Services",
   "footer.resources": "Resources",
   "footer.tagline": "Your digital transformation partner.",
+  "footer.address": "Address",
 
   "cookie.message": "We use cookies to analyze site traffic and improve your experience.",
   "cookie.accept": "Accept",

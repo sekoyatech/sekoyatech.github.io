@@ -1,4 +1,33 @@
-import { SITE, SOCIAL } from './constants';
+import {
+  SITE,
+  SOCIAL,
+  ADDRESS,
+  ADDRESS_LOCALITY,
+  ADDRESS_GEO,
+  ADDRESS_MAPS_URL,
+  COMPANY,
+} from './constants';
+
+/** Shared schema.org PostalAddress for the registered office. */
+const postalAddress = {
+  '@type': 'PostalAddress',
+  streetAddress: ADDRESS.street,
+  addressLocality: ADDRESS_LOCALITY,
+  addressRegion: ADDRESS.city,
+  ...(ADDRESS.postalCode ? { postalCode: ADDRESS.postalCode } : {}),
+  addressCountry: ADDRESS.countryCode,
+};
+
+/** Legal identifiers, published so third parties can verify the entity. */
+const legalIdentity = {
+  legalName: COMPANY.legalName,
+  taxID: COMPANY.taxId,
+  vatID: COMPANY.taxId,
+  identifier: [
+    { '@type': 'PropertyValue', name: 'MERSIS No', value: COMPANY.mersisNo },
+    { '@type': 'PropertyValue', name: 'Trade Registry No', value: COMPANY.tradeRegistryNo },
+  ],
+};
 
 interface MetaProps {
   title: string;
@@ -30,11 +59,13 @@ export function organizationJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: SITE.fullName,
-    alternateName: SITE.name,
+    alternateName: [SITE.name, COMPANY.tradeName],
+    ...legalIdentity,
     url: SITE.url,
     logo: `${SITE.url}/favicon.svg`,
     email: SITE.email,
     telephone: SITE.phone,
+    address: postalAddress,
     foundingDate: `${SITE.foundedYear}`,
     sameAs: [SOCIAL.linkedin, SOCIAL.github, SOCIAL.facebook, SOCIAL.instagram],
   });
@@ -143,11 +174,27 @@ export function professionalServiceJsonLd() {
     '@type': 'ProfessionalService',
     '@id': `${SITE.url}/#organization`,
     name: SITE.fullName,
-    alternateName: SITE.name,
+    alternateName: [SITE.name, COMPANY.tradeName],
+    ...legalIdentity,
     url: SITE.url,
     logo: `${SITE.url}/favicon.svg`,
     email: SITE.email,
     telephone: SITE.phone,
+    address: postalAddress,
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: ADDRESS_GEO.latitude,
+      longitude: ADDRESS_GEO.longitude,
+    },
+    hasMap: ADDRESS_MAPS_URL,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: SITE.email,
+      telephone: SITE.phone,
+      areaServed: 'Worldwide',
+      availableLanguage: ['en', 'tr'],
+    },
     foundingDate: `${SITE.foundedYear}`,
     description: SITE.description,
     areaServed: {
