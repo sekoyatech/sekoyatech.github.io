@@ -18,7 +18,7 @@ const t = useTranslations();
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Text Content -->
       <div>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-text leading-tight mb-6 hero-hidden" data-hero-title>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-text leading-tight mb-6" data-hero-title>
           {t('hero.title').split('digital').map((part, i) =>
             i === 0 ? (
               <>{part}<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">digital</span></>
@@ -27,10 +27,10 @@ const t = useTranslations();
             )
           )}
         </h1>
-        <p class="text-lg md:text-xl text-text-muted max-w-xl mb-10 leading-relaxed hero-hidden" data-hero-subtitle>
+        <p class="text-lg md:text-xl text-text-muted max-w-xl mb-10 leading-relaxed" data-hero-subtitle>
           {t('hero.subtitle')}
         </p>
-        <div class="flex flex-wrap gap-4 hero-hidden" data-hero-ctas>
+        <div class="flex flex-wrap gap-4" data-hero-ctas>
           <Button href="/contact/" variant="primary" size="lg">
             {t('hero.cta.primary')}
           </Button>
@@ -41,7 +41,7 @@ const t = useTranslations();
       </div>
 
       <!-- Decorative Element -->
-      <div class="hidden lg:block hero-hidden" aria-hidden="true" data-hero-code>
+      <div class="hidden lg:block" aria-hidden="true" data-hero-code>
         <div class="relative">
           <div class="bg-surface/80 backdrop-blur-sm border border-border rounded-xl p-6 shadow-lg transform rotate-1">
             <div class="flex items-center gap-2 mb-4">
@@ -58,7 +58,7 @@ const t = useTranslations();
               <p>{'}'}</p>
             </div>
           </div>
-          <div class="absolute -top-4 -right-4 bg-primary/10 border border-primary/20 rounded-lg px-4 py-2 transform -rotate-3 hero-hidden" data-hero-badge>
+          <div class="absolute -top-4 -right-4 bg-primary/10 border border-primary/20 rounded-lg px-4 py-2 transform -rotate-3" data-hero-badge>
             <span class="text-primary font-semibold text-sm">Est. 2024</span>
           </div>
         </div>

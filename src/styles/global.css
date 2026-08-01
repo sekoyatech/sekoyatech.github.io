@@ -78,6 +78,11 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Delays must go too. The hero entrance uses animation-delay with
+       fill-mode: both, so leaving the delay would hold an element at its
+       transparent start frame for a second before the 0.01ms animation runs. */
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 
@@ -106,35 +111,125 @@ body {
   color: white;
 }
 
-/* Scroll reveal transitions */
-[data-reveal],
-[data-reveal-stagger] > .reveal-child {
+/* Scroll reveal transitions.
+   Scoped to .js-anim (set synchronously in BaseLayout's head) so the hidden
+   state only exists when the script that reveals it will run. Without that
+   guard, a failed or slow module leaves the page blank. */
+.js-anim [data-reveal],
+.js-anim [data-reveal-stagger] > .reveal-child {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-[data-reveal="left"] {
+.js-anim [data-reveal="left"] {
   transform: translateX(-40px);
 }
 
-[data-reveal="right"] {
+.js-anim [data-reveal="right"] {
   transform: translateX(40px);
 }
 
-[data-reveal="scale"] {
+.js-anim [data-reveal="scale"] {
   transform: scale(0.9);
 }
 
-[data-reveal].revealed,
-[data-reveal-stagger] > .revealed {
+.js-anim [data-reveal].revealed,
+.js-anim [data-reveal-stagger] > .revealed {
   opacity: 1;
   transform: none;
 }
 
-/* Hero entrance initial state */
-.hero-hidden {
-  opacity: 0;
+/* Hero entrance.
+   Driven by CSS, not JavaScript, on purpose. It used to be a JS-only entrance:
+   the markup carried .hero-hidden { opacity: 0 } and hero-animation.ts removed
+   it. Because that script is a separate network request, the whole first screen
+   stayed blank until it arrived — 1.3s on a cold Fast 3G load. Here the
+   animation starts at first paint instead, and animation-fill-mode: both keeps
+   each element transparent through its own delay. Without .js-anim (no JS, or
+   JS that never armed it) there is no animation and the hero renders plainly. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-rise-sm {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-3deg);
+  }
+}
+
+.js-anim [data-hero-title],
+.js-anim [data-hero-subtitle],
+.js-anim [data-hero-code],
+.js-anim [data-hero-badge],
+.js-anim [data-hero-ctas] > * {
+  animation-duration: 600ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
+.js-anim [data-hero-title] {
+  animation-name: hero-rise;
+  animation-delay: 200ms;
+}
+
+.js-anim [data-hero-subtitle] {
+  animation-name: hero-rise-sm;
+  animation-delay: 500ms;
+}
+
+.js-anim [data-hero-code] {
+  animation-name: hero-slide-in;
+  animation-delay: 400ms;
+}
+
+.js-anim [data-hero-badge] {
+  animation-name: hero-pop;
+  animation-delay: 1000ms;
+}
+
+.js-anim [data-hero-ctas] > * {
+  animation-name: hero-rise-sm;
+  animation-duration: 500ms;
+  animation-delay: 800ms;
+}
+
+.js-anim [data-hero-ctas] > *:nth-child(2) {
+  animation-delay: 950ms;
 }
 
 /* Skip navigation */

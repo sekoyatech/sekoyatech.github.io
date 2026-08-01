@@ -2,6 +2,10 @@ let observer: IntersectionObserver | null = null;
 let counterObserver: IntersectionObserver | null = null;
 
 function initScrollReveal(): void {
+  // Tells BaseLayout's fallback timer that the reveal path is alive, so it does
+  // not strip .js-anim and make every section visible at once.
+  document.documentElement.dataset.animReady = '1';
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
 
@@ -85,7 +89,13 @@ function cleanupScrollReveal(): void {
 }
 
 if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', initScrollReveal);
+  // Run now if the DOM is already parsed: waiting on DOMContentLoaded alone
+  // would silently never fire if this module executes after that event.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollReveal, { once: true });
+  } else {
+    initScrollReveal();
+  }
   document.addEventListener('astro:before-swap', cleanupScrollReveal);
   document.addEventListener('astro:after-swap', initScrollReveal);
 }

@@ -6,13 +6,36 @@
 </div>
 
 <script is:inline>
+  /*
+    Pagefind ships pagefind-ui.js as an IIFE that assigns window.PagefindUI — it
+    exports nothing. Reading `module.PagefindUI` off the dynamic import gave
+    undefined, `new undefined()` threw, and the catch reported "search is
+    available in production builds" on the live site, where Pagefind was in fact
+    present and serving. Search had never worked in production.
+
+    So: load it as a classic script and read the constructor off window. The
+    stylesheet is loaded here too — nothing referenced it before, so the widget
+    would have been unstyled even once it mounted.
+
+    Pagefind only exists after `pagefind --site dist` runs in postbuild, so in
+    `astro dev` the request genuinely 404s. That path now says the index is
+    missing instead of claiming production is fine.
+  */
   function initPagefind() {
-    const container = document.getElementById('blog-search-container');
+    var container = document.getElementById('blog-search-container');
     if (!container || container.children.length > 0) return;
 
-    // @ts-ignore - Pagefind is loaded at runtime from the build output
-    import('/pagefind/pagefind-ui.js').then((module) => {
-      new module.PagefindUI({
+    if (!document.getElementById('pagefind-ui-css')) {
+      var css = document.createElement('link');
+      css.id = 'pagefind-ui-css';
+      css.rel = 'stylesheet';
+      css.href = '/pagefind/pagefind-ui.css';
+      document.head.appendChild(css);
+    }
+
+    function mount() {
+      if (!window.PagefindUI) throw new Error('PagefindUI missing after load');
+      new window.PagefindUI({
         element: '#blog-search-container',
         showSubResults: true,
         showImages: false,
@@ -21,13 +44,41 @@
           zero_results: 'No results found for [SEARCH_TERM]',
         },
       });
-    }).catch(() => {
-      // Pagefind not available (dev mode) — show fallback
-      const fallback = document.createElement('p');
-      fallback.className = 'text-sm text-text-muted italic';
-      fallback.textContent = 'Search is available in production builds.';
-      container.appendChild(fallback);
-    });
+    }
+
+    function fail() {
+      if (container.children.length > 0) return;
+      var note = document.createElement('p');
+      note.className = 'text-sm text-text-muted italic';
+      note.textContent = 'Search index is not available on this build.';
+      container.appendChild(note);
+    }
+
+    function tryMount() {
+      try {
+        mount();
+      } catch (e) {
+        fail();
+      }
+    }
+
+    if (window.PagefindUI) {
+      tryMount();
+      return;
+    }
+
+    var s = document.getElementById('pagefind-ui-js');
+    if (s) {
+      s.addEventListener('load', tryMount, { once: true });
+      return;
+    }
+
+    s = document.createElement('script');
+    s.id = 'pagefind-ui-js';
+    s.src = '/pagefind/pagefind-ui.js';
+    s.addEventListener('load', tryMount, { once: true });
+    s.addEventListener('error', fail, { once: true });
+    document.head.appendChild(s);
   }
 
   initPagefind();

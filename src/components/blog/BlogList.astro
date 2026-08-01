@@ -37,10 +37,18 @@ const { posts, featuredPost } = Astro.props;
 const t = useTranslations();
 ---
 
+<!--
+  Two columns, not three. The featured card spans the full width and splits its
+  media and text 50/50, and in a two-column grid that split falls exactly on the
+  gutter between the columns below it — in a three-column grid it landed
+  mid-column, so the card read as misaligned with everything under it. Two
+  columns also leaves no empty cell for the common case of one featured post plus
+  an even number of others, and gives every card a wider image.
+-->
 {posts.length === 0 && !featuredPost ? (
   <p class="text-center text-text-muted py-12">{t('blog.no_posts')}</p>
 ) : (
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {featuredPost && (
       <BlogCard
         title={featuredPost.data.title}

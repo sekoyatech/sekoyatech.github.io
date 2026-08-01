@@ -64,6 +64,39 @@ const ogImage = getOgImageUrl(image, SITE.url);
       })();
     </script>
 
+    <!--
+      Entrance animations hide their targets with opacity: 0, but that must only
+      happen when the script that reveals them is actually going to run. This
+      class is what scopes the hiding in global.css: without it every
+      [data-reveal] section and the hero render plainly, so no-JS visitors and
+      the window before the module executes both see content rather than a blank
+      page. Set here, synchronously in <head>, so there is no flash of visible
+      content before the animation starts.
+
+      The hero entrance is pure CSS and needs nothing further. The scroll reveal
+      does depend on a script to add .revealed, so it gets a safety net: if that
+      script never runs, dropping .js-anim makes the sections visible instead of
+      leaving them hidden forever. scroll-reveal sets data-anim-ready to cancel it.
+    -->
+    <script is:inline>
+      (function() {
+        function armAnimations(doc) {
+          var root = doc.documentElement;
+          delete root.dataset.animReady;
+          root.classList.add('js-anim');
+
+          setTimeout(function() {
+            if (root.dataset.animReady !== '1') root.classList.remove('js-anim');
+          }, 3000);
+        }
+
+        armAnimations(document);
+        document.addEventListener('astro:before-swap', function(e) {
+          armAnimations(e.newDocument);
+        });
+      })();
+    </script>
+
     <ClientRouter />
 
     <!-- Primary Meta Tags -->
